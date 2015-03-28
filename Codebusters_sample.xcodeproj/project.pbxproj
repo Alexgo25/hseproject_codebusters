@@ -415,6 +415,7 @@
 				110952E11AC6DF5B000A960A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		110952E21AC6DF5B000A960A /* Build configuration list for PBXNativeTarget "Codebusters_sampleTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +424,7 @@
 				110952E41AC6DF5B000A960A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -4,7 +4,7 @@
 //
 //  Created by Alexander on 28.03.15.
 //  Copyright (c) 2015 Kids'n'Code. All rights reserved.
-//uurni
+//uur
 
 import UIKit
 import SpriteKit

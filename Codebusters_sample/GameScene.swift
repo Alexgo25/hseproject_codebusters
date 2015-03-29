@@ -10,6 +10,7 @@ import SpriteKit
 
 class GameScene: SKScene {
     
+    //кнопки, фон и робот
     var background : SKSpriteNode?
     var button_pause : SKSpriteNode?
     var button_tips : SKSpriteNode?
@@ -20,6 +21,21 @@ class GameScene: SKScene {
     var button_Start : SKSpriteNode?
     var tempbutton_moveforward : SKSpriteNode?
     var tempbutton_turn : SKSpriteNode?
+    
+    //блоки программы
+    var firstblockButton : SKSpriteNode?
+    var secndBlockButton : SKSpriteNode?
+    var thirdBlockButton : SKSpriteNode?
+    var fourthBlockButton : SKSpriteNode?
+    
+    //центры блоков
+    var firstBlockCenter : CGPoint?
+    var secondBlockCenter : CGPoint?
+    var thirdBlockCenter : CGPoint?
+    var fourthBlockCenter : CGPoint?
+    
+    
+    
     
     override func didMoveToView(view: SKView) {
         background = SKSpriteNode(imageNamed: "background_upd")
@@ -62,7 +78,9 @@ class GameScene: SKScene {
         button_turn?.position = CGPoint(x: size.width * 560/2048, y: size.height * 218/1536)
         addChild(button_turn!)
         
-        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        
+        
+        firstBlockCenter = CGPoint(x: size.width * 879/2048, y: size.height * 193/1536)
        
     }
     
@@ -108,6 +126,16 @@ class GameScene: SKScene {
             if (touchedNode == tempbutton_moveforward ){
                 
                 tempbutton_moveforward!.position = touchLocation
+                if (detailIsNearTheCenterPosition(firstBlockCenter!, detail: tempbutton_moveforward!))
+                {
+                    firstblockButton = SKSpriteNode(imageNamed: "button_moveforward")
+                    firstblockButton!.size = button_moveforward!.size
+                    firstblockButton!.position = firstBlockCenter!
+                    addChild(firstblockButton!)
+                    tempbutton_moveforward!.removeFromParent()
+                    tempbutton_moveforward = nil
+                    
+                }
                 
             }
             if (touchedNode == tempbutton_turn)
@@ -124,11 +152,16 @@ class GameScene: SKScene {
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
             
-          /*  if (touchedNode == button_turn)
+           if (touchedNode == tempbutton_turn)
             {
-                button_turn?.removeFromParent()
-                button_turn = nil
-            }*/
+                tempbutton_turn?.removeFromParent()
+                tempbutton_turn = nil
+            }
+            if (touchedNode == tempbutton_moveforward)
+            {
+                tempbutton_moveforward?.removeFromParent()
+                tempbutton_moveforward = nil
+            }
         }
     }
     
@@ -139,6 +172,17 @@ class GameScene: SKScene {
     func moveRobotToStart()
     {
         Robot?.position = CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536)
+    }
+    
+    func detailIsNearTheCenterPosition(centerPosition : CGPoint , detail : SKNode) ->Bool
+    {
+        if (detail.position.x > centerPosition.x - 10 && detail.position.x < centerPosition.x + 10 && detail.position.y > centerPosition.y - 10 && detail.position.y < centerPosition.y + 10 )
+        {
+            return true
+        }
+        else {
+            return false
+        }
     }
     
     

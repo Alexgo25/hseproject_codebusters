@@ -20,6 +20,8 @@ class GameScene: SKScene {
     var button_Start : SKSpriteNode?
     var tempbutton_moveforward : SKSpriteNode?
     var tempbutton_turn : SKSpriteNode?
+    var moves: [String]?
+    var pos: CGPoint?
     
     override func didMoveToView(view: SKView) {
         background = SKSpriteNode(imageNamed: "background_upd")
@@ -62,8 +64,9 @@ class GameScene: SKScene {
         button_turn?.position = CGPoint(x: size.width * 560/2048, y: size.height * 218/1536)
         addChild(button_turn!)
         
-        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-       
+        pos = CGPoint(x: size.width * 879/2048, y: size.height * 193/1536)
+        
+        moves = [String]()
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -72,27 +75,41 @@ class GameScene: SKScene {
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
             
-            if (touchedNode == button_moveforward ){
-                if (tempbutton_moveforward == nil){
+            if (touchedNode == button_Start) {
+                for var i = 0; i < moves!.count; i++ {
+                //for move in moves? {
+                    if (moves![i] == "forward") {
+                        Robot?.position.x += CGFloat(236 * size.width / 2048)
+                    }
+                    
+                    if (moves![i] == "turn") {
+                        
+                    }
+                }
+            }
+            
+            if (moves!.count < 4) {
+                if (touchedNode == button_moveforward ) {
+                    moves!.append("forward")
                     tempbutton_moveforward = SKSpriteNode(imageNamed: "button_moveforward")
                     tempbutton_moveforward!.size = button_moveforward!.size
-                    tempbutton_moveforward!.position = CGPoint(x: size.width * 362/2048, y: size.height * 218/1536)
+                    tempbutton_moveforward!.position = pos!
                     tempbutton_moveforward!.zPosition = 1
-                    addChild(tempbutton_moveforward!)}
-                
-                
-            }
-            if (touchedNode == button_turn){
-                if (tempbutton_turn == nil){
+                    addChild(tempbutton_moveforward!)
+                    pos?.x += CGFloat(138 * size.width / 2048)
+                }
+            
+                if (touchedNode == button_turn) {
+                    moves!.append("turn")
                     tempbutton_turn = SKSpriteNode(imageNamed: "button_Turn")
                     tempbutton_turn!.size = button_turn!.size
-                    tempbutton_turn!.position = CGPoint(x: size.width * 560/2048, y: size.height * 218/1536)
+                    tempbutton_turn!.position = pos!
                     tempbutton_turn!.zPosition = 1
                     addChild(tempbutton_turn!)
+                    pos?.x += CGFloat(138 * size.width / 2048)
                 }
             }
         }
-
     }
    
     override func update(currentTime: CFTimeInterval) {

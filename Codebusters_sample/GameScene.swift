@@ -36,7 +36,9 @@ class GameScene: SKScene {
     
     var moves: [String] = []
     
-    override func didMoveToView(view: SKView) {
+    func defaultScene() {
+        self.removeAllChildren()
+        
         background = SKSpriteNode(imageNamed: "background_upd")
         background?.size = self.size
         background?.position = CGPoint(x: size.width/2, y: size.height/2)
@@ -83,7 +85,57 @@ class GameScene: SKScene {
         secondBlockCenter = CGPoint(x: size.width * 1017/2048, y: size.height * 193/1536)
         thirdBlockCenter = CGPoint(x: size.width * 1155/2048, y: size.height * 193/1536)
         fourthBlockCenter = CGPoint(x: size.width * 1293/2048, y: size.height * 193/1536)
-       
+    }
+    
+    override func didMoveToView(view: SKView) {
+        defaultScene()
+/*background = SKSpriteNode(imageNamed: "background_upd")
+        background?.size = self.size
+        background?.position = CGPoint(x: size.width/2, y: size.height/2)
+        addChild(background!)
+        
+        button_pause = SKSpriteNode(imageNamed: "button_Paused")
+        button_pause?.size = CGSize(width: size.width * 110/2048, height: size.height * 110/1536)
+        button_pause?.position = CGPoint(x: size.width * 128 / 2048, y: size.height * 1387 / 1536)
+        addChild(button_pause!)
+        
+        button_tips = SKSpriteNode(imageNamed: "button_Tip")
+        button_tips?.size = CGSize(width: size.width * 110/2048, height: size.height * 110/1536)
+        button_tips?.position = CGPoint(x: size.width * 128/2048, y: size.height * 1257/1536)
+        addChild(button_tips!)
+        
+        Robot = SKSpriteNode(imageNamed: "robot")
+        Robot?.size = CGSize(width: size.width * 225/2048, height: size.height * 356/1536)
+        moveRobotToStart()
+        addChild(Robot!)
+        
+        RAM = SKSpriteNode(imageNamed: "RAM")
+        RAM?.size = CGSize(width: size.width * 238/2048, height: size.height * 81/1536)
+        RAM?.position = CGPoint(x: size.width * 1506/2048, y: size.height * 989/1536)
+        addChild(RAM!)
+        
+        button_Start = SKSpriteNode(imageNamed: "button_Start")
+        button_Start?.size = CGSize(width: size.width * 169/2048, height: size.height * 169/1536)
+        button_Start?.position = CGPoint(x: size.width * 1660/2048, y: size.height * 194/1536)
+        addChild(button_Start!)
+        
+        button_moveforward = SKSpriteNode(imageNamed: "button_moveforward")
+        button_moveforward?.size = CGSize(width: size.width * 119/2048, height: size.height * 118/1536)
+        button_moveforward?.position = CGPoint(x: size.width * 362/2048, y: size.height * 218/1536)
+        addChild(button_moveforward!)
+        
+        button_turn = SKSpriteNode(imageNamed: "button_Turn")
+        button_turn?.size = CGSize(width: size.width * 119/2048, height: size.height * 118/1536)
+        button_turn?.position = CGPoint(x: size.width * 560/2048, y: size.height * 218/1536)
+        addChild(button_turn!)
+        
+        
+        
+        firstBlockCenter = CGPoint(x: size.width * 879/2048, y: size.height * 193/1536)
+        secondBlockCenter = CGPoint(x: size.width * 1017/2048, y: size.height * 193/1536)
+        thirdBlockCenter = CGPoint(x: size.width * 1155/2048, y: size.height * 193/1536)
+        fourthBlockCenter = CGPoint(x: size.width * 1293/2048, y: size.height * 193/1536)
+       */
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
@@ -91,6 +143,12 @@ class GameScene: SKScene {
         {
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
+            
+            if (touchedNode == button_pause) {
+                moves = [String]()
+                moveRobotToStart()
+                defaultScene()
+            }
             
             if (Robot?.position == CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536)) {
                 if (touchedNode == button_Start) {
@@ -105,6 +163,7 @@ class GameScene: SKScene {
                     }
                     if (Robot?.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
                         RAM?.removeFromParent()
+                        
                     }
                 }
             }

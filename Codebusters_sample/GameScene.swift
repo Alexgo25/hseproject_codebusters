@@ -18,9 +18,10 @@ class GameScene: SKScene {
     var Robot : SKSpriteNode?
     var RAM : SKSpriteNode?
     var button_Start : SKSpriteNode?
+    var tempbutton_moveforward : SKSpriteNode?
     
     override func didMoveToView(view: SKView) {
-        background = SKSpriteNode(imageNamed: "background")
+        background = SKSpriteNode(imageNamed: "background_upd")
         background?.size = self.size
         background?.position = CGPoint(x: size.width/2, y: size.height/2)
         addChild(background!)
@@ -60,18 +61,56 @@ class GameScene: SKScene {
         button_Start?.position = CGPoint(x: size.width * 1660/2048, y: size.height * 194/1536)
         addChild(button_Start!)
         
-        
+        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
        
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        
+        for touch: AnyObject in touches
+        {
+            let touchLocation = touch.locationInNode(self)
+            let touchedNode = nodeAtPoint(touchLocation)
+            
+            if (touchedNode == button_moveforward ){
+                if (tempbutton_moveforward == nil){
+                    tempbutton_moveforward = SKSpriteNode(imageNamed: "button_moveforward")
+                    tempbutton_moveforward!.size = button_moveforward!.size
+                    tempbutton_moveforward!.position = CGPoint(x: size.width * 362/2048, y: size.height * 218/1536)
+                    addChild(tempbutton_moveforward!)}
+                
+                tempbutton_moveforward!.physicsBody = SKPhysicsBody(texture:button_moveforward!.texture,  size: button_moveforward!.size)
+            
+            }
+        }
+
     }
    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
     
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
+        for touch: AnyObject in touches
+        {
+            let touchLocation = touch.locationInNode(self)
+            let touchedNode = nodeAtPoint(touchLocation)
+            
+            if (touchedNode == tempbutton_moveforward ){
+                
+                tempbutton_moveforward!.position = touchLocation
+                
+            }
+            
+        }
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+        for touch : AnyObject in touches
+        {
+            let touchLocation = touch.locationInNode(self)
+            let touchedNode = nodeAtPoint(touchLocation)
+        }
+    }
     
     
     

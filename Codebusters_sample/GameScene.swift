@@ -23,8 +23,8 @@ class GameScene: SKScene {
     var tempbutton_turn : SKSpriteNode?
     
     //блоки программы
-    var firstblockButton : SKSpriteNode?
-    var secndBlockButton : SKSpriteNode?
+    var firstBlockButton : SKSpriteNode?
+    var secondBlockButton : SKSpriteNode?
     var thirdBlockButton : SKSpriteNode?
     var fourthBlockButton : SKSpriteNode?
     
@@ -81,6 +81,9 @@ class GameScene: SKScene {
         
         
         firstBlockCenter = CGPoint(x: size.width * 879/2048, y: size.height * 193/1536)
+        secondBlockCenter = CGPoint(x: size.width * 1017/2048, y: size.height * 193/1536)
+        thirdBlockCenter = CGPoint(x: size.width * 1155/2048, y: size.height * 193/1536)
+        fourthBlockCenter = CGPoint(x: size.width * 1293/2048, y: size.height * 193/1536)
        
     }
     
@@ -128,19 +131,90 @@ class GameScene: SKScene {
                 tempbutton_moveforward!.position = touchLocation
                 if (detailIsNearTheCenterPosition(firstBlockCenter!, detail: tempbutton_moveforward!))
                 {
-                    firstblockButton = SKSpriteNode(imageNamed: "button_moveforward")
-                    firstblockButton!.size = button_moveforward!.size
-                    firstblockButton!.position = firstBlockCenter!
-                    addChild(firstblockButton!)
+                    firstBlockButton = SKSpriteNode(imageNamed: "button_moveforward")
+                    firstBlockButton!.size = button_moveforward!.size
+                    firstBlockButton!.position = firstBlockCenter!
+                    addChild(firstBlockButton!)
+                    tempbutton_moveforward!.removeFromParent()
+                    tempbutton_moveforward = nil
+                    
+                }
+                else if (detailIsNearTheCenterPosition(secondBlockCenter!, detail: tempbutton_moveforward!))
+                {
+                    secondBlockButton = SKSpriteNode(imageNamed: "button_moveforward")
+                    secondBlockButton!.size = button_moveforward!.size
+                    secondBlockButton!.position = secondBlockCenter!
+                    addChild(secondBlockButton!)
+                    tempbutton_moveforward!.removeFromParent()
+                    tempbutton_moveforward = nil
+                    
+                }
+                else if (detailIsNearTheCenterPosition(thirdBlockCenter!, detail: tempbutton_moveforward!))
+                {
+                    thirdBlockButton = SKSpriteNode(imageNamed: "button_moveforward")
+                    thirdBlockButton!.size = button_moveforward!.size
+                    thirdBlockButton!.position = thirdBlockCenter!
+                    addChild(thirdBlockButton!)
+                    tempbutton_moveforward!.removeFromParent()
+                    tempbutton_moveforward = nil
+                    
+                }
+                else if (detailIsNearTheCenterPosition(fourthBlockCenter!, detail: tempbutton_moveforward!))
+                {
+                    fourthBlockButton = SKSpriteNode(imageNamed: "button_moveforward")
+                    fourthBlockButton!.size = button_moveforward!.size
+                    fourthBlockButton!.position = fourthBlockCenter!
+                    addChild(fourthBlockButton!)
                     tempbutton_moveforward!.removeFromParent()
                     tempbutton_moveforward = nil
                     
                 }
                 
             }
-            if (touchedNode == tempbutton_turn)
+           else if (touchedNode == tempbutton_turn)
             {
                 tempbutton_turn!.position = touchLocation
+                if (detailIsNearTheCenterPosition(firstBlockCenter!, detail: tempbutton_turn!))
+                {
+                    firstBlockButton = SKSpriteNode(imageNamed: "button_Turn")
+                    firstBlockButton!.size = button_turn!.size
+                    firstBlockButton!.position = firstBlockCenter!
+                    addChild(firstBlockButton!)
+                    tempbutton_turn!.removeFromParent()
+                    tempbutton_turn = nil
+                    
+                }
+                else if (detailIsNearTheCenterPosition(secondBlockCenter!, detail: tempbutton_turn!))
+                {
+                    secondBlockButton = SKSpriteNode(imageNamed: "button_Turn")
+                    secondBlockButton!.size = button_turn!.size
+                    secondBlockButton!.position = secondBlockCenter!
+                    addChild(secondBlockButton!)
+                    tempbutton_turn!.removeFromParent()
+                    tempbutton_turn = nil
+                    
+                }
+                else if (detailIsNearTheCenterPosition(thirdBlockCenter!, detail: tempbutton_turn!))
+                {
+                    thirdBlockButton = SKSpriteNode(imageNamed: "button_Turn")
+                    thirdBlockButton!.size = button_turn!.size
+                    thirdBlockButton!.position = thirdBlockCenter!
+                    addChild(thirdBlockButton!)
+                    tempbutton_turn!.removeFromParent()
+                    tempbutton_turn = nil
+                    
+                }
+                else if (detailIsNearTheCenterPosition(fourthBlockCenter!, detail: tempbutton_turn!))
+                {
+                    fourthBlockButton = SKSpriteNode(imageNamed: "button_Turn")
+                    fourthBlockButton!.size = button_turn!.size
+                    fourthBlockButton!.position = fourthBlockCenter!
+                    addChild(fourthBlockButton!)
+                    tempbutton_turn!.removeFromParent()
+                    tempbutton_turn = nil
+                    
+                }
+
             }
             
         }

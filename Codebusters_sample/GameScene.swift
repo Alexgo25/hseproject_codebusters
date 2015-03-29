@@ -19,6 +19,7 @@ class GameScene: SKScene {
     var RAM : SKSpriteNode?
     var button_Start : SKSpriteNode?
     var tempbutton_moveforward : SKSpriteNode?
+    var tempbutton_turn : SKSpriteNode?
     
     override func didMoveToView(view: SKView) {
         background = SKSpriteNode(imageNamed: "background_upd")
@@ -36,16 +37,6 @@ class GameScene: SKScene {
         button_tips?.position = CGPoint(x: size.width * 128/2048, y: size.height * 1257/1536)
         addChild(button_tips!)
         
-        button_moveforward = SKSpriteNode(imageNamed: "button_moveforward")
-        button_moveforward?.size = CGSize(width: size.width * 119/2048, height: size.height * 118/1536)
-        button_moveforward?.position = CGPoint(x: size.width * 362/2048, y: size.height * 218/1536)
-        addChild(button_moveforward!)
-        
-        button_turn = SKSpriteNode(imageNamed: "button_Turn")
-        button_turn?.size = CGSize(width: size.width * 119/2048, height: size.height * 118/1536)
-        button_turn?.position = CGPoint(x: size.width * 560/2048, y: size.height * 218/1536)
-        addChild(button_turn!)
-        
         Robot = SKSpriteNode(imageNamed: "robot")
         Robot?.size = CGSize(width: size.width * 225/2048, height: size.height * 356/1536)
         moveRobotToStart()
@@ -60,6 +51,16 @@ class GameScene: SKScene {
         button_Start?.size = CGSize(width: size.width * 169/2048, height: size.height * 169/1536)
         button_Start?.position = CGPoint(x: size.width * 1660/2048, y: size.height * 194/1536)
         addChild(button_Start!)
+        
+        button_moveforward = SKSpriteNode(imageNamed: "button_moveforward")
+        button_moveforward?.size = CGSize(width: size.width * 119/2048, height: size.height * 118/1536)
+        button_moveforward?.position = CGPoint(x: size.width * 362/2048, y: size.height * 218/1536)
+        addChild(button_moveforward!)
+        
+        button_turn = SKSpriteNode(imageNamed: "button_Turn")
+        button_turn?.size = CGSize(width: size.width * 119/2048, height: size.height * 118/1536)
+        button_turn?.position = CGPoint(x: size.width * 560/2048, y: size.height * 218/1536)
+        addChild(button_turn!)
         
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
        
@@ -76,10 +77,19 @@ class GameScene: SKScene {
                     tempbutton_moveforward = SKSpriteNode(imageNamed: "button_moveforward")
                     tempbutton_moveforward!.size = button_moveforward!.size
                     tempbutton_moveforward!.position = CGPoint(x: size.width * 362/2048, y: size.height * 218/1536)
+                    tempbutton_moveforward!.zPosition = 1
                     addChild(tempbutton_moveforward!)}
                 
-                tempbutton_moveforward!.physicsBody = SKPhysicsBody(texture:button_moveforward!.texture,  size: button_moveforward!.size)
-            
+                
+            }
+            if (touchedNode == button_turn){
+                if (tempbutton_turn == nil){
+                    tempbutton_turn = SKSpriteNode(imageNamed: "button_Turn")
+                    tempbutton_turn!.size = button_turn!.size
+                    tempbutton_turn!.position = CGPoint(x: size.width * 560/2048, y: size.height * 218/1536)
+                    tempbutton_turn!.zPosition = 1
+                    addChild(tempbutton_turn!)
+                }
             }
         }
 
@@ -100,6 +110,10 @@ class GameScene: SKScene {
                 tempbutton_moveforward!.position = touchLocation
                 
             }
+            if (touchedNode == tempbutton_turn)
+            {
+                tempbutton_turn!.position = touchLocation
+            }
             
         }
     }
@@ -109,6 +123,12 @@ class GameScene: SKScene {
         {
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
+            
+          /*  if (touchedNode == button_turn)
+            {
+                button_turn?.removeFromParent()
+                button_turn = nil
+            }*/
         }
     }
     
@@ -120,6 +140,8 @@ class GameScene: SKScene {
     {
         Robot?.position = CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536)
     }
+    
+    
     
     
 }

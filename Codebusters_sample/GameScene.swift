@@ -8,6 +8,11 @@
 
 import SpriteKit
 
+
+enum SceneState{
+    case Normal,Tips
+}
+
 class GameScene: SKScene {
     
     //кнопки, фон и робот
@@ -33,6 +38,8 @@ class GameScene: SKScene {
     var secondBlockCenter : CGPoint?
     var thirdBlockCenter : CGPoint?
     var fourthBlockCenter : CGPoint?
+    
+    var sceneState : SceneState = SceneState.Normal
     
     var moves: [String] = []
     
@@ -143,7 +150,7 @@ class GameScene: SKScene {
         {
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
-            
+            if (sceneState == SceneState.Normal){
             if (touchedNode == button_pause) {
                 moves = [String]()
                 moveRobotToStart()
@@ -187,6 +194,21 @@ class GameScene: SKScene {
                     tempbutton_turn!.zPosition = 1
                     addChild(tempbutton_turn!)
                 }
+                }
+            if (touchedNode == button_tips)
+            {
+                sceneState = SceneState.Tips
+                var newBackground = SKSpriteNode(imageNamed : "tips")
+                newBackground.size = size
+                newBackground.position = CGPoint(x: size.width/2, y: size.height/2)
+                newBackground.zPosition = 2
+                addChild(newBackground)
+                }
+            }
+            else if (sceneState == SceneState.Tips)
+            {
+                sceneState = SceneState.Normal
+                defaultScene()
             }
         }
     }
@@ -332,6 +354,8 @@ class GameScene: SKScene {
             return false
         }
     }
+    
+    
     
     
     

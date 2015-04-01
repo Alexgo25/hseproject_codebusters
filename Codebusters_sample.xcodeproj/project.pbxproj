@@ -15,6 +15,7 @@
 		110952CD1AC6DF5B000A960A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 110952CC1AC6DF5B000A960A /* Images.xcassets */; };
 		110952D01AC6DF5B000A960A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 110952CE1AC6DF5B000A960A /* LaunchScreen.xib */; };
 		110952DC1AC6DF5B000A960A /* Codebusters_sampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110952DB1AC6DF5B000A960A /* Codebusters_sampleTests.swift */; };
+		115C6E971ACBFA4200B79250 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115C6E961ACBFA4200B79250 /* Robot.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		110952D51AC6DF5B000A960A /* Codebusters_sampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Codebusters_sampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		110952DA1AC6DF5B000A960A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		110952DB1AC6DF5B000A960A /* Codebusters_sampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Codebusters_sampleTests.swift; sourceTree = "<group>"; };
+		115C6E961ACBFA4200B79250 /* Robot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				110952C11AC6DF5B000A960A /* AppDelegate.swift */,
 				110952C31AC6DF5B000A960A /* GameScene.sks */,
 				110952C51AC6DF5B000A960A /* GameScene.swift */,
+				115C6E961ACBFA4200B79250 /* Robot.swift */,
 				110952C71AC6DF5B000A960A /* GameViewController.swift */,
 				110952C91AC6DF5B000A960A /* Main.storyboard */,
 				110952CC1AC6DF5B000A960A /* Images.xcassets */,
@@ -219,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				115C6E971ACBFA4200B79250 /* Robot.swift in Sources */,
 				110952C61AC6DF5B000A960A /* GameScene.swift in Sources */,
 				110952C81AC6DF5B000A960A /* GameViewController.swift in Sources */,
 				110952C21AC6DF5B000A960A /* AppDelegate.swift in Sources */,

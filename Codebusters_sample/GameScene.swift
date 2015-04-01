@@ -21,7 +21,7 @@ class GameScene: SKScene {
     var button_tips : SKSpriteNode?
     var button_moveforward : SKSpriteNode?
     var button_turn : SKSpriteNode?
-    var Robot : SKSpriteNode?
+    var robot : Robot?
     var RAM : SKSpriteNode?
     var button_Start : SKSpriteNode?
     var tempbutton_moveforward : SKSpriteNode?
@@ -63,11 +63,11 @@ class GameScene: SKScene {
         button_tips?.name = "tips"
         addChild(button_tips!)
         
-        Robot = SKSpriteNode(imageNamed: "robot")
-        Robot?.size = CGSize(width: size.width * 225/2048, height: size.height * 356/1536)
-        Robot?.name = "robot"
+        robot = Robot(imageNamed: "robot")
+        robot?.size = CGSize(width: size.width * 225/2048, height: size.height * 356/1536)
+        robot?.name = "robot"
         moveRobotToStart()
-        addChild(Robot!)
+        addChild(robot!)
         
         RAM = SKSpriteNode(imageNamed: "RAM")
         RAM?.size = CGSize(width: size.width * 238/2048, height: size.height * 81/1536)
@@ -117,18 +117,18 @@ class GameScene: SKScene {
                 defaultScene()
             }
             
-            if (Robot?.position == CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536)) {
+            if (robot?.position == CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536)) {
                 if (touchedNode == button_Start) {
                     for move in moves {
                         if (move == "forward") {
-                            Robot?.position.x += CGFloat(236 / 2048 * size.width)
+                            robot!.moveforward()
                         }
                     
                         if (move == "turn") {
-                            Robot?.xScale = Robot!.xScale * (-1)
+                            robot!.turn()
                         }
                     }
-                    if (Robot?.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
+                    if (robot?.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
                         RAM?.removeFromParent()
                         
                     }
@@ -306,7 +306,7 @@ class GameScene: SKScene {
     
     func moveRobotToStart()
     {
-        Robot?.position = CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536)
+        robot?.position = CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536)
     }
     
     func detailIsNearTheCenterPosition(centerPosition : CGPoint , detail : SKNode) ->Bool

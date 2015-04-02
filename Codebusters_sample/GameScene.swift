@@ -63,10 +63,9 @@ class GameScene: SKScene {
         button_tips?.name = "tips"
         addChild(button_tips!)
         
-        robot = Robot(imageNamed: "robot")
-        robot?.size = CGSize(width: size.width * 225/2048, height: size.height * 356/1536)
+        robot = Robot(startPosition : CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536),
+                      size :CGSize(width: size.width * 225/2048, height: size.height * 356/1536))
         robot?.name = "robot"
-        moveRobotToStart()
         addChild(robot!)
         
         RAM = SKSpriteNode(imageNamed: "RAM")
@@ -113,7 +112,7 @@ class GameScene: SKScene {
             if (sceneState == SceneState.Normal){
             if (touchedNode == button_pause) {
                 moves = [String]()
-                moveRobotToStart()
+                robot!.moveToStart()
                 defaultScene()
             }
             
@@ -121,7 +120,7 @@ class GameScene: SKScene {
                 if (touchedNode == button_Start) {
                     for move in moves {
                         if (move == "forward") {
-                            robot!.moveforward()
+                            robot!.moveForward()
                         }
                     
                         if (move == "turn") {
@@ -300,14 +299,7 @@ class GameScene: SKScene {
         }
     }
     
-    
-    
-    
-    
-    func moveRobotToStart()
-    {
-        robot?.position = CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536)
-    }
+ 
     
     func detailIsNearTheCenterPosition(centerPosition : CGPoint , detail : SKNode) ->Bool
     {

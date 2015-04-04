@@ -11,7 +11,7 @@ import SpriteKit
 
 class Robot: SKSpriteNode {
     
-    var startingPosition : CGPoint?
+    var startingPosition: CGPoint? 
     
     func moveForward()
     {
@@ -45,15 +45,12 @@ class Robot: SKSpriteNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    convenience init(startPosition :CGPoint, size :CGSize) {
+    
+    convenience init(startPosition: CGPoint, size: CGSize) {
         let color = UIColor()
         let texture = SKTexture(imageNamed: "robot")
         self.init(texture: texture, color: color, size: size)
         self.startingPosition = startPosition
         moveToStart()
-        
     }
-    
-    
-    
 }

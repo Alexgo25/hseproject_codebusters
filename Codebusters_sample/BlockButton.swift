@@ -9,9 +9,8 @@
 import Foundation
 import SpriteKit
 
-enum ActionState
-{
-    case moveForward, turn , jump , push
+enum ActionState {
+    case moveForward, turn, jump, push
 }
 
 class BlockButton : SKSpriteNode {

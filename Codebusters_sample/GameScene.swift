@@ -16,30 +16,32 @@ enum SceneState{
 class GameScene: SKScene {
     
     //кнопки, фон и робот
-    var background : SKSpriteNode?
-    var button_pause : SKSpriteNode?
-    var button_tips : SKSpriteNode?
-    var button_moveforward : SKSpriteNode?
-    var button_turn : SKSpriteNode?
-    var robot : Robot?
-    var RAM : SKSpriteNode?
-    var button_Start : SKSpriteNode?
-    var tempbutton_moveforward : SKSpriteNode?
-    var tempbutton_turn : SKSpriteNode?
+    var background: SKSpriteNode?
+    var button_pause: SKSpriteNode?
+    var button_tips: SKSpriteNode?
+    var button_moveforward: SKSpriteNode?
+    var button_turn: SKSpriteNode?
+    var robot: Robot?
+    var RAM: SKSpriteNode?
+    var button_Start: SKSpriteNode?
+    var tempbutton_moveforward: SKSpriteNode?
+    var tempbutton_turn: SKSpriteNode?
     
     //блоки программы
-    var firstBlockButton : SKSpriteNode?
-    var secondBlockButton : SKSpriteNode?
-    var thirdBlockButton : SKSpriteNode?
-    var fourthBlockButton : SKSpriteNode?
+    var firstBlockButton: SKSpriteNode?
+    var secondBlockButton: SKSpriteNode?
+    var thirdBlockButton: SKSpriteNode?
+    var fourthBlockButton: SKSpriteNode?
     
     //центры блоков
-    var firstBlockCenter : CGPoint?
-    var secondBlockCenter : CGPoint?
-    var thirdBlockCenter : CGPoint?
-    var fourthBlockCenter : CGPoint?
+    var firstBlockCenter: CGPoint?
+    var secondBlockCenter: CGPoint?
+    var thirdBlockCenter: CGPoint?
+    var fourthBlockCenter: CGPoint?
     
-    var sceneState : SceneState = SceneState.Normal
+    var selectedNode: SKNode?
+    
+    var sceneState: SceneState = SceneState.Normal
     
     var moves: [String] = []
     
@@ -104,93 +106,119 @@ class GameScene: SKScene {
         defaultScene()
     }
     
+    func beginAlgorithm() {
+        if robot?.position == robot?.startingPosition {
+            for move in moves {
+                switch move {
+                case "forward":
+                    robot?.moveForward()
+                case "turn":
+                    robot?.turn()
+                default:
+                    return
+                }
+            }
+            
+            if (robot?.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
+                RAM?.removeFromParent()
+            }
+        }
+    }
+    
+    
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
         for touch: AnyObject in touches
         {
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
-            if (sceneState == SceneState.Normal){
-            if (touchedNode == button_pause) {
-                moves = [String]()
-                robot!.moveToStart()
-                defaultScene()
-            }
+            selectedNode = touchedNode
             
-            if (robot?.position == CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536)) {
-                if (touchedNode == button_Start) {
-                    for move in moves {
-                        if (move == "forward") {
-                            robot!.moveForward()
+            if (sceneState == SceneState.Normal) {
+                beginAlgorithm()
+            
+                /*
+                if (robot?.position == robot?.startingPosition) {
+                    if (touchedNode == button_Start) {
+                        for move in moves {
+                            if (move == "forward") {
+                                robot!.moveForward()
+                            }
+                    
+                            if (move == "turn") {
+                                robot!.turn()
+                            }
                         }
                     
-                        if (move == "turn") {
-                            robot!.turn()
+                        if (robot?.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
+                            RAM?.removeFromParent()
                         }
                     }
-                    if (robot?.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
-                        RAM?.removeFromParent()
-                        
+                }*/
+            
+                /*if (touchedNode == button_moveforward ) {
+                    if (tempbutton_moveforward == nil) {
+                        tempbutton_moveforward = SKSpriteNode(imageNamed: "button_moveforward")
+                        tempbutton_moveforward!.size = button_moveforward!.size
+                        tempbutton_moveforward!.position = CGPoint(x: size.width * 362/2048, y: size.height * 218/1536)
+                        tempbutton_moveforward!.zPosition = 1
+                        addChild(tempbutton_moveforward!)
                     }
+                }
+               
+                if (touchedNode == button_turn) {
+                    if (tempbutton_turn == nil) {
+                        tempbutton_turn = SKSpriteNode(imageNamed: "button_Turn")
+                        tempbutton_turn!.size = button_turn!.size
+                        tempbutton_turn!.position = CGPoint(x: size.width * 560/2048, y: size.height * 218/1536)
+                        tempbutton_turn!.zPosition = 1
+                        addChild(tempbutton_turn!)
+                    }
+                }*/
+          
+                if (touchedNode == button_tips) {
+                    sceneState = SceneState.Tips
+                    var newBackground = SKSpriteNode(imageNamed : "tips")
+                    newBackground.size = size
+                    newBackground.position = CGPoint(x: size.width/2, y: size.height/2)
+                    newBackground.zPosition = 2
+                    addChild(newBackground)
                 }
             }
             
-            if (touchedNode == button_moveforward ) {
-                if (tempbutton_moveforward == nil) {
-                    tempbutton_moveforward = SKSpriteNode(imageNamed: "button_moveforward")
-                    tempbutton_moveforward!.size = button_moveforward!.size
-                    tempbutton_moveforward!.position = CGPoint(x: size.width * 362/2048, y: size.height * 218/1536)
-                    tempbutton_moveforward!.zPosition = 1
-                    addChild(tempbutton_moveforward!)
-                }
-                    
-                
-            }
-            if (touchedNode == button_turn){
-                if (tempbutton_turn == nil){
-                    tempbutton_turn = SKSpriteNode(imageNamed: "button_Turn")
-                    tempbutton_turn!.size = button_turn!.size
-                    tempbutton_turn!.position = CGPoint(x: size.width * 560/2048, y: size.height * 218/1536)
-                    tempbutton_turn!.zPosition = 1
-                    addChild(tempbutton_turn!)
-                }
-                }
-            if (touchedNode == button_tips)
-            {
-                sceneState = SceneState.Tips
-                var newBackground = SKSpriteNode(imageNamed : "tips")
-                newBackground.size = size
-                newBackground.position = CGPoint(x: size.width/2, y: size.height/2)
-                newBackground.zPosition = 2
-                addChild(newBackground)
-                }
-            }
-            else if (sceneState == SceneState.Tips)
-            {
+            else if (sceneState == SceneState.Tips) {
                 sceneState = SceneState.Normal
                 defaultScene()
             }
         }
     }
+
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
     
     override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        for touch: AnyObject in touches
-        {
-            let touchLocation = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(touchLocation)
+        for touch in touches {
+            var touchLocation = touch.locationInNode(self)
+            var previousLocation = touch.previousLocationInNode(self)
             
-            if (touchedNode == tempbutton_moveforward ) {
-                
-                tempbutton_moveforward!.position = touchLocation
-                
-            }
-            else if (touchedNode == tempbutton_turn)
-            {
-                tempbutton_turn!.position = touchLocation
-                            }
+            var translation = CGPointMake(touchLocation.x - previousLocation.x, touchLocation.y - previousLocation.y)
             
+            panForTranslation(translation)
+            
+            //let touchedNode = nodeAtPoint(touchLocation)
+            //if (touchedNode == tempbutton_moveforward ) {
+            //    tempbutton_moveforward!.position = touchLocation
+            //}
+            //else if (touchedNode == tempbutton_turn) {
+            //    tempbutton_turn!.position = touchLocation
+            //}
+        }
+    }
+    
+    func panForTranslation(translation: CGPoint) {
+        var position = selectedNode?.position
+        if (selectedNode == button_moveforward || selectedNode == button_turn) {
+            selectedNode?.position = CGPoint(x: selectedNode!.position.x + translation.x, y: selectedNode!.position.y + translation.y)
         }
     }
     

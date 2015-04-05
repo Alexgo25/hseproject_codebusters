@@ -21,8 +21,7 @@ class BlockButton : SKSpriteNode {
         super.init(texture: texture, color: color, size: size)
     }
     
-    convenience init(imageNamed : String , state : ActionState , size : CGSize)
-    {
+    convenience init(imageNamed: String , state: ActionState , size: CGSize) {
         let color = UIColor()
         let texture = SKTexture(imageNamed: imageNamed)
         self.init(texture: texture, color: color, size: size)

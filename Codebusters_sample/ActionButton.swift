@@ -35,10 +35,16 @@ class ActionButton: SKSpriteNode {
         self.type = buttonType
         self.position = position
         self.name = buttonType.rawValue
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: size)
+        self.physicsBody!.categoryBitMask = NodeType.ActionButton.rawValue
+        self.physicsBody?.collisionBitMask = 0
+        self.physicsBody!.contactTestBitMask = NodeType.ActionCell.rawValue
+        self.physicsBody!.dynamic = true
+        self.physicsBody!.allowsRotation = false
     }
     
     struct Constants {
         static let screenSize = UIScreen.mainScreen().bounds
-        static let ActionButtonSize = CGSize(width: Constants.screenSize.width * 119/2048, height: Constants.screenSize.height * 118/1536)
+        static let ActionButtonSize = CGSize(width: screenSize.width * 119/2048, height: screenSize.height * 118/1536)
     }
 }

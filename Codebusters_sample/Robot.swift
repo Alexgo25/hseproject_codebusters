@@ -13,28 +13,23 @@ class Robot: SKSpriteNode {
     
     var startingPosition: CGPoint? 
     
-    func moveForward()
-    {
+    func moveForward() {
         self.position.x += CGFloat(236 / 225 * size.width)
     }
     
-    func turn()
-    {
+    func turn() {
         self.xScale = self.xScale * (-1)
     }
     
-    func jump()
-    {
+    func jump() {
         
     }
     
-    func push()
-    {
+    func push() {
         
     }
     
-    func moveToStart()
-    {
+    func moveToStart() {
         self.position = startingPosition!
     }
     

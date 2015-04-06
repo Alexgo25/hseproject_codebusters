@@ -18,6 +18,7 @@
 		115A4A441ACD992C006C784A /* BlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115A4A431ACD992C006C784A /* BlockButton.swift */; };
 		115C6E971ACBFA4200B79250 /* Robot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115C6E961ACBFA4200B79250 /* Robot.swift */; };
 		61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A436281AD09CC5002B8540 /* ActionButton.swift */; };
+		61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A4362A1AD16D1B002B8540 /* ActionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,7 @@
 		115A4A431ACD992C006C784A /* BlockButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockButton.swift; sourceTree = "<group>"; };
 		115C6E961ACBFA4200B79250 /* Robot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Robot.swift; sourceTree = "<group>"; };
 		61A436281AD09CC5002B8540 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		61A4362A1AD16D1B002B8540 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				110952C31AC6DF5B000A960A /* GameScene.sks */,
 				110952C51AC6DF5B000A960A /* GameScene.swift */,
 				115A4A431ACD992C006C784A /* BlockButton.swift */,
+				61A4362A1AD16D1B002B8540 /* ActionCell.swift */,
 				115C6E961ACBFA4200B79250 /* Robot.swift */,
 				110952C71AC6DF5B000A960A /* GameViewController.swift */,
 				110952C91AC6DF5B000A960A /* Main.storyboard */,
@@ -234,6 +237,7 @@
 				110952C81AC6DF5B000A960A /* GameViewController.swift in Sources */,
 				110952C21AC6DF5B000A960A /* AppDelegate.swift in Sources */,
 				61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */,
+				61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

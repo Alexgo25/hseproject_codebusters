@@ -9,11 +9,19 @@
 import SpriteKit
 
 
-enum SceneState{
+enum SceneState {
     case Normal,Tips
 }
 
-class GameScene: SKScene {
+enum NodeType: UInt32 {
+    case ActionButton = 1
+    case ActionCell = 2,
+    Other1 = 4,
+    other2 = 8,
+    other = 16
+}
+
+class GameScene: SKScene, SKPhysicsContactDelegate  {
     
     //кнопки, фон и робот
     var background: SKSpriteNode?
@@ -31,6 +39,11 @@ class GameScene: SKScene {
     var thirdBlockButton: SKSpriteNode?
     var fourthBlockButton: SKSpriteNode?
     
+    var firstCell: ActionCell?
+    var secondCell: ActionCell?
+    var thirdCell: ActionCell?
+    var fourthCell: ActionCell?
+    
     //центры блоков
     var firstBlockCenter: CGPoint?
     var secondBlockCenter: CGPoint?
@@ -46,7 +59,7 @@ class GameScene: SKScene {
     func defaultScene() {
         self.removeAllChildren()
         
-        background = SKSpriteNode(imageNamed: "background_upd")
+        background = SKSpriteNode(imageNamed: "background")
         background?.size = self.size
         background?.position = CGPoint(x: size.width/2, y: size.height/2)
         addChild(background!)
@@ -87,13 +100,36 @@ class GameScene: SKScene {
         addChild(button_turn!)
         
         firstBlockCenter = CGPoint(x: size.width * 879/2048, y: size.height * 193/1536)
+        
+        firstCell = ActionCell(actionCellCenter: .first)
+        addChild(firstCell!)
+        
         secondBlockCenter = CGPoint(x: size.width * 1017/2048, y: size.height * 193/1536)
         thirdBlockCenter = CGPoint(x: size.width * 1155/2048, y: size.height * 193/1536)
         fourthBlockCenter = CGPoint(x: size.width * 1293/2048, y: size.height * 193/1536)
     }
     
     override func didMoveToView(view: SKView) {
+        physicsWorld.contactDelegate = self
+        physicsWorld.gravity = CGVectorMake(0, 0)
         defaultScene()
+        
+        
+    }
+    
+    func didBeginContact(contact: SKPhysicsContact) {
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        
+        switch contactMask {
+        case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
+            println("Yes!!!")
+        default:
+            return
+        }
+    }
+    
+    func didEndContact(contact: SKPhysicsContact) {
+        
     }
     
     func beginAlgorithm() {
@@ -120,9 +156,10 @@ class GameScene: SKScene {
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
 
-            if touchedNode.isKindOfClass(ActionButton) {
+            if touchedNode.isKindOfClass(ActionButton) && selectedNode == nil {
                 var touchedButton = touchedNode as? ActionButton
                 var tempButton = ActionButton(buttonType: touchedButton!.type!, position: touchedButton!.position)
+                tempButton.zPosition = 1
                 addChild(tempButton)
 
                 selectedNode = tempButton
@@ -175,7 +212,14 @@ class GameScene: SKScene {
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
             
-            
+            selectedNode = nil
+            /*if selectedNode.isKindOfClass(ActionButton) {
+                var touchedButton = touchedNode as? ActionButton
+                var tempButton = ActionButton(buttonType: touchedButton!.type!, position: touchedButton!.position)
+                addChild(tempButton)
+                
+                selectedNode = tempButton
+            }
             
             if (touchedNode == tempbutton_turn)
             {
@@ -272,7 +316,7 @@ class GameScene: SKScene {
                 tempbutton_moveforward?.removeFromParent()
                 tempbutton_moveforward = nil
                 }
-            }
+            }*/
         }
     }
 

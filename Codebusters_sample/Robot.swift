@@ -12,7 +12,19 @@ import SpriteKit
 class Robot: SKSpriteNode {
     
     func moveForward() {
-        self.position.x += CGFloat(236 / 225 * size.width)
+        let animation = SKAction.animateWithTextures(MoveForwardAnimationTextures(), timePerFrame: 0.07)
+        let action = SKAction.repeatActionForever(animation)
+        runAction(action)
+
+        let moveAction = SKAction.moveTo(getNextPosition(), duration: 1.5)
+        let doneAction = SKAction.runBlock( {
+            self.removeAllActions()
+            self.texture = SKTexture(imageNamed: "robot")
+        })
+        
+        let moveActionWithDone = SKAction.sequence([moveAction, doneAction])
+        
+        runAction(moveActionWithDone)
     }
     
     func turn() {
@@ -49,5 +61,11 @@ class Robot: SKSpriteNode {
         let size = Constants.Robot_Size
         self.init(texture: texture, color: color, size: size)
         moveToStart()
+    }
+    
+    func getNextPosition() -> CGPoint {
+        var position = self.position
+        position.x += CGFloat(236 / 225 * size.width)
+        return position
     }
 }

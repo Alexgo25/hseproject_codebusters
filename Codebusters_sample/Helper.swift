@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SpriteKit
 
 enum ActionButtonType: String {
     case moveForwardButton = "button_MoveForward",
@@ -27,6 +28,27 @@ struct Constants {
     static let Robot_StartPosition = CGPoint(x: ScreenSize.width * 515/2048, y: ScreenSize.height * 1052/1536)
     static let Robot_Size = CGSize(width: ScreenSize.width * 225/2048, height: ScreenSize.height * 356/1536)
 }
+
+func MoveForwardAnimationTextures() -> [SKTexture] {
+    var textures: [SKTexture] = []
+    for var i = 1; i <= 8; i++ {
+        var imageString = "MoveForward\(i)"
+        textures.append(SKTexture(imageNamed: imageString))
+    }
+    return textures
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

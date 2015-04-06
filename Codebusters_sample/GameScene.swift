@@ -14,14 +14,11 @@ enum SceneState {
 }
 
 enum NodeType: UInt32 {
-    case ActionButton = 1
-    case ActionCell = 2,
-    Other1 = 4,
-    other2 = 8,
-    other = 16
+    case ActionButton = 1,
+    ActionCell = 2
 }
 
-class GameScene: SKScene, SKPhysicsContactDelegate  {
+class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //кнопки, фон и робот
     var background: SKSpriteNode?
@@ -33,28 +30,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     var RAM: SKSpriteNode?
     var button_Start: SKSpriteNode?
     
-    //блоки программы
-    var firstBlockButton: SKSpriteNode?
-    var secondBlockButton: SKSpriteNode?
-    var thirdBlockButton: SKSpriteNode?
-    var fourthBlockButton: SKSpriteNode?
-    
     var firstCell: ActionCell?
     var secondCell: ActionCell?
     var thirdCell: ActionCell?
     var fourthCell: ActionCell?
     
-    //центры блоков
-    var firstBlockCenter: CGPoint?
-    var secondBlockCenter: CGPoint?
-    var thirdBlockCenter: CGPoint?
-    var fourthBlockCenter: CGPoint?
-    
+    var intersectionAppears: Bool? = false
     var selectedNode: SKNode?
-    
+    var tempCellState: ActionButtonType?
     var sceneState: SceneState = SceneState.Normal
     
-    var moves: [String] = []
+    var moves: [ActionButtonType?] = []
     
     func defaultScene() {
         self.removeAllChildren()
@@ -66,79 +52,99 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
         
         button_pause = SKSpriteNode(imageNamed: "button_Paused")
         button_pause?.size = CGSize(width: size.width * 110/2048, height: size.height * 110/1536)
-        button_pause?.position = CGPoint(x: size.width * 128 / 2048, y: size.height * 1387 / 1536)
-        button_pause?.name = "pause"
+        button_pause?.position = Constants.Button_PausePosition
         addChild(button_pause!)
         
         button_tips = SKSpriteNode(imageNamed: "button_Tip")
         button_tips?.size = CGSize(width: size.width * 110/2048, height: size.height * 110/1536)
-        button_tips?.position = CGPoint(x: size.width * 128/2048, y: size.height * 1257/1536)
-        button_tips?.name = "tips"
+        button_tips?.position = Constants.Button_TipsPosition
         addChild(button_tips!)
         
-        robot = Robot(startPosition : CGPoint(x: size.width * 515/2048, y: size.height * 1052/1536),
-                      size :CGSize(width: size.width * 225/2048, height: size.height * 356/1536))
-        robot?.name = "robot"
+        robot = Robot()
         addChild(robot!)
         
         RAM = SKSpriteNode(imageNamed: "RAM")
         RAM?.size = CGSize(width: size.width * 238/2048, height: size.height * 81/1536)
         RAM?.position = CGPoint(x: size.width * 1506/2048, y: size.height * 989/1536)
-        RAM?.name = "RAM"
         addChild(RAM!)
         
         button_Start = SKSpriteNode(imageNamed: "button_Start")
         button_Start?.size = CGSize(width: size.width * 169/2048, height: size.height * 169/1536)
-        button_Start?.position = CGPoint(x: size.width * 1660/2048, y: size.height * 194/1536)
-        button_Start?.name = "start"
+        button_Start?.position = Constants.Button_StartPosition
         addChild(button_Start!)
 
-        button_moveforward = ActionButton(buttonType: .moveForwardButton, position: CGPoint(x: size.width * 362/2048, y: size.height * 218/1536))
+        button_moveforward = ActionButton(buttonType: .moveForwardButton, position: Constants.Button_MoveForwardPosition)
         addChild(button_moveforward!)
         
-        button_turn = ActionButton(buttonType: .turnButton, position: CGPoint(x: size.width * 560/2048, y: size.height * 218/1536))
+        button_turn = ActionButton(buttonType: .turnButton, position: Constants.Button_TurnPosition)
         addChild(button_turn!)
-        
-        firstBlockCenter = CGPoint(x: size.width * 879/2048, y: size.height * 193/1536)
         
         firstCell = ActionCell(actionCellCenter: .first)
         addChild(firstCell!)
         
-        secondBlockCenter = CGPoint(x: size.width * 1017/2048, y: size.height * 193/1536)
-        thirdBlockCenter = CGPoint(x: size.width * 1155/2048, y: size.height * 193/1536)
-        fourthBlockCenter = CGPoint(x: size.width * 1293/2048, y: size.height * 193/1536)
+        secondCell = ActionCell(actionCellCenter: .second)
+        addChild(secondCell!)
+        
+        thirdCell = ActionCell(actionCellCenter: .third)
+        addChild(thirdCell!)
+        
+        fourthCell = ActionCell(actionCellCenter: .fourth)
+        addChild(fourthCell!)
+        
+        tempCellState = firstCell?.actionType!
     }
     
     override func didMoveToView(view: SKView) {
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = CGVectorMake(0, 0)
+        
         defaultScene()
-        
-        
+    }
+    
+    func changeCellWhileContact(cell: ActionCell, action: ActionButton) {
+        cell.setActionType(action.actionType!)
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        
         switch contactMask {
         case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
-            println("Yes!!!")
+            var action = contact.bodyB.node as ActionButton?
+            var cell = contact.bodyA.node as ActionCell?
+            cell?.previousCellState = cell?.actionType
+            changeCellWhileContact(cell!, action: action!)
+            if (cell?.previousCellState == ActionButtonType.none) {
+                moves.append(cell?.actionType!)
+            } else {
+                
+            }
+        intersectionAppears = true
         default:
             return
         }
     }
     
     func didEndContact(contact: SKPhysicsContact) {
-        
+        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        switch contactMask {
+        case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
+            var action = contact.bodyB.node as ActionButton?
+            var cell = contact.bodyA.node as ActionCell?
+            cell?.setActionType(cell!.previousCellState!)
+            moves.removeLast()
+            intersectionAppears = false
+        default:
+            return
+        }
     }
     
     func beginAlgorithm() {
-        if robot?.position == robot?.startingPosition {
+        if robot?.position == robot?.getStartPosition() {
             for move in moves {
-                switch move {
-                case "forward":
+                switch move! {
+                case .moveForwardButton:
                     robot?.moveForward()
-                case "turn":
+                case .turnButton:
                     robot?.turn()
                 default:
                     return
@@ -152,33 +158,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        for touch: AnyObject in touches {
+        for touch in touches {
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
 
             if touchedNode.isKindOfClass(ActionButton) && selectedNode == nil {
                 var touchedButton = touchedNode as? ActionButton
-                var tempButton = ActionButton(buttonType: touchedButton!.type!, position: touchedButton!.position)
+                var tempButton = ActionButton(buttonType: touchedButton!.actionType!, position: touchedButton!.position)
                 tempButton.zPosition = 1
                 addChild(tempButton)
-
+                
                 selectedNode = tempButton
             }
+            else if touchedNode.isKindOfClass(ActionCell) {
+                var touchedAction = touchedNode as? ActionCell
+                if touchedAction?.actionType != ActionButtonType.none {
+                var tempButton = ActionButton(buttonType: touchedAction!.actionType!, position: touchedAction!.position)
+                tempButton.zPosition = 1
+                touchedAction?.setActionType(.none)
+                addChild(tempButton)
+                
+                selectedNode = tempButton
+                }
+            }
+                
             
             if (sceneState == SceneState.Normal) {
-                beginAlgorithm()
-            
-                if (touchedNode == button_tips) {
+                switch touchedNode {
+                case button_Start!:
+                    beginAlgorithm()
+                case button_tips!:
                     sceneState = SceneState.Tips
                     var newBackground = SKSpriteNode(imageNamed : "tips")
                     newBackground.size = size
                     newBackground.position = CGPoint(x: size.width/2, y: size.height/2)
                     newBackground.zPosition = 2
                     addChild(newBackground)
+                default:
+                    return
                 }
-            }
-            
-            else if (sceneState == SceneState.Tips) {
+            } else {
                 sceneState = SceneState.Normal
                 defaultScene()
             }
@@ -208,124 +227,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate  {
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
-        for touch : AnyObject in touches {
-            let touchLocation = touch.locationInNode(self)
-            let touchedNode = nodeAtPoint(touchLocation)
-            
-            selectedNode = nil
-            /*if selectedNode.isKindOfClass(ActionButton) {
-                var touchedButton = touchedNode as? ActionButton
-                var tempButton = ActionButton(buttonType: touchedButton!.type!, position: touchedButton!.position)
-                addChild(tempButton)
-                
-                selectedNode = tempButton
-            }
-            
-            if (touchedNode == tempbutton_turn)
-            {
-                if (detailIsNearTheCenterPosition(firstBlockCenter!, detail: tempbutton_turn!))
-                {
-                    firstBlockButton = SKSpriteNode(imageNamed: "button_Turn")
-                    firstBlockButton!.size = button_turn!.size
-                    firstBlockButton!.position = firstBlockCenter!
-                    addChild(firstBlockButton!)
-                    tempbutton_turn!.removeFromParent()
-                    tempbutton_turn = nil
-                    moves.append("turn")
-                }
-                else if (detailIsNearTheCenterPosition(secondBlockCenter!, detail: tempbutton_turn!))
-                {
-                    secondBlockButton = SKSpriteNode(imageNamed: "button_Turn")
-                    secondBlockButton!.size = button_turn!.size
-                    secondBlockButton!.position = secondBlockCenter!
-                    addChild(secondBlockButton!)
-                    tempbutton_turn!.removeFromParent()
-                    tempbutton_turn = nil
-                    moves.append("turn")
-                }
-                else if (detailIsNearTheCenterPosition(thirdBlockCenter!, detail: tempbutton_turn!))
-                {
-                    thirdBlockButton = SKSpriteNode(imageNamed: "button_Turn")
-                    thirdBlockButton!.size = button_turn!.size
-                    thirdBlockButton!.position = thirdBlockCenter!
-                    addChild(thirdBlockButton!)
-                    tempbutton_turn!.removeFromParent()
-                    tempbutton_turn = nil
-                    moves.append("turn")
-                }
-                else if (detailIsNearTheCenterPosition(fourthBlockCenter!, detail: tempbutton_turn!))
-                {
-                    fourthBlockButton = SKSpriteNode(imageNamed: "button_Turn")
-                    fourthBlockButton!.size = button_turn!.size
-                    fourthBlockButton!.position = fourthBlockCenter!
-                    addChild(fourthBlockButton!)
-                    tempbutton_turn!.removeFromParent()
-                    tempbutton_turn = nil
-                    moves.append("turn")
-                }
-
-                else {
-                tempbutton_turn?.removeFromParent()
-                tempbutton_turn = nil
-                }
-            }
-
-            if (touchedNode == tempbutton_moveforward)
-            {
-                if (detailIsNearTheCenterPosition(firstBlockCenter!, detail: tempbutton_moveforward!))
-                {
-                    firstBlockButton = SKSpriteNode(imageNamed: "button_moveforward")
-                    firstBlockButton!.size = button_moveforward!.size
-                    firstBlockButton!.position = firstBlockCenter!
-                    addChild(firstBlockButton!)
-                    tempbutton_moveforward!.removeFromParent()
-                    tempbutton_moveforward = nil
-                    moves.append("forward")
-                }
-                else if (detailIsNearTheCenterPosition(secondBlockCenter!, detail: tempbutton_moveforward!))
-                {
-                    secondBlockButton = SKSpriteNode(imageNamed: "button_moveforward")
-                    secondBlockButton!.size = button_moveforward!.size
-                    secondBlockButton!.position = secondBlockCenter!
-                    addChild(secondBlockButton!)
-                    tempbutton_moveforward!.removeFromParent()
-                    tempbutton_moveforward = nil
-                    moves.append("forward")
-                }
-                else if (detailIsNearTheCenterPosition(thirdBlockCenter!, detail: tempbutton_moveforward!))
-                {
-                    thirdBlockButton = SKSpriteNode(imageNamed: "button_moveforward")
-                    thirdBlockButton!.size = button_moveforward!.size
-                    thirdBlockButton!.position = thirdBlockCenter!
-                    addChild(thirdBlockButton!)
-                    tempbutton_moveforward!.removeFromParent()
-                    tempbutton_moveforward = nil
-                    moves.append("forward")
-                }
-                else if (detailIsNearTheCenterPosition(fourthBlockCenter!, detail: tempbutton_moveforward!))
-                {
-                    fourthBlockButton = SKSpriteNode(imageNamed: "button_moveforward")
-                    fourthBlockButton!.size = button_moveforward!.size
-                    fourthBlockButton!.position = fourthBlockCenter!
-                    addChild(fourthBlockButton!)
-                    tempbutton_moveforward!.removeFromParent()
-                    tempbutton_moveforward = nil
-                    moves.append("forward")
-                }
-                else {
-                tempbutton_moveforward?.removeFromParent()
-                tempbutton_moveforward = nil
-                }
-            }*/
-        }
-    }
-
-    func detailIsNearTheCenterPosition(centerPosition : CGPoint , detail : SKNode) ->Bool {
-        if (detail.position.x > centerPosition.x - 10 && detail.position.x < centerPosition.x + 10 && detail.position.y > centerPosition.y - 10 && detail.position.y < centerPosition.y + 10 ) {
-            return true
-        }
-        else {
-            return false
-        }
+        selectedNode?.removeFromParent()
+        selectedNode = nil
     }
 }

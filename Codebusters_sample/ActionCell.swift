@@ -13,14 +13,7 @@ class ActionCell: SKSpriteNode {
     
     var cellCenterX: ActionCellCenter?
     var actionType: ActionButtonType?
-
-    enum ActionButtonType: String {
-        case moveForwardButton = "button_moveForward",
-        turnButton = "button_Turn",
-        pushButton = "button_Push",
-        jumpButton = "button_Jump",
-        none = "none"
-    }
+    var previousCellState: ActionButtonType?
     
     enum ActionCellCenter: CGFloat {
         case first = 879,
@@ -39,18 +32,24 @@ class ActionCell: SKSpriteNode {
     
     convenience init(actionCellCenter: ActionCellCenter) {
         let color = UIColor()
-        let texture = SKTexture(imageNamed: "button_Turn")
+        let texture = SKTexture(imageNamed: "none")
         self.init(texture: texture, color: color, size: Constants.ActionButtonSize)
-        self.actionType = ActionButtonType.none
-        self.cellCenterX = actionCellCenter
-        self.position = CGPoint(x: Constants.screenSize.width * actionCellCenter.rawValue/2048, y: Constants.screenSize.height * 193/1536)
-        self.physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width/2, height: size.height/2))
-        self.physicsBody!.categoryBitMask = NodeType.ActionCell.rawValue
-        self.physicsBody!.dynamic = false
+        actionType = ActionButtonType.none
+        name = actionType?.rawValue
+        cellCenterX = actionCellCenter
+        position = CGPoint(x: Constants.ScreenSize.width * actionCellCenter.rawValue/2048, y: Constants.ScreenSize.height * 193/1536)
+        physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width * 2 / 5, height: size.height * 2 / 3))
+        physicsBody!.categoryBitMask = NodeType.ActionCell.rawValue
+        //physicsBody!.contactTestBitMask = NodeType.ActionButton.rawValue
+        physicsBody!.dynamic = false
+    } 
+    
+    func setActionType(actionType: ActionButtonType) {
+        self.actionType = actionType
+        texture = SKTexture(imageNamed: actionType.rawValue)
     }
     
-    struct Constants {
-        static let screenSize = UIScreen.mainScreen().bounds
-        static let ActionButtonSize = CGSize(width: screenSize.width * 119/2048, height: screenSize.height * 118/1536)
-    }
+    
+    
+    
 }

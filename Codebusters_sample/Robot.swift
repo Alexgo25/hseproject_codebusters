@@ -11,8 +11,6 @@ import SpriteKit
 
 class Robot: SKSpriteNode {
     
-    var startingPosition: CGPoint? 
-    
     func moveForward() {
         self.position.x += CGFloat(236 / 225 * size.width)
     }
@@ -30,7 +28,11 @@ class Robot: SKSpriteNode {
     }
     
     func moveToStart() {
-        self.position = startingPosition!
+        position = Constants.Robot_StartPosition
+    }
+    
+    func getStartPosition() -> CGPoint {
+        return Constants.Robot_StartPosition
     }
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
@@ -41,11 +43,11 @@ class Robot: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(startPosition: CGPoint, size: CGSize) {
+    override convenience init() {
         let color = UIColor()
         let texture = SKTexture(imageNamed: "robot")
+        let size = Constants.Robot_Size
         self.init(texture: texture, color: color, size: size)
-        self.startingPosition = startPosition
         moveToStart()
     }
 }

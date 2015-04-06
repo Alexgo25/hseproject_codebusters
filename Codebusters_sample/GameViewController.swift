@@ -4,7 +4,7 @@
 //
 //  Created by Alexander on 28.03.15.
 //  Copyright (c) 2015 Kids'n'Code. All rights reserved.
-//uur
+//
 
 import UIKit
 import SpriteKit
@@ -35,7 +35,7 @@ class GameViewController: UIViewController {
             let skView = self.view as SKView
             skView.showsFPS = true
             skView.showsNodeCount = true
-            skView.showsPhysics = true
+            //skView.showsPhysics = true
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             

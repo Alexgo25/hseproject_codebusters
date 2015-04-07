@@ -82,17 +82,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         firstCell = ActionCell(actionCellCenter: .first)
         addChild(firstCell!)
+        cells.append(firstCell!)
         
         secondCell = ActionCell(actionCellCenter: .second)
         addChild(secondCell!)
+        cells.append(secondCell!)
         
         thirdCell = ActionCell(actionCellCenter: .third)
         addChild(thirdCell!)
+        cells.append(thirdCell!)
         
         fourthCell = ActionCell(actionCellCenter: .fourth)
         addChild(fourthCell!)
+        cells.append(fourthCell!)
         
         tempCellState = firstCell?.actionType!
+        
+        
     }
     
     override func didMoveToView(view: SKView) {

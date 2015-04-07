@@ -13,7 +13,7 @@ class Robot: SKSpriteNode {
     
     var actions: [SKAction] = []
     
-    func moveForward() {
+    func moveForward()-> SKAction {
         let animation = SKAction.animateWithTextures(MoveForwardAnimationTextures(), timePerFrame: 0.04)
         let action = SKAction.repeatActionForever(animation)
         runAction(action)
@@ -26,11 +26,17 @@ class Robot: SKSpriteNode {
         
         let moveActionWithDone = SKAction.sequence([moveAction, doneAction])
         
-        runAction(moveActionWithDone)
+        //runAction(moveActionWithDone)
+        return moveActionWithDone
     }
     
-    func turn() {
-        self.xScale = self.xScale * (-1)
+    func turn()-> SKAction {
+        let turnAction = SKAction.runBlock({
+           self.xScale = self.xScale * (-1)
+        })
+        let waitAction = SKAction.waitForDuration(1.0)
+        let turnActionWithDone = SKAction.sequence([turnAction , waitAction])
+        return turnActionWithDone
     }
     
     func jump() {
@@ -70,4 +76,17 @@ class Robot: SKSpriteNode {
         position.x += CGFloat(236 / 225 * size.width)
         return position
     }
+    
+    func addAction(action : ActionButtonType)
+    {
+        switch action {
+        case .moveForwardButton :
+            actions.append(self.moveForward())
+        case .turnButton :
+            actions.append(self.turn())
+        default :                                 //ToDo : add jump and push actions
+            break
+        }
+    }
+    
 }

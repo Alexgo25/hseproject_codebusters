@@ -40,7 +40,8 @@ class ActionCell: SKSpriteNode {
         position = CGPoint(x: Constants.ScreenSize.width * actionCellCenter.rawValue/2048, y: Constants.ScreenSize.height * 193/1536)
         physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width * 2 / 5, height: size.height * 2 / 3))
         physicsBody!.categoryBitMask = NodeType.ActionCell.rawValue
-        //physicsBody!.contactTestBitMask = NodeType.ActionButton.rawValue
+        physicsBody!.collisionBitMask = 0
+        physicsBody!.contactTestBitMask = NodeType.ActionButton.rawValue
         physicsBody!.dynamic = false
     } 
     
@@ -48,8 +49,4 @@ class ActionCell: SKSpriteNode {
         self.actionType = actionType
         texture = SKTexture(imageNamed: actionType.rawValue)
     }
-    
-    
-    
-    
 }

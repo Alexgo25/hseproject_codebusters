@@ -14,8 +14,8 @@ enum SceneState {
 }
 
 enum NodeType: UInt32 {
-    case ActionButton = 1,
-    ActionCell = 2
+    case ActionButton = 0x01,
+    ActionCell = 0x02
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -131,6 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var action = contact.bodyB.node as ActionButton?
             var cell = contact.bodyA.node as ActionCell?
             cell?.setActionType(cell!.previousCellState!)
+            println("endContact \(cell?.cellCenterX?.rawValue)")
             moves.removeLast()
             intersectionAppears = false
         default:

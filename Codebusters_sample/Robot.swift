@@ -11,8 +11,10 @@ import SpriteKit
 
 class Robot: SKSpriteNode {
     
+    var actions: [SKAction] = []
+    
     func moveForward() {
-        let animation = SKAction.animateWithTextures(MoveForwardAnimationTextures(), timePerFrame: 0.07)
+        let animation = SKAction.animateWithTextures(MoveForwardAnimationTextures(), timePerFrame: 0.04)
         let action = SKAction.repeatActionForever(animation)
         runAction(action)
 

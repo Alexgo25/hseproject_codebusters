@@ -35,13 +35,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var thirdCell: ActionCell?
     var fourthCell: ActionCell?
     
-    var intersectionAppears: Bool? = false
     var selectedNode: SKNode?
-    var tempCellState: ActionButtonType?
     var sceneState: SceneState = SceneState.Normal
     
     var cells: [ActionCell?] = []
-    var moves: [ActionButtonType?] = []
     
     func defaultScene() {
         self.removeAllChildren()
@@ -82,17 +79,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         firstCell = ActionCell(actionCellCenter: .first)
         addChild(firstCell!)
+        cells.append(firstCell!)
         
         secondCell = ActionCell(actionCellCenter: .second)
         addChild(secondCell!)
+        cells.append(secondCell!)
         
         thirdCell = ActionCell(actionCellCenter: .third)
         addChild(thirdCell!)
+        cells.append(thirdCell!)
         
         fourthCell = ActionCell(actionCellCenter: .fourth)
         addChild(fourthCell!)
-        
-        tempCellState = firstCell?.actionType!
+        cells.append(fourthCell!)
     }
     
     override func didMoveToView(view: SKView) {
@@ -114,12 +113,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var cell = contact.bodyA.node as ActionCell?
             cell?.previousCellState = cell?.actionType
             changeCellWhileContact(cell!, action: action!)
-            if (cell?.previousCellState == ActionButtonType.none) {
-                moves.append(cell?.actionType!)
-            } else {
-                
-            }
-        intersectionAppears = true
         default:
             return
         }
@@ -132,9 +125,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var action = contact.bodyB.node as ActionButton?
             var cell = contact.bodyA.node as ActionCell?
             cell?.setActionType(cell!.previousCellState!)
-            println("endContact \(cell?.cellCenterX?.rawValue)")
-            moves.removeLast()
-            intersectionAppears = false
         default:
             return
         }
@@ -142,16 +132,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func beginAlgorithm() {
         if robot?.position == robot?.getStartPosition() {
-            for move in moves {
-                switch move! {
+            for cell in cells {
+                switch cell!.actionType! {
                 case .moveForwardButton:
-                    robot?.moveForward()
+                    robot!.moveForward()
                 case .turnButton:
-                    robot?.turn()
+                    robot!.turn()
                 default:
-                    return
+                    println()
                 }
             }
+
+            runAction(SKAction.sequence(robot!.actions))
             
             if (robot?.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
                 RAM?.removeFromParent()

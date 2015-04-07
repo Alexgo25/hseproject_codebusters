@@ -9,36 +9,40 @@
 import Foundation
 import SpriteKit
 
+enum Direction {
+    case ToRight,
+    ToLeft
+}
+
 class Robot: SKSpriteNode {
     
     var actions: [SKAction] = []
+    var direction: Direction = .ToRight
     
     func moveForward() {
-        let animation = SKAction.animateWithTextures(MoveForwardAnimationTextures(), timePerFrame: 0.04)
-        let action = SKAction.repeatActionForever(animation)
-        runAction(action)
-
-        let moveAction = SKAction.moveTo(getNextPosition(), duration: 1.5)
-        let doneAction = SKAction.runBlock( {
-            self.removeAllActions()
-            self.texture = SKTexture(imageNamed: "robot")
-        })
+        let animation = SKAction.animateWithTextures(MoveAnimationTextures(direction), timePerFrame: 0.04)
+        let repeatAnimation = SKAction.repeatAction(animation, count: 5)
+        //let moveToAction = SKAction.moveTo(getNextPosition(direction), duration: 1.6)
         
-        let moveActionWithDone = SKAction.sequence([moveAction, doneAction])
-        
-        runAction(moveActionWithDone)
+        let action = SKAction.group([repeatAnimation])
+        actions.append(action)
     }
     
     func turn() {
-        self.xScale = self.xScale * (-1)
+        let animation = SKAction.animateWithTextures(TurnAnimationTextures(direction), timePerFrame: 0.1)
+        let action = SKAction.runBlock({
+            self.runAction(animation)
+            self.changeDirection()
+        })
+        actions.append(action)
     }
     
-    func jump() {
-        
+    func jump() -> SKAction {
+        return SKAction()
     }
     
-    func push() {
-        
+    func push() -> SKAction {
+        return SKAction()
     }
     
     func moveToStart() {
@@ -65,9 +69,22 @@ class Robot: SKSpriteNode {
         moveToStart()
     }
     
-    func getNextPosition() -> CGPoint {
+    func getNextPosition(direction: Direction) -> CGPoint {
         var position = self.position
-        position.x += CGFloat(236 / 225 * size.width)
+        if direction == .ToRight {
+            position.x += CGFloat(236 / 225 * size.width)
+        } else {
+            position.x -= CGFloat(236 / 225 * size.width)
+        }
+        
         return position
+    }
+    
+    func changeDirection() {
+        if direction == .ToRight {
+            direction = .ToLeft
+        } else {
+            direction = .ToRight
+        }
     }
 }

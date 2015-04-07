@@ -27,22 +27,84 @@ struct Constants {
     static let Button_TipsPosition = CGPoint(x: ScreenSize.width * 128/2048, y: ScreenSize.height * 1257/1536)
     static let Robot_StartPosition = CGPoint(x: ScreenSize.width * 515/2048, y: ScreenSize.height * 1052/1536)
     static let Robot_Size = CGSize(width: ScreenSize.width * 225/2048, height: ScreenSize.height * 356/1536)
+    
 }
 
-func MoveForwardAnimationTextures() -> [SKTexture] {
+func MoveAnimationTextures(direction: Direction) -> [SKTexture] {
     var textures: [SKTexture] = []
-    for var i = 1; i <= 8; i++ {
-        var imageString = "MoveForward\(i)"
-        textures.append(SKTexture(imageNamed: imageString))
+    
+    if direction == .ToRight {
+        for var i = 1; i <= 8; i++ {
+            var imageString = "MoveForward\(i)"
+            textures.append(SKTexture(imageNamed: imageString))
+        }
+    } else {
+        for var i = 1; i <= 8; i++ {
+            var imageString = "MoveBack\(i)"
+            textures.append(SKTexture(imageNamed: imageString))
+        }
     }
+    
     return textures
 }
 
+func JumpAnimationTextures(direction: Direction) -> [SKTexture] {
+    var textures: [SKTexture] = []
+    
+    if direction == .ToRight {
+        for var i = 1; i <= 8; i++ {
+            var imageString = "Jump\(i)"
+            textures.append(SKTexture(imageNamed: imageString))
+        }
+    } else {
+        for var i = 1; i <= 8; i++ {
+            var imageString = "Jump\(i)"
+            var image = UIImage(named: imageString)
+            image = UIImage(CGImage: image?.CGImage, scale: 1.0, orientation: .Left)
+            textures.append(SKTexture(image: image!))
+        }
+    }
+    
+    return textures
+}
 
+func PushAnimationTextures(direction: Direction) -> [SKTexture] {
+    var textures: [SKTexture] = []
+    
+    if direction == .ToRight {
+        for var i = 1; i <= 8; i++ {
+            var imageString = "Push\(i)"
+            textures.append(SKTexture(imageNamed: imageString))
+        }
+    } else {
+        for var i = 1; i <= 8; i++ {
+            var imageString = "Push\(i)"
+            var image = UIImage(named: imageString)
+            image = UIImage(CGImage: image?.CGImage, scale: 1.0, orientation: .Left)
+            textures.append(SKTexture(image: image!))
+        }
+    }
+    
+    return textures
+}
 
-
-
-
+func TurnAnimationTextures(direction: Direction) -> [SKTexture] {
+    var textures: [SKTexture] = []
+    
+    if direction == .ToRight {
+        for var i = 7; i >= 1; i-- {
+            var imageString = "Turn\(i)"
+            textures.append(SKTexture(imageNamed: imageString))
+        }
+    } else {
+        for var i = 1; i <= 7; i++ {
+            var imageString = "Turn\(i)"
+            textures.append(SKTexture(imageNamed: imageString))
+        }
+    }
+    
+    return textures
+}
 
 
 

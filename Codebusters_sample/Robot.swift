@@ -11,11 +11,19 @@ import SpriteKit
 
 class Robot: SKSpriteNode {
     
-    var startingPosition: CGPoint? 
+    var startingPosition: CGPoint?
+    var robotwalkingFrames: [SKTexture] = []
     
     func moveForward()
     {
-        self.position.x += CGFloat(236 / 225 * size.width)
+        let moveDifference =  CGFloat(236 / 225 * size.width)
+        let location = CGPoint(x: self.position.x + moveDifference, y: self.position.y)
+        let velocity  = self.size.width / 10
+        let duration  = Double(moveDifference / velocity)
+        let action = SKAction.moveTo(location, duration: duration)
+        walkingForwardAnimated()
+        self.runAction(action)
+        //actionEnded()
     }
     
     func turn()
@@ -40,6 +48,8 @@ class Robot: SKSpriteNode {
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
+        
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -51,6 +61,25 @@ class Robot: SKSpriteNode {
         let texture = SKTexture(imageNamed: "robot")
         self.init(texture: texture, color: color, size: size)
         self.startingPosition = startPosition
+        for var i = 0; i < 8 ; i++
+        {
+            var str = "Robot\(i+1)"
+            var texture = SKTexture(imageNamed: str)
+            robotwalkingFrames.append(texture)
+        }
         moveToStart()
     }
+    
+    func walkingForwardAnimated()
+    {
+       self.runAction(SKAction.repeatActionForever(SKAction.animateWithTextures(robotwalkingFrames, timePerFrame: 0.1)))
+        
+    }
+    
+    func actionEnded()
+    {
+        self.removeAllActions()
+    }
+    
+    
 }

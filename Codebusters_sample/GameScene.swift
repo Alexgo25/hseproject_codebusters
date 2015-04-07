@@ -182,6 +182,11 @@ class GameScene: SKScene {
                     newBackground.position = CGPoint(x: size.width/2, y: size.height/2)
                     newBackground.zPosition = 2
                     addChild(newBackground)
+                    
+                }
+                if (touchedNode == button_pause)
+                {
+                    robot?.moveForward()
                 }
             }
             

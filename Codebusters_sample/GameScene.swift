@@ -40,6 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var tempCellState: ActionButtonType?
     var sceneState: SceneState = SceneState.Normal
     
+    var cells: [ActionCell?] = []
     var moves: [ActionButtonType?] = []
     
     func defaultScene() {

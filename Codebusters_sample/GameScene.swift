@@ -120,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var cell = contact.bodyA.node as ActionCell?
             cell?.previousCellState = cell?.actionType
             changeCellWhileContact(cell!, action: action!)
-            if (cell?.previousCellState == ActionButtonType.none) {
+             if (cell?.previousCellState == ActionButtonType.none) {
                 moves.append(cell?.actionType!)
             } else {
                 
@@ -148,7 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func beginAlgorithm() {
         if robot?.position == robot?.getStartPosition() {
-            for move in moves {
+           /* for move in moves {
                 switch move! {
                 case .moveForwardButton:
                     robot?.moveForward()
@@ -158,7 +158,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     return
                 }
             }
+            */
+            for cell in cells {
+                robot?.addAction(cell!.getActionType())
+            }
+            robot?.runAllActions()
             
+            
+        
             if (robot?.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
                 RAM?.removeFromParent()
             }

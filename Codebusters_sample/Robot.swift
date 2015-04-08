@@ -63,7 +63,7 @@ class Robot: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override convenience init() {
+     convenience override init() {
         let color = UIColor()
         let texture = SKTexture(imageNamed: "robot")
         let size = Constants.Robot_Size
@@ -87,6 +87,12 @@ class Robot: SKSpriteNode {
         default :                                 //ToDo : add jump and push actions
             break
         }
+    }
+    
+    func runAllActions()
+    {
+        let actionsToRun = SKAction.sequence(actions)
+        self.runAction(actionsToRun)
     }
     
 }

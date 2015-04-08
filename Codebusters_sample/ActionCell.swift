@@ -49,4 +49,9 @@ class ActionCell: SKSpriteNode {
         self.actionType = actionType
         texture = SKTexture(imageNamed: actionType.rawValue)
     }
+    
+    func getActionType() -> ActionButtonType
+    {
+        return self.actionType!
+    }
 }

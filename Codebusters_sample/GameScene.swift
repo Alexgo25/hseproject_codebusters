@@ -40,7 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var cells: [ActionCell?] = []
     
-    var Track : RobotTrack?
+    var Track: RobotTrack?
     
     func defaultScene() {
         self.removeAllChildren()
@@ -73,15 +73,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         button_Start!.position = Constants.Button_StartPosition
         addChild(button_Start!)
 
-        button_moveforward = ActionButton(buttonType: .moveForwardButton, position: Constants.Button_MoveForwardPosition)
+        button_moveforward = ActionButton(buttonType: .moveForward, position: Constants.Button_MoveForwardPosition)
         addChild(button_moveforward!)
         
-        button_turn = ActionButton(buttonType: .turnButton, position: Constants.Button_TurnPosition)
+        button_turn = ActionButton(buttonType: .turn, position: Constants.Button_TurnPosition)
         addChild(button_turn!)
         
         firstCell = ActionCell(actionCellCenter: .first)
         addChild(firstCell!)
         cells.append(firstCell!)
+        firstCell?.setActionType(.jump)
         
         secondCell = ActionCell(actionCellCenter: .second)
         addChild(secondCell!)
@@ -96,13 +97,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         cells.append(fourthCell!)
         
         Track = RobotTrack(robotPosition: 0)
-        for var i = 0 ; i < 4; i++ {
+        for var i = 0; i < 4; i++ {
             let floor = RobotStanding(floorPosition: FloorPosition.first)
             Track!.append(floor)
         }
-        
-        
-        
     }
     
     override func didMoveToView(view: SKView) {
@@ -118,8 +116,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
             var action = contact.bodyB.node as! ActionButton?
             var cell = contact.bodyA.node as! ActionCell?
-            cell!.previousCellState = cell!.actionType
-            cell!.setActionType(action!.actionType!)
+            cell!.setPreviousActionType(cell!.getActionType())
+            cell!.setActionType(action!.getActionType())
         default:
             return
         }
@@ -131,30 +129,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
             var action = contact.bodyB.node as! ActionButton?
             var cell = contact.bodyA.node as! ActionCell?
-            cell!.setActionType(cell!.previousCellState!)
+            cell!.setActionType(cell!.getPreviousActionType())
         default:
             return
         }
     }
     
     func beginAlgorithm() {
-
-        
-        
-        /*if robot!.position == robot!.getStartPosition() {
+        if robot!.position == robot!.getStartPosition() {
             for cell in cells {
-                if (Track!.canPerformActionWithDirection(cell!.actionType!, direction: robot!.direction!)) {
-                    robot!.runAction(robot!.moveForward())
-                    
-                }
-                
+                if (Track!.canPerformActionWithDirection(cell!.getActionType(), direction: robot!.direction)) {
+                    robot!.appendAction(cell!.getActionType())
                 }
             }
+            robot?.performActions()
+        }
     
     
             if (robot!.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
                 RAM!.removeFromParent()
-            }*/
+        }
         
     }
     
@@ -167,15 +161,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             if touchedNode.isKindOfClass(ActionButton) && selectedNode == nil {
                 var touchedButton = touchedNode as? ActionButton
-                var tempButton = ActionButton(buttonType: touchedButton!.actionType!, position: touchedButton!.position)
+                var tempButton = ActionButton(buttonType: touchedButton!.getActionType(), position: touchedButton!.position)
                 tempButton.zPosition = 1
                 addChild(tempButton)
                 
                 selectedNode = tempButton
             } else if touchedNode.isKindOfClass(ActionCell) {
                 var touchedAction = touchedNode as? ActionCell
-                if touchedAction!.actionType != ActionButtonType.none {
-                var tempButton = ActionButton(buttonType: touchedAction!.actionType!, position: touchedAction!.position)
+                if touchedAction!.getActionType() != ActionType.none {
+                var tempButton = ActionButton(buttonType: touchedAction!.getActionType(), position: touchedAction!.position)
                 tempButton.zPosition = 1
                 touchedAction!.setActionType(.none)
                 addChild(tempButton)

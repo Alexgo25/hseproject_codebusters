@@ -11,7 +11,7 @@ import SpriteKit
 
 class ActionButton: SKSpriteNode {
 
-    var actionType: ActionButtonType?
+    private var actionType: ActionType = .none
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
@@ -21,7 +21,7 @@ class ActionButton: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(buttonType: ActionButtonType, position: CGPoint) {
+    convenience init(buttonType: ActionType, position: CGPoint) {
         let color = UIColor()
         let texture = SKTexture(imageNamed: buttonType.rawValue)
         self.init(texture: texture, color: color, size: Constants.ActionButtonSize)
@@ -34,5 +34,9 @@ class ActionButton: SKSpriteNode {
         physicsBody!.contactTestBitMask = NodeType.ActionCell.rawValue
         physicsBody!.dynamic = true
         physicsBody!.allowsRotation = false
+    }
+    
+    func getActionType() -> ActionType {
+        return actionType
     }
 }

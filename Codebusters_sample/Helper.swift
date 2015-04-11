@@ -10,11 +10,11 @@ import Foundation
 import UIKit
 import SpriteKit
 
-enum ActionButtonType: String {
-    case moveForwardButton = "button_MoveForward",
-    turnButton = "button_Turn",
-    pushButton = "button_Push",
-    jumpButton = "button_Jump",
+enum ActionType: String {
+    case moveForward = "button_MoveForward",
+    turn = "button_Turn",
+    push = "button_Push",
+    jump = "button_Jump",
     none = "none"
 }
 

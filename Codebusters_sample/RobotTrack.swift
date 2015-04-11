@@ -14,13 +14,13 @@ class RobotTrack {
     private var track : [RobotStanding] = []
     private var currentRobotPosition : Int?
     
-    func canPerformActionWithDirection(action : ActionButtonType , direction : Direction) -> Bool {
+    func canPerformActionWithDirection(action : ActionType , direction : Direction) -> Bool {
         switch action {
-        case .moveForwardButton:
+        case .moveForward:
             return track[currentRobotPosition!].getFloorPosition().rawValue == track[getNextStanding(direction)!].getFloorPosition().rawValue
-        case .jumpButton:
+        case .jump:
             return track[currentRobotPosition!].getFloorPosition() != .ground
-        case .pushButton:
+        case .push:
             return track[currentRobotPosition!].getFloorPosition().rawValue < track[getNextStanding(direction)!].getFloorPosition().rawValue
         default:
             return true

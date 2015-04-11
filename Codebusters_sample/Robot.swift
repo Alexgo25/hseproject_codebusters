@@ -16,33 +16,24 @@ enum Direction {
 
 class Robot: SKSpriteNode {
     
-    var actions: [SKAction] = []
+    var actions: [SKAction]
     var direction: Direction = .ToRight
     
     func moveForward() {
-        let animation = SKAction.animateWithTextures(MoveAnimationTextures(direction), timePerFrame: 0.04)
+        var animation = SKAction.animateWithTextures(MoveAnimationTextures(direction), timePerFrame: 0.04)
         let repeatAnimation = SKAction.repeatAction(animation, count: 5)
-        //let moveToAction = SKAction.moveTo(getNextPosition(direction), duration: 1.6)
-        
-        let action = SKAction.group([repeatAnimation])
-        actions.append(action)
+        let moveToAction = SKAction.moveTo(getNextPosition(direction), duration: 1.6)
     }
     
     func turn() {
-        let animation = SKAction.animateWithTextures(TurnAnimationTextures(direction), timePerFrame: 0.1)
-        let action = SKAction.runBlock({
-            self.runAction(animation)
-            self.changeDirection()
-        })
-        actions.append(action)
     }
     
-    func jump() -> SKAction {
-        return SKAction()
+    func jump() {
+        
     }
     
-    func push() -> SKAction {
-        return SKAction()
+    func push() {
+        
     }
     
     func moveToStart() {
@@ -54,6 +45,7 @@ class Robot: SKSpriteNode {
     }
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
+        actions = []
         super.init(texture: texture, color: color, size: size)
     }
 
@@ -61,7 +53,7 @@ class Robot: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override convenience init() {
+    convenience init() {
         let color = UIColor()
         let texture = SKTexture(imageNamed: "robot")
         let size = Constants.Robot_Size
@@ -87,4 +79,7 @@ class Robot: SKSpriteNode {
             direction = .ToRight
         }
     }
+    
+    
+    
 }

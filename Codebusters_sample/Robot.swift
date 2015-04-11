@@ -17,7 +17,7 @@ enum Direction {
 class Robot: SKSpriteNode {
     
     private var actions: [SKAction] = []
-    var direction: Direction = .ToRight
+    private var direction: Direction = .ToRight
     private var tempPosition: CGPoint?
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
@@ -120,6 +120,10 @@ class Robot: SKSpriteNode {
         }
         
         return position
+    }
+    
+    func getDirection() -> Direction {
+        return direction
     }
     
     func changeDirection() {

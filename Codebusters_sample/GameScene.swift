@@ -82,7 +82,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         firstCell = ActionCell(actionCellCenter: .first)
         addChild(firstCell!)
         cells.append(firstCell!)
-        firstCell?.setActionType(.jump)
         
         secondCell = ActionCell(actionCellCenter: .second)
         addChild(secondCell!)
@@ -138,7 +137,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func beginAlgorithm() {
         if robot!.position == robot!.getStartPosition() {
             for cell in cells {
-                if (Track!.canPerformActionWithDirection(cell!.getActionType(), direction: robot!.direction)) {
+                if (Track!.canPerformActionWithDirection(cell!.getActionType(), direction: robot!.getDirection())) {
                     robot!.appendAction(cell!.getActionType())
                 }
             }

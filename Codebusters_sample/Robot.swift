@@ -9,9 +9,15 @@
 import Foundation
 import SpriteKit
 
+enum Direction {
+    case ToRight,
+    ToLeft
+}
+
 class Robot: SKSpriteNode {
     
-    var actions: [SKAction] = []
+    var actions: [SKAction]
+    var direction: Direction = .ToRight
     
     func moveForward()-> SKAction {
         let animation = SKAction.animateWithTextures(MoveForwardAnimationTextures(), timePerFrame: 0.04)
@@ -56,6 +62,7 @@ class Robot: SKSpriteNode {
     }
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
+        actions = []
         super.init(texture: texture, color: color, size: size)
     }
 
@@ -63,7 +70,7 @@ class Robot: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override convenience init() {
+    convenience init() {
         let color = UIColor()
         let texture = SKTexture(imageNamed: "robot")
         let size = Constants.Robot_Size
@@ -71,9 +78,14 @@ class Robot: SKSpriteNode {
         moveToStart()
     }
     
-    func getNextPosition() -> CGPoint {
+    func getNextPosition(direction: Direction) -> CGPoint {
         var position = self.position
-        position.x += CGFloat(236 / 225 * size.width)
+        if direction == .ToRight {
+            position.x += CGFloat(236 / 225 * size.width)
+        } else {
+            position.x -= CGFloat(236 / 225 * size.width)
+        }
+        
         return position
     }
     

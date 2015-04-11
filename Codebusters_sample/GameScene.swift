@@ -14,8 +14,8 @@ enum SceneState {
 }
 
 enum NodeType: UInt32 {
-    case ActionButton = 0x01,
-    ActionCell = 0x02
+    case ActionButton = 1,
+    ActionCell = 2
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -35,43 +35,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var thirdCell: ActionCell?
     var fourthCell: ActionCell?
     
-    var intersectionAppears: Bool? = false
     var selectedNode: SKNode?
-    var tempCellState: ActionButtonType?
     var sceneState: SceneState = SceneState.Normal
     
     var cells: [ActionCell?] = []
-    var moves: [ActionButtonType?] = []
     
     func defaultScene() {
         self.removeAllChildren()
         
         background = SKSpriteNode(imageNamed: "background")
-        background?.size = self.size
-        background?.position = CGPoint(x: size.width/2, y: size.height/2)
+        background!.size = self.size
+        background!.position = CGPoint(x: size.width/2, y: size.height/2)
         addChild(background!)
         
         button_pause = SKSpriteNode(imageNamed: "button_Paused")
-        button_pause?.size = CGSize(width: size.width * 110/2048, height: size.height * 110/1536)
-        button_pause?.position = Constants.Button_PausePosition
+        button_pause!.size = CGSize(width: size.width * 110/2048, height: size.height * 110/1536)
+        button_pause!.position = Constants.Button_PausePosition
         addChild(button_pause!)
         
         button_tips = SKSpriteNode(imageNamed: "button_Tip")
-        button_tips?.size = CGSize(width: size.width * 110/2048, height: size.height * 110/1536)
-        button_tips?.position = Constants.Button_TipsPosition
+        button_tips!.size = CGSize(width: size.width * 110/2048, height: size.height * 110/1536)
+        button_tips!.position = Constants.Button_TipsPosition
         addChild(button_tips!)
         
         robot = Robot()
         addChild(robot!)
         
         RAM = SKSpriteNode(imageNamed: "RAM")
-        RAM?.size = CGSize(width: size.width * 238/2048, height: size.height * 81/1536)
-        RAM?.position = CGPoint(x: size.width * 1506/2048, y: size.height * 989/1536)
+        RAM!.size = CGSize(width: size.width * 238/2048, height: size.height * 81/1536)
+        RAM!.position = CGPoint(x: size.width * 1506/2048, y: size.height * 989/1536)
         addChild(RAM!)
         
         button_Start = SKSpriteNode(imageNamed: "button_Start")
-        button_Start?.size = CGSize(width: size.width * 169/2048, height: size.height * 169/1536)
-        button_Start?.position = Constants.Button_StartPosition
+        button_Start!.size = CGSize(width: size.width * 169/2048, height: size.height * 169/1536)
+        button_Start!.position = Constants.Button_StartPosition
         addChild(button_Start!)
 
         button_moveforward = ActionButton(buttonType: .moveForwardButton, position: Constants.Button_MoveForwardPosition)
@@ -108,24 +105,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         defaultScene()
     }
     
-    func changeCellWhileContact(cell: ActionCell, action: ActionButton) {
-        cell.setActionType(action.actionType!)
-    }
-    
     func didBeginContact(contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch contactMask {
         case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
-            var action = contact.bodyB.node as ActionButton?
-            var cell = contact.bodyA.node as ActionCell?
-            cell?.previousCellState = cell?.actionType
-            changeCellWhileContact(cell!, action: action!)
-            if (cell?.previousCellState == ActionButtonType.none) {
-                moves.append(cell?.actionType!)
-            } else {
-                
-            }
-        intersectionAppears = true
+            var action = contact.bodyB.node as! ActionButton?
+            var cell = contact.bodyA.node as! ActionCell?
+            cell!.previousCellState = cell!.actionType
+            cell!.setActionType(action!.actionType!)
         default:
             return
         }
@@ -135,40 +122,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch contactMask {
         case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
-            var action = contact.bodyB.node as ActionButton?
-            var cell = contact.bodyA.node as ActionCell?
-            cell?.setActionType(cell!.previousCellState!)
-            println("endContact \(cell?.cellCenterX?.rawValue)")
-            moves.removeLast()
-            intersectionAppears = false
+            var action = contact.bodyB.node as! ActionButton?
+            var cell = contact.bodyA.node as! ActionCell?
+            cell!.setActionType(cell!.previousCellState!)
         default:
             return
         }
     }
     
     func beginAlgorithm() {
-        if robot?.position == robot?.getStartPosition() {
-            for move in moves {
-                switch move! {
+        if robot!.position == robot!.getStartPosition() {
+            for cell in cells {
+                switch cell!.actionType! {
                 case .moveForwardButton:
-                    robot?.moveForward()
+                    robot!.moveForward()
                 case .turnButton:
-                    robot?.turn()
+                    robot!.turn()
                 default:
-                    return
+                    println()
                 }
             }
+
+            runAction(SKAction.sequence(robot!.actions))
             
-            if (robot?.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
-                RAM?.removeFromParent()
+            if (robot!.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
+                RAM!.removeFromParent()
             }
         }
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        for touch in touches {
-            let touchLocation = touch.locationInNode(self)
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) -> () {
+        var touchesSet = touches as! Set<UITouch>
+        for touch in touchesSet {
+            var touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
+            //let touchedNode = nodeAtPoint(touchLocation)
 
             if touchedNode.isKindOfClass(ActionButton) && selectedNode == nil {
                 var touchedButton = touchedNode as? ActionButton
@@ -177,13 +165,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(tempButton)
                 
                 selectedNode = tempButton
-            }
-            else if touchedNode.isKindOfClass(ActionCell) {
+            } else if touchedNode.isKindOfClass(ActionCell) {
                 var touchedAction = touchedNode as? ActionCell
-                if touchedAction?.actionType != ActionButtonType.none {
+                if touchedAction!.actionType != ActionButtonType.none {
                 var tempButton = ActionButton(buttonType: touchedAction!.actionType!, position: touchedAction!.position)
                 tempButton.zPosition = 1
-                touchedAction?.setActionType(.none)
+                touchedAction!.setActionType(.none)
                 addChild(tempButton)
                 
                 selectedNode = tempButton
@@ -197,7 +184,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     beginAlgorithm()
                 case button_tips!:
                     sceneState = SceneState.Tips
-                    var newBackground = SKSpriteNode(imageNamed : "tips")
+                    var newBackground = SKSpriteNode(imageNamed: "tips")
                     newBackground.size = size
                     newBackground.position = CGPoint(x: size.width/2, y: size.height/2)
                     newBackground.zPosition = 2
@@ -216,8 +203,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         /* Called before each frame is rendered */
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        for touch in touches {
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        var touchesSet = touches as! Set<UITouch>
+        for touch in touchesSet {
             var touchLocation = touch.locationInNode(self)
             var previousLocation = touch.previousLocationInNode(self)
             
@@ -228,13 +216,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func panForTranslation(translation: CGPoint) {
-        var position = selectedNode?.position
+        var position = selectedNode!.position
         if (selectedNode?.isKindOfClass(ActionButton) != nil) {
-            selectedNode?.position = CGPoint(x: selectedNode!.position.x + translation.x, y: selectedNode!.position.y + translation.y)
+            selectedNode!.position = CGPoint(x: selectedNode!.position.x + translation.x, y: selectedNode!.position.y + translation.y)
         }
     }
     
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         selectedNode?.removeFromParent()
         selectedNode = nil
     }

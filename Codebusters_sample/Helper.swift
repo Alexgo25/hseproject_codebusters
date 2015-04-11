@@ -17,6 +17,18 @@ enum ActionButtonType: String {
     none = "none"
 }
 
+enum BlockFloor : Int{
+    case Normal = 1,
+    None = 0,
+    FirstFloor = 2
+}
+
+enum RobotState  {
+    case TurnedLeft,
+    TurnedRight
+    
+}
+
 struct Constants {
     static let ScreenSize = UIScreen.mainScreen().bounds
     static let ActionButtonSize = CGSize(width: ScreenSize.width * 119/2048, height: ScreenSize.height * 118/1536)
@@ -27,7 +39,13 @@ struct Constants {
     static let Button_TipsPosition = CGPoint(x: ScreenSize.width * 128/2048, y: ScreenSize.height * 1257/1536)
     static let Robot_StartPosition = CGPoint(x: ScreenSize.width * 515/2048, y: ScreenSize.height * 1052/1536)
     static let Robot_Size = CGSize(width: ScreenSize.width * 225/2048, height: ScreenSize.height * 356/1536)
+    static let FirstBlockPosition = CGPoint(x: ScreenSize.width * 515/2048, y: ScreenSize.height * 1052/1536)
+    static let SecondBlockPosition = CGPoint(x: ScreenSize.width * 751/2048, y: ScreenSize.height * 1052/1536)
+    static let ThirdBlockPosition = CGPoint(x: ScreenSize.width * 987/2048, y: ScreenSize.height * 1052/1536)
+    static let FourthBlockPosition = CGPoint(x: ScreenSize.width * 1223/2048, y: ScreenSize.height * 1052/1536)
 }
+
+
 
 func MoveForwardAnimationTextures() -> [SKTexture] {
     var textures: [SKTexture] = []
@@ -36,6 +54,11 @@ func MoveForwardAnimationTextures() -> [SKTexture] {
         textures.append(SKTexture(imageNamed: imageString))
     }
     return textures
+}
+
+func compareBlockTypeWithActionType(blockType : BlockType , actionType : ActionButtonType) -> Bool
+{
+    return Bool()
 }
 
 

@@ -41,7 +41,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var sceneState: SceneState = SceneState.Normal
     
     var cells: [ActionCell?] = []
-    var moves: [ActionButtonType?] = []
+    //var moves: [ActionButtonType?] = []
+    var blocks : [Block?] = []
     
     func defaultScene() {
         self.removeAllChildren()
@@ -98,6 +99,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         tempCellState = firstCell?.actionType!
         
+        // добавляем блоки
+        
+        var block1 = Block(blockType: BlockType.Normal, position: Constants.FirstBlockPosition)
+        var block2 = Block(blockType: BlockType.Normal, position: Constants.SecondBlockPosition)
+        var block3 = Block(blockType: BlockType.Normal, position: Constants.ThirdBlockPosition)
+        var block4 = Block(blockType: BlockType.Normal, position: Constants.FourthBlockPosition)
+        blocks.append(block1)
+        blocks.append(block2)
+        blocks.append(block3)
+        blocks.append(block4)
+        
         
     }
     
@@ -116,12 +128,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch contactMask {
         case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
-            var action = contact.bodyB.node as ActionButton?
-            var cell = contact.bodyA.node as ActionCell?
+            var action = contact.bodyB.node as! ActionButton?
+            var cell = contact.bodyA.node as! ActionCell?
             cell?.previousCellState = cell?.actionType
             changeCellWhileContact(cell!, action: action!)
              if (cell?.previousCellState == ActionButtonType.none) {
-                moves.append(cell?.actionType!)
+               // moves.append(cell?.actionType!) 
+                println("moves append")
             } else {
                 
             }
@@ -135,11 +148,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch contactMask {
         case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
-            var action = contact.bodyB.node as ActionButton?
-            var cell = contact.bodyA.node as ActionCell?
+            var action = contact.bodyB.node as! ActionButton?
+            var cell = contact.bodyA.node as! ActionCell?
             cell?.setActionType(cell!.previousCellState!)
             println("endContact \(cell?.cellCenterX?.rawValue)")
-            moves.removeLast()
+           // moves.removeLast()
+            println("moves removelast")
             intersectionAppears = false
         default:
             return
@@ -160,9 +174,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             */
             for cell in cells {
-                robot?.addAction(cell!.getActionType())
+                
+                for var blockIndex = 0 ; ; {
+                    
+                }
             }
-            robot?.runAllActions()
             
             
         
@@ -172,8 +188,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        for touch in touches {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        for  touchobj  in touches {
+            let touch = touchobj as! UITouch
             let touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
 
@@ -223,8 +240,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         /* Called before each frame is rendered */
     }
     
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent) {
-        for touch in touches {
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        for touchobj in touches {
+            let touch = touchobj as! UITouch
             var touchLocation = touch.locationInNode(self)
             var previousLocation = touch.previousLocationInNode(self)
             
@@ -241,7 +259,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         selectedNode?.removeFromParent()
         selectedNode = nil
     }

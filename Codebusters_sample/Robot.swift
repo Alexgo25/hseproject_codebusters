@@ -63,7 +63,7 @@ class Robot: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-     convenience override init() {
+     convenience  init() {
         let color = UIColor()
         let texture = SKTexture(imageNamed: "robot")
         let size = Constants.Robot_Size

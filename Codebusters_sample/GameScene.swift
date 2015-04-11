@@ -40,6 +40,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var cells: [ActionCell?] = []
     
+    var Track : RobotTrack?
+    
     func defaultScene() {
         self.removeAllChildren()
         
@@ -93,6 +95,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(fourthCell!)
         cells.append(fourthCell!)
         
+        Track = RobotTrack(robotPosition: 0)
+        for var i = 0 ; i < 4; i++ {
+            let floor = RobotStanding(floorPosition: FloorPosition.first)
+            Track!.append(floor)
+        }
         
         
         
@@ -131,24 +138,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func beginAlgorithm() {
-        if robot!.position == robot!.getStartPosition() {
+
+        
+        
+        /*if robot!.position == robot!.getStartPosition() {
             for cell in cells {
-                switch cell!.actionType! {
-                case .moveForwardButton:
-                    robot!.moveForward()
-                case .turnButton:
-                    robot!.turn()
-                default:
-                    println()
+                if (Track!.canPerformActionWithDirection(cell!.actionType!, direction: robot!.direction!)) {
+                    robot!.runAction(robot!.moveForward())
+                    
+                }
+                
                 }
             }
-
-            runAction(SKAction.sequence(robot!.actions))
-            
+    
+    
             if (robot!.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
                 RAM!.removeFromParent()
-            }
-        }
+            }*/
+        
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) -> () {

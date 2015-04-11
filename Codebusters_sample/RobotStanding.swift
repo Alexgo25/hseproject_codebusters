@@ -14,7 +14,7 @@ import SpriteKit
 class RobotStanding {
     
     private var floorPosition : FloorPosition?
-    private var xPosition : CGFloat?
+    
     
     
     func getFloorPosition() ->FloorPosition {
@@ -25,10 +25,10 @@ class RobotStanding {
         self.floorPosition! = floorPosition
     }
     
-    init (floorPosition : FloorPosition , xPosition : CGFloat)
+    init (floorPosition : FloorPosition)
     {
         self.floorPosition = floorPosition
-        self.xPosition = xPosition
+        
     }
     
     

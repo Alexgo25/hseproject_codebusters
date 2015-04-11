@@ -16,11 +16,13 @@ enum Direction {
 
 class Robot: SKSpriteNode {
     
-    var actions: [SKAction]
+    var actions: [SKAction] = []
     var direction: Direction = .ToRight
     
-    func moveForward()-> SKAction {
-        return SKAction()
+    func moveForward() -> SKAction {
+        var a = SKAction.moveTo(getNextPosition(direction), duration: 2)
+        println("moveForward action")
+        return a
     }
     
     func turn()-> SKAction {
@@ -32,13 +34,34 @@ class Robot: SKSpriteNode {
         return turnActionWithDone
     }
     
-    func jump() {
-        
+    func jump() -> SKAction {
+        return SKAction()
     }
     
-    func push() {
-        
+    func push() -> SKAction {
+        return SKAction()
     }
+    
+    /*func run(buttonType: ActionButtonType) {
+        switch buttonType {
+        case .moveForwardButton :
+            moveForward()
+        case  .turnButton :
+            turn()
+        case
+        }
+        }
+    }*/
+    
+    /*func getCurrentAction(buttonType : ActionButtonType) -> SKAction {
+        switch ActionButtonType {
+        case .moveForwardButton :
+            return moveForward()
+        case  .turnButton :
+            return turn()
+        case
+        }
+    }*/
     
     func moveToStart() {
         position = Constants.Robot_StartPosition

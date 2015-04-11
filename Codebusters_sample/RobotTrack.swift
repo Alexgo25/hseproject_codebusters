@@ -34,4 +34,17 @@ class RobotTrack {
             return currentRobotPosition!++
         }
     }
+    
+    init (robotPosition : Int){
+        self.currentRobotPosition = robotPosition
+    }
+    
+    func append(robotStanding : RobotStanding) {
+        self.track.append(robotStanding)
+    }
+    
+    func setNextStanding(direction : Direction)
+    {
+        self.currentRobotPosition! = getNextStanding(direction)!
+    }
 }

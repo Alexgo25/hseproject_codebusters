@@ -20,20 +20,7 @@ class Robot: SKSpriteNode {
     var direction: Direction = .ToRight
     
     func moveForward()-> SKAction {
-        let animation = SKAction.animateWithTextures(MoveForwardAnimationTextures(), timePerFrame: 0.04)
-        let action = SKAction.repeatActionForever(animation)
-        runAction(action)
-
-        let moveAction = SKAction.moveTo(getNextPosition(), duration: 1.5)
-        let doneAction = SKAction.runBlock( {
-            self.removeAllActions()
-            self.texture = SKTexture(imageNamed: "robot")
-        })
-        
-        let moveActionWithDone = SKAction.sequence([moveAction, doneAction])
-        
-        //runAction(moveActionWithDone)
-        return moveActionWithDone
+        return SKAction()
     }
     
     func turn()-> SKAction {
@@ -89,16 +76,14 @@ class Robot: SKSpriteNode {
         return position
     }
     
-    func addAction(action : ActionButtonType)
-    {
-        switch action {
-        case .moveForwardButton :
-            actions.append(self.moveForward())
-        case .turnButton :
-            actions.append(self.turn())
-        default :                                 //ToDo : add jump and push actions
-            break
+    func changeDirection() {
+        if direction == .ToRight {
+            direction = .ToLeft
+        } else {
+            direction = .ToRight
         }
     }
+    
+    
     
 }

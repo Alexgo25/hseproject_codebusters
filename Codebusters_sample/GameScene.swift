@@ -93,7 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(fourthCell!)
         cells.append(fourthCell!)
         
-        tempCellState = firstCell?.actionType!
+        
         
         
     }

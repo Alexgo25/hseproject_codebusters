@@ -24,6 +24,8 @@ enum FloorPosition: Int {
     second = 2
 }
 
+
+
 struct Constants {
     static let ScreenSize = UIScreen.mainScreen().bounds
     static let ActionButtonSize = CGSize(width: ScreenSize.width * 119/2048, height: ScreenSize.height * 118/1536)

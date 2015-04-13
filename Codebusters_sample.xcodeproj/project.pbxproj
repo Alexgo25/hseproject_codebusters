@@ -21,6 +21,7 @@
 		6131E1331AD2C9FF00D69DD6 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6131E1321AD2C9FF00D69DD6 /* Helper.swift */; };
 		61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A436281AD09CC5002B8540 /* ActionButton.swift */; };
 		61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A4362A1AD16D1B002B8540 /* ActionCell.swift */; };
+		61EFA4B41ADBEC4400EB8C6B /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EFA4B31ADBEC4400EB8C6B /* Block.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		6131E1321AD2C9FF00D69DD6 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		61A436281AD09CC5002B8540 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		61A4362A1AD16D1B002B8540 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
+		61EFA4B31ADBEC4400EB8C6B /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				115C6E961ACBFA4200B79250 /* Robot.swift */,
 				11E38C661AD949460061BE81 /* RobotStanding.swift */,
 				11E38C681AD94BCC0061BE81 /* RobotTrack.swift */,
+				61EFA4B31ADBEC4400EB8C6B /* Block.swift */,
 				6131E1321AD2C9FF00D69DD6 /* Helper.swift */,
 				110952C71AC6DF5B000A960A /* GameViewController.swift */,
 				110952C91AC6DF5B000A960A /* Main.storyboard */,
@@ -244,6 +247,7 @@
 				11E38C671AD949460061BE81 /* RobotStanding.swift in Sources */,
 				61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */,
 				61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */,
+				61EFA4B41ADBEC4400EB8C6B /* Block.swift in Sources */,
 				6131E1331AD2C9FF00D69DD6 /* Helper.swift in Sources */,
 				11E38C691AD94BCC0061BE81 /* RobotTrack.swift in Sources */,
 			);

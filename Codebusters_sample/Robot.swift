@@ -9,16 +9,16 @@
 import Foundation
 import SpriteKit
 
-enum Direction {
-    case ToRight,
-    ToLeft
+enum Direction: Int {
+    case ToRight = 1,
+    ToLeft = -1
 }
 
 class Robot: SKSpriteNode {
     
     private var actions: [SKAction] = []
     private var direction: Direction = .ToRight
-    private var tempPosition: CGPoint?
+    private var tempPosition: CGPoint = Constants.Robot_StartPosition
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
         actions = []
@@ -34,7 +34,7 @@ class Robot: SKSpriteNode {
         let texture = SKTexture(imageNamed: "robot")
         let size = Constants.Robot_Size
         self.init(texture: texture, color: color, size: size)
-    
+        zPosition = 1
         moveToStart()
     }
     
@@ -42,7 +42,7 @@ class Robot: SKSpriteNode {
         switch actionType {
         case .moveForward:
             tempPosition = getNextTempPosition(direction)
-            actions.append(moveForward(tempPosition!, direction: direction))
+            actions.append(moveForward(tempPosition, direction: direction))
         case .turn:
             actions.append(turn(direction))
             changeDirection()
@@ -77,7 +77,7 @@ class Robot: SKSpriteNode {
     func jump(position: CGPoint, direction: Direction) -> SKAction {
         let path = UIBezierPath()
         path.moveToPoint(position)
-        path.addQuadCurveToPoint(CGPoint(x: getNextTempPosition(direction)!.x, y: getYPosition(.second)), controlPoint: CGPoint(x: (getNextTempPosition(direction)!.x - position.x) / 2 + position.x, y: getYPosition(.second) + 160))
+        path.addQuadCurveToPoint(CGPoint(x: getNextTempPosition(direction).x, y: getYPosition(.second)), controlPoint: CGPoint(x: (getNextTempPosition(direction).x - position.x) / 2 + position.x, y: getYPosition(.second) + 160))
 
         let move = SKAction.followPath(path.CGPath, asOffset: false, orientToPath: false, duration: 2)
         
@@ -99,27 +99,12 @@ class Robot: SKSpriteNode {
         return Constants.Robot_StartPosition
     }
     
-    
     func getNextPosition(direction: Direction) -> CGPoint {
-        var position = self.position
-        if direction == .ToRight {
-            position.x += CGFloat(236 / 225 * size.width)
-        } else {
-            position.x -= CGFloat(236 / 225 * size.width)
-        }
-
-        return position
+        return CGPoint(x: position.x + CGFloat(direction.rawValue) * CGFloat(236/225 * size.width) , y: position.y)
     }
     
-    func getNextTempPosition(direction: Direction) -> CGPoint? {
-        var position = tempPosition
-        if direction == .ToRight {
-            position!.x += CGFloat(236 / 225 * size.width)
-        } else {
-            position!.x -= CGFloat(236 / 225 * size.width)
-        }
-        
-        return position
+    func getNextTempPosition(direction: Direction) -> CGPoint {
+        return CGPoint(x: tempPosition.x + CGFloat(direction.rawValue) * CGFloat(236/225 * size.width), y: tempPosition.y)
     }
     
     func getDirection() -> Direction {

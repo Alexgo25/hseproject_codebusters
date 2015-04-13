@@ -26,14 +26,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var button_tips: SKSpriteNode?
     var button_moveforward: ActionButton?
     var button_turn: ActionButton?
-    var robot: Robot?
+    var button_push: ActionButton?
+    var button_jump: ActionButton?
+    var robot: Robot = Robot()
     var RAM: SKSpriteNode?
     var button_Start: SKSpriteNode?
-    
-    var firstCell: ActionCell?
-    var secondCell: ActionCell?
-    var thirdCell: ActionCell?
-    var fourthCell: ActionCell?
     
     var selectedNode: SKNode?
     var sceneState: SceneState = SceneState.Normal
@@ -61,11 +58,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(button_tips!)
         
         robot = Robot()
-        addChild(robot!)
+        addChild(robot)
         
         RAM = SKSpriteNode(imageNamed: "RAM")
         RAM!.size = CGSize(width: size.width * 238/2048, height: size.height * 81/1536)
-        RAM!.position = CGPoint(x: size.width * 1506/2048, y: size.height * 989/1536)
+        RAM!.position = CGPoint(x: size.width * 1163/2048, y: size.height * 753/1536)
         addChild(RAM!)
         
         button_Start = SKSpriteNode(imageNamed: "button_Start")
@@ -73,33 +70,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         button_Start!.position = Constants.Button_StartPosition
         addChild(button_Start!)
 
-        button_moveforward = ActionButton(buttonType: .moveForward, position: Constants.Button_MoveForwardPosition)
+        button_moveforward = ActionButton(buttonType: .moveForward)
         addChild(button_moveforward!)
         
-        button_turn = ActionButton(buttonType: .turn, position: Constants.Button_TurnPosition)
+        button_turn = ActionButton(buttonType: .turn)
         addChild(button_turn!)
         
-        firstCell = ActionCell(actionCellCenter: .first)
-        addChild(firstCell!)
-        cells.append(firstCell!)
+        button_push = ActionButton(buttonType: .push)
+        addChild(button_push!)
         
-        secondCell = ActionCell(actionCellCenter: .second)
-        addChild(secondCell!)
-        cells.append(secondCell!)
-        
-        thirdCell = ActionCell(actionCellCenter: .third)
-        addChild(thirdCell!)
-        cells.append(thirdCell!)
-        
-        fourthCell = ActionCell(actionCellCenter: .fourth)
-        addChild(fourthCell!)
-        cells.append(fourthCell!)
+        button_jump = ActionButton(buttonType: .jump)
+        addChild(button_jump!)
         
         Track = RobotTrack(robotPosition: 0)
-        for var i = 0; i < 4; i++ {
-            let floor = RobotStanding(floorPosition: FloorPosition.first)
-            Track!.append(floor)
+        
+        for var i = 0; i < 5; i++ {
+            let standing = RobotStanding(trackPosition: i, floorPosition: .first)
+            for var j = 0; j < standing.getFloorPosition().rawValue; j++ {
+                addChild(standing.blocks[j])
+            }
+            Track!.append(standing)
         }
+        
     }
     
     override func didMoveToView(view: SKView) {
@@ -135,17 +127,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func beginAlgorithm() {
-        if robot!.position == robot!.getStartPosition() {
+        if robot.position == robot.getStartPosition() {
             for cell in cells {
-                if (Track!.canPerformActionWithDirection(cell!.getActionType(), direction: robot!.getDirection())) {
-                    robot!.appendAction(cell!.getActionType())
+                if (Track!.canPerformActionWithDirection(cell!.getActionType(), direction: robot.getDirection())) {
+                    robot.appendAction(cell!.getActionType())
                 }
             }
-            robot?.performActions()
+            robot.performActions()
         }
-    
-    
-            if (robot!.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
+
+            if (robot.position == CGPoint(x: size.width * 515/2048 + 4 * CGFloat(236 / 2048 * size.width), y: size.height * 1052/1536)) {
                 RAM!.removeFromParent()
         }
         
@@ -160,7 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             if touchedNode.isKindOfClass(ActionButton) && selectedNode == nil {
                 var touchedButton = touchedNode as? ActionButton
-                var tempButton = ActionButton(buttonType: touchedButton!.getActionType(), position: touchedButton!.position)
+                var tempButton = ActionButton(buttonType: touchedButton!.getActionType())
                 tempButton.zPosition = 1
                 addChild(tempButton)
                 
@@ -168,7 +159,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             } else if touchedNode.isKindOfClass(ActionCell) {
                 var touchedAction = touchedNode as? ActionCell
                 if touchedAction!.getActionType() != ActionType.none {
-                var tempButton = ActionButton(buttonType: touchedAction!.getActionType(), position: touchedAction!.position)
+                var tempButton = ActionButton(buttonType: touchedAction!.getActionType())
                 tempButton.zPosition = 1
                 touchedAction!.setActionType(.none)
                 addChild(tempButton)

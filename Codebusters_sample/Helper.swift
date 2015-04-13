@@ -24,34 +24,64 @@ enum FloorPosition: Int {
     second = 2
 }
 
-
-
 struct Constants {
     static let ScreenSize = UIScreen.mainScreen().bounds
-    static let ActionButtonSize = CGSize(width: ScreenSize.width * 119/2048, height: ScreenSize.height * 118/1536)
-    static let Button_MoveForwardPosition = CGPoint(x: ScreenSize.width * 362/2048, y: ScreenSize.height * 218/1536)
-    static let Button_TurnPosition = CGPoint(x: ScreenSize.width * 560/2048, y: ScreenSize.height * 218/1536)
-    static let Button_StartPosition = CGPoint(x: ScreenSize.width * 1660/2048, y: ScreenSize.height * 194/1536)
-    static let Button_PausePosition = CGPoint(x: ScreenSize.width * 128/2048, y: ScreenSize.height * 1387/1536)
-    static let Button_TipsPosition = CGPoint(x: ScreenSize.width * 128/2048, y: ScreenSize.height * 1257/1536)
-    static let Robot_StartPosition = CGPoint(x: ScreenSize.width * 515/2048, y: ScreenSize.height * 1052/1536)
-    static let Robot_Size = CGSize(width: ScreenSize.width * 225/2048, height: ScreenSize.height * 356/1536)
+    static let ActionCellSize = CGSize(width: ScreenSize.width * 239/2048, height: ScreenSize.height * 66/1536)
+    static let ActionCellFirstPosition = CGPoint(x: ScreenSize.width * 1757/2048, y: ScreenSize.height * 1241/1536)
+    static let ActionButtonSize = CGSize(width: ScreenSize.width * 84/2048, height: ScreenSize.height * 84/1536)
+    static let Button_MoveForwardPosition = CGPoint(x: ScreenSize.width * 166/2048, y: ScreenSize.height * 915/1536)
+    static let Button_TurnPosition = CGPoint(x: ScreenSize.width * 481/2048, y: ScreenSize.height * 915/1536)
+    static let Button_PushPosition = CGPoint(x: ScreenSize.width * 384/2048, y: ScreenSize.height * 984/1536)
+    static let Button_JumpPosition = CGPoint(x: ScreenSize.width * 263/2048, y: ScreenSize.height * 984/1536)
+    static let Button_StartPosition = CGPoint(x: ScreenSize.width * 1742/2048, y: ScreenSize.height * 213/1536)
+    static let Button_PausePosition = CGPoint(x: ScreenSize.width * 102/2048, y: ScreenSize.height * 1436/1536)
+    static let Button_TipsPosition = CGPoint(x: ScreenSize.width * 102/2048, y: ScreenSize.height * 1316/1536)
+    static let Button_PauseSize = CGSize(width: ScreenSize.width * 94/2048, height: ScreenSize.height * 94/1536)
+    static let Robot_StartPosition = CGPoint(x: ScreenSize.width * 323/2048, y: ScreenSize.height * 760/1536)
+    static let Button_StartSize = CGSize(width: ScreenSize.width * 169/2048, height: ScreenSize.height * 169/1536)
+    static let Robot_Size = CGSize(width: ScreenSize.width * 192/2048, height: ScreenSize.height * 304/1536)
+    static let Block_Size = CGSize(width: ScreenSize.width * 316/2048, height: ScreenSize.height * 263/1536)
+    static let Block_FirstPosition = CGPoint(x: ScreenSize.width * 327/2048, y: ScreenSize.height * 523/1536)
+    static let BlockFace_Width = CGFloat(ScreenSize.width * 202/2048)
     static let GroundFloor = ScreenSize.height * 934/1536
     static let FirstFloor = ScreenSize.height * 1052/1536
     static let SecondFloor = ScreenSize.height * 1170/1536
 }
 
+func getXBlockPosition(trackPosition: Int) -> CGFloat {
+    return Constants.Block_FirstPosition.x + CGFloat(trackPosition) * Constants.BlockFace_Width
+}
+
+func getYBlockPosition(floorPosition: FloorPosition.RawValue) -> CGFloat {
+    return Constants.Block_FirstPosition.y + CGFloat(floorPosition - 1) * Constants.Block_Size.height
+}
+
+func getActionButtonPosition(actionType: ActionType) -> CGPoint {
+    switch actionType {
+    case .moveForward:
+        return Constants.Button_MoveForwardPosition
+    case .turn:
+        return Constants.Button_TurnPosition
+    case .push:
+        return Constants.Button_PushPosition
+    default:
+        return Constants.Button_JumpPosition
+    }
+}
+
 func getYPosition(floorPosition: FloorPosition) -> CGFloat {
-    var y: CGFloat
     switch floorPosition {
     case .ground:
-        y = Constants.GroundFloor
+        return Constants.GroundFloor
     case .first:
-        y = Constants.FirstFloor
+        return Constants.FirstFloor
     case .second:
-        y = Constants.SecondFloor
+        return Constants.SecondFloor
     }
-    return y
+}
+
+func getNextBlockPosition(blockPosition: CGPoint) -> CGPoint {
+    return CGPoint(x: blockPosition.x + Constants.Block_Size.width, y: blockPosition.y)
 }
 
 func MoveAnimationTextures(direction: Direction) -> [SKTexture] {

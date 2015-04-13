@@ -21,13 +21,12 @@ class ActionButton: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(buttonType: ActionType, position: CGPoint) {
+    convenience init(buttonType: ActionType) {
         let color = UIColor()
         let texture = SKTexture(imageNamed: buttonType.rawValue)
         self.init(texture: texture, color: color, size: Constants.ActionButtonSize)
         actionType = buttonType
-        self.position = position
-        name = buttonType.rawValue
+        position = getActionButtonPosition(buttonType)
         physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width * 2 / 3, height: size.height))
         physicsBody!.categoryBitMask = NodeType.ActionButton.rawValue
         physicsBody?.collisionBitMask = 0

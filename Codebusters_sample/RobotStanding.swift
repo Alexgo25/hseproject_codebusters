@@ -9,27 +9,25 @@
 import Foundation
 import SpriteKit
 
-
-
 class RobotStanding {
     
-    private var floorPosition : FloorPosition?
+    private var floorPosition: FloorPosition
+    var blocks: [Block] = []
+    private var trackPosition: Int
     
-    
-    
-    func getFloorPosition() ->FloorPosition {
-        return self.floorPosition!
+    func getFloorPosition() -> FloorPosition {
+        return self.floorPosition
     }
     
-    func setFloorPosition(floorPosition : FloorPosition) {
-        self.floorPosition! = floorPosition
-    }
-    
-    init (floorPosition : FloorPosition)
-    {
+    func setFloorPosition(floorPosition: FloorPosition) {
         self.floorPosition = floorPosition
-        
     }
     
-    
+    init (trackPosition: Int, floorPosition: FloorPosition) {
+        self.floorPosition = floorPosition
+        self.trackPosition = trackPosition
+        for var i = 1; i <= floorPosition.rawValue; i++ {
+            blocks.append(Block(trackPosition: trackPosition, floorPosition: floorPosition.rawValue))
+        }
+    }
 }

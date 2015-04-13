@@ -42,18 +42,18 @@ struct Constants {
     static let Robot_Size = CGSize(width: ScreenSize.width * 192/2048, height: ScreenSize.height * 304/1536)
     static let Block_Size = CGSize(width: ScreenSize.width * 316/2048, height: ScreenSize.height * 263/1536)
     static let Block_FirstPosition = CGPoint(x: ScreenSize.width * 327/2048, y: ScreenSize.height * 523/1536)
-    static let BlockFace_Width = CGFloat(ScreenSize.width * 202/2048)
+    static let BlockFace_Size = CGSize(width: ScreenSize.width * 202/2048, height: ScreenSize.height * 199/1536)
     static let GroundFloor = ScreenSize.height * 934/1536
     static let FirstFloor = ScreenSize.height * 1052/1536
     static let SecondFloor = ScreenSize.height * 1170/1536
 }
 
 func getXBlockPosition(trackPosition: Int) -> CGFloat {
-    return Constants.Block_FirstPosition.x + CGFloat(trackPosition) * Constants.BlockFace_Width
+    return Constants.Block_FirstPosition.x + CGFloat(trackPosition) * Constants.BlockFace_Size.width
 }
 
 func getYBlockPosition(floorPosition: FloorPosition.RawValue) -> CGFloat {
-    return Constants.Block_FirstPosition.y + CGFloat(floorPosition - 1) * Constants.Block_Size.height
+    return Constants.Block_FirstPosition.y + CGFloat(floorPosition - 1) * Constants.BlockFace_Size.height
 }
 
 func getActionButtonPosition(actionType: ActionType) -> CGPoint {

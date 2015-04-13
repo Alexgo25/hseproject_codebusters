@@ -27,7 +27,7 @@ class RobotStanding {
         self.floorPosition = floorPosition
         self.trackPosition = trackPosition
         for var i = 1; i <= floorPosition.rawValue; i++ {
-            blocks.append(Block(trackPosition: trackPosition, floorPosition: floorPosition.rawValue))
+            blocks.append(Block(trackPosition: trackPosition, floorPosition: i))
         }
     }
 }

@@ -16,7 +16,7 @@ class RobotStanding {
     private var trackPosition: Int
     
     func getFloorPosition() -> FloorPosition {
-        return self.floorPosition
+        return floorPosition
     }
     
     func setFloorPosition(floorPosition: FloorPosition) {

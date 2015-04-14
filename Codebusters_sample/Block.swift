@@ -37,7 +37,7 @@ class Block: SKSpriteNode {
         let sequence = SKAction.sequence([moveByX, moveByY])
         runAction(sequence)
         self.floorPosition = floorPosition
-        self.trackPosition += direction.rawValue
+        trackPosition += direction.rawValue
     }
     
     func getNextPosition(direction: Direction) -> CGPoint {

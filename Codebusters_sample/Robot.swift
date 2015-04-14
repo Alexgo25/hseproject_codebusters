@@ -19,6 +19,7 @@ class Robot: SKSpriteNode {
     private var actions: [SKAction] = []
     private var direction: Direction = .ToRight
     private var tempPosition: CGPoint = Constants.Robot_StartPosition
+    private var turnedToFront: Bool = false
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
         actions = []
@@ -48,16 +49,17 @@ class Robot: SKSpriteNode {
             changeDirection()
         case .jump:
             actions.append(jump(position, direction: direction))
-        //case.push:
+//        case .push:
             
         default:
-            println()
+            println("123")
         }
     }
     
     func performActions() {
         let sequence = SKAction.sequence(actions)
-        self.runAction(sequence)
+        println(actions.count)
+        runAction(sequence)
     }
     
     func moveForward(position: CGPoint, direction: Direction) -> SKAction {
@@ -71,6 +73,19 @@ class Robot: SKSpriteNode {
     
     func turn(direction: Direction) -> SKAction {
         let animate = SKAction.animateWithTextures(TurnAnimationTextures(direction), timePerFrame: 0.08)
+        return animate
+    }
+    
+    func turnToFront(direction: Direction) {
+        let animate = SKAction.animateWithTextures(TurnToFrontAnimationTextures(direction), timePerFrame: 0.05)
+        runAction(animate)
+        turnedToFront = true
+    }
+    
+    func turnFromFront(direction: Direction) -> SKAction {
+        let animate = SKAction.animateWithTextures(TurnFromFrontAnimationTextures(direction), timePerFrame: 0.05)
+        runAction(animate)
+        turnedToFront = false
         return animate
     }
     
@@ -100,11 +115,11 @@ class Robot: SKSpriteNode {
     }
     
     func getNextPosition(direction: Direction) -> CGPoint {
-        return CGPoint(x: position.x + CGFloat(direction.rawValue) * CGFloat(236/225 * size.width) , y: position.y)
+        return CGPoint(x: position.x + CGFloat(direction.rawValue) * CGFloat(Constants.BlockFace_Size.width) , y: position.y)
     }
     
     func getNextTempPosition(direction: Direction) -> CGPoint {
-        return CGPoint(x: tempPosition.x + CGFloat(direction.rawValue) * CGFloat(236/225 * size.width), y: tempPosition.y)
+        return CGPoint(x: tempPosition.x + CGFloat(direction.rawValue) * CGFloat(Constants.BlockFace_Size.width), y: tempPosition.y)
     }
     
     func getDirection() -> Direction {
@@ -117,5 +132,9 @@ class Robot: SKSpriteNode {
         } else {
             self.direction = .ToRight
         }
+    }
+    
+    func isTurnedToFront() -> Bool {
+        return turnedToFront
     }
 }

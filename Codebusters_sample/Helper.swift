@@ -11,10 +11,10 @@ import UIKit
 import SpriteKit
 
 enum ActionType: String {
-    case moveForward = "button_MoveForward",
-    turn = "button_Turn",
-    push = "button_Push",
-    jump = "button_Jump",
+    case moveForward = "MoveForward",
+    turn = "Turn",
+    push = "Push",
+    jump = "Jump",
     none = "none"
 }
 
@@ -27,7 +27,7 @@ enum FloorPosition: Int {
 struct Constants {
     static let ScreenSize = UIScreen.mainScreen().bounds
     static let ActionCellSize = CGSize(width: ScreenSize.width * 239/2048, height: ScreenSize.height * 66/1536)
-    static let ActionCellFirstPosition = CGPoint(x: ScreenSize.width * 1757/2048, y: ScreenSize.height * 1241/1536)
+    static let ActionCellFirstPosition = CGPoint(x: ScreenSize.width * 1748/2048, y: ScreenSize.height * 1241/1536)
     static let ActionButtonSize = CGSize(width: ScreenSize.width * 84/2048, height: ScreenSize.height * 84/1536)
     static let Button_MoveForwardPosition = CGPoint(x: ScreenSize.width * 166/2048, y: ScreenSize.height * 915/1536)
     static let Button_TurnPosition = CGPoint(x: ScreenSize.width * 481/2048, y: ScreenSize.height * 915/1536)
@@ -160,4 +160,43 @@ func TurnAnimationTextures(direction: Direction) -> [SKTexture] {
     return textures
 }
 
+func TurnToFrontAnimationTextures(direction: Direction) -> [SKTexture] {
+    var textures: [SKTexture] = []
+    
+    if direction == .ToRight {
+        for var i = 1; i < 6; i++ {
+            var imageString = "TurnToFront\(i)"
+            textures.append(SKTexture(imageNamed: imageString))
+        }
+    } else {
+        for var i = 1; i < 6; i++ {
+            var imageString = "TurnToFront\(i)"
+            var image = UIImage(named: imageString)
+            image = UIImage(CGImage: image?.CGImage, scale: 1.0, orientation: .Left)
+            textures.append(SKTexture(image: image!))
+        }
+    }
+    
+    return textures
+}
+
+func TurnFromFrontAnimationTextures(direction: Direction) -> [SKTexture] {
+    var textures: [SKTexture] = []
+    
+    if direction == .ToRight {
+        for var i = 5; i > 0; i-- {
+            var imageString = "TurnToFront\(i)"
+            textures.append(SKTexture(imageNamed: imageString))
+        }
+    } else {
+        for var i = 5; i > 0; i-- {
+            var imageString = "TurnToFront\(i)"
+            var image = UIImage(named: imageString)
+            image = UIImage(CGImage: image?.CGImage, scale: 1.0, orientation: .Left)
+            textures.append(SKTexture(image: image!))
+        }
+    }
+    
+    return textures
+}
 

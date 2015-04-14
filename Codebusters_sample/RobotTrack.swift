@@ -14,12 +14,16 @@ class RobotTrack {
     private var track: [RobotStanding] = []
     private var currentRobotPosition: Int
     
-    func canPerformActionWithDirection(action : ActionType , direction : Direction) -> Bool {
+    func canPerformActionWithDirection(action: ActionType, direction: Direction) -> Bool {
         switch action {
         case .moveForward:
-            return track[currentRobotPosition].getFloorPosition().rawValue == track[getNextStanding(direction)].getFloorPosition().rawValue
+            var bool = track[currentRobotPosition].getFloorPosition().rawValue == track[getNextStanding(direction)].getFloorPosition().rawValue
+            setNextStanding(direction)
+            return bool
         case .jump:
-            return track[currentRobotPosition].getFloorPosition() != .ground
+            var bool = track[currentRobotPosition].getFloorPosition() != .ground
+            setNextStanding(direction)
+            return bool
         case .push:
             return track[currentRobotPosition].getFloorPosition().rawValue < track[getNextStanding(direction)].getFloorPosition().rawValue
         default:
@@ -42,4 +46,17 @@ class RobotTrack {
     func setNextStanding(direction: Direction) {
         currentRobotPosition = getNextStanding(direction)
     }
+    
+    /*func moveBlock(direction: Direction, floorPosition: FloorPosition) {
+        if track[currentRobotPosition].getFloorPosition().rawValue < track[getNextStanding(direction)].getFloorPosition().rawValue {
+            track[getNextStanding(direction)].setFloorPosition(<#floorPosition: FloorPosition#>)
+            
+            
+        }
+    }*/
 }
+
+    
+    
+    
+    

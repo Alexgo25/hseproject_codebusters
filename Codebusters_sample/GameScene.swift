@@ -15,7 +15,8 @@ enum SceneState {
 
 enum NodeType: UInt32 {
     case ActionButton = 1,
-    ActionCell = 2
+    ActionCell = 2,
+    Touch = 3
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -35,9 +36,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var selectedNode: SKNode?
     var sceneState: SceneState = SceneState.Normal
     
-    var cells: [ActionCell?] = []
-    
     var Track: RobotTrack?
+    var Touch: SKSpriteNode?
     
     func defaultScene() {
         self.removeAllChildren()
@@ -82,6 +82,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         button_jump = ActionButton(buttonType: .jump)
         addChild(button_jump!)
         
+        Touch = SKSpriteNode(color: UIColor.redColor(), size: CGSize(width: 1, height: 1))
+        Touch!.physicsBody = SKPhysicsBody()
+        Touch!.physicsBody!.categoryBitMask = NodeType.Touch.rawValue
+        
         Track = RobotTrack(robotPosition: 0)
         
         for var i = 0; i < 5; i++ {
@@ -91,7 +95,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             Track!.append(standing)
         }
-        
     }
     
     override func didMoveToView(view: SKView) {
@@ -104,11 +107,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func didBeginContact(contact: SKPhysicsContact) {
         let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch contactMask {
-        case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
+        case NodeType.ActionButton.rawValue | NodeType.Touch.rawValue:
             var action = contact.bodyB.node as! ActionButton?
-            var cell = contact.bodyA.node as! ActionCell?
-            cell!.setPreviousActionType(cell!.getActionType())
-            cell!.setActionType(action!.getActionType())
+            action!.showLabel()
         default:
             return
         }
@@ -119,8 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch contactMask {
         case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
             var action = contact.bodyB.node as! ActionButton?
-            var cell = contact.bodyA.node as! ActionCell?
-            cell!.setActionType(cell!.getPreviousActionType())
+            action!.hideLabel()
         default:
             return
         }
@@ -128,9 +128,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func beginAlgorithm() {
         if robot.position == robot.getStartPosition() {
-            for cell in cells {
-                if (Track!.canPerformActionWithDirection(cell!.getActionType(), direction: robot.getDirection())) {
-                    robot.appendAction(cell!.getActionType())
+            for cell in ActionCell.cells {
+                if (Track!.canPerformActionWithDirection(cell.getActionType(), direction: robot.getDirection())) {
+                    robot.appendAction(cell.getActionType())
                 }
             }
             robot.performActions()
@@ -147,9 +147,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for touch in touchesSet {
             var touchLocation = touch.locationInNode(self)
             let touchedNode = nodeAtPoint(touchLocation)
-            //let touchedNode = nodeAtPoint(touchLocation)
+            
+            if touchedNode.isKindOfClass(Robot) && !robot.isTurnedToFront() {
+                robot.turnToFront(robot.getDirection())
+                button_moveforward?.showButton()
+                button_turn?.showButton()
+                button_jump?.showButton()
+                button_push?.showButton()
+            }
+            
+            if touchedNode == background && robot.isTurnedToFront() {
+                robot.turnFromFront(robot.getDirection())
+                button_moveforward?.hideButton()
+                button_turn?.hideButton()
+                button_jump?.hideButton()
+                button_push?.hideButton()
+            }
 
-            if touchedNode.isKindOfClass(ActionButton) && selectedNode == nil {
+            if touchedNode.isKindOfClass(ActionButton) {
+                var node = touchedNode as! ActionButton
+                var cell = ActionCell(actionType: node.getActionType())
+                addChild(cell)
+            }
+            
+            if touchedNode == button_Start {
+                if robot.isTurnedToFront() {
+                    robot.turnFromFront(robot.getDirection())
+                    button_moveforward?.hideButton()
+                    button_turn?.hideButton()
+                    button_jump?.hideButton()
+                    button_push?.hideButton()
+                }
+                beginAlgorithm()
+            }
+            /*if touchedNode.isKindOfClass(ActionButton) && selectedNode == nil {
                 var touchedButton = touchedNode as? ActionButton
                 var tempButton = ActionButton(buttonType: touchedButton!.getActionType())
                 tempButton.zPosition = 1
@@ -166,13 +197,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 selectedNode = tempButton
                 }
-            }
-                
+            }*/
+            
             
             if (sceneState == SceneState.Normal) {
                 switch touchedNode {
-                case button_Start!:
-                    beginAlgorithm()
                 case button_tips!:
                     sceneState = SceneState.Tips
                     var newBackground = SKSpriteNode(imageNamed: "tips")
@@ -198,11 +227,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
             var touchLocation = touch.locationInNode(self)
+            var touchedNode = nodeAtPoint(touchLocation)
+            if touchedNode == Touch {
+            selectedNode = Touch
             var previousLocation = touch.previousLocationInNode(self)
             
             var translation = CGPointMake(touchLocation.x - previousLocation.x, touchLocation.y - previousLocation.y)
             
             panForTranslation(translation)
+            }
         }
     }
     

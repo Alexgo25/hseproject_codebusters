@@ -11,16 +11,9 @@ import SpriteKit
 
 class ActionCell: SKSpriteNode {
     
-    var cellCenterX: ActionCellCenter?
     private var actionType: ActionType = .none
     private var previousActionType: ActionType = .none
-    
-    enum ActionCellCenter: CGFloat {
-        case first = 879,
-        second = 1017,
-        third = 1155,
-        fourth = 1293
-    }
+    static var cells: [ActionCell] = []
     
     override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
         super.init(texture: texture, color: color, size: size)
@@ -30,19 +23,24 @@ class ActionCell: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(actionCellCenter: ActionCellCenter) {
+    convenience init(actionType: ActionType) {
         let color = UIColor()
-        let texture = SKTexture(imageNamed: "none")
-        self.init(texture: texture, color: color, size: Constants.ActionButtonSize)
-        name = actionType.rawValue
-        cellCenterX = actionCellCenter
-        position = CGPoint(x: Constants.ScreenSize.width * actionCellCenter.rawValue/2048, y: Constants.ScreenSize.height * 193/1536)
+        var imageName = "cell_\(actionType.rawValue)"
+        let texture = SKTexture(imageNamed: imageName)
+        self.init(texture: texture, color: color, size: Constants.ActionCellSize)
+        self.actionType = actionType
+        position = getNextPosition()
+        ActionCell.cells.append(self)
+        println(ActionCell.cells.count)
+        println(self.getActionType().rawValue)
+        /*
         physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width * 2 / 5, height: size.height * 2 / 3))
         physicsBody!.categoryBitMask = NodeType.ActionCell.rawValue
         physicsBody!.collisionBitMask = 0
         physicsBody!.contactTestBitMask = NodeType.ActionButton.rawValue
         physicsBody!.dynamic = false
-    } 
+        */
+    }
     
     func setActionType(actionType: ActionType) {
         self.actionType = actionType
@@ -59,5 +57,9 @@ class ActionCell: SKSpriteNode {
     
     func getPreviousActionType() -> ActionType {
         return previousActionType
+    }
+    
+    func getNextPosition() -> CGPoint {
+        return CGPoint(x: Constants.ActionCellFirstPosition.x, y: Constants.ActionCellFirstPosition.y - CGFloat(ActionCell.cells.count) * (Constants.ActionCellSize.height - 2))
     }
 }

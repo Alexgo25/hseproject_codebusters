@@ -14,27 +14,44 @@ class ActionButton: SKSpriteNode {
     private var actionType: ActionType = .none
     private var labelShowed: Bool = false
     
-    override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
-        super.init(texture: texture, color: color, size: size)
+    init(type: ActionType) {
+        let texture = SKTexture(imageNamed: "button_\(type.rawValue)")
+        super.init(texture: texture, color: UIColor(), size: texture.size())
+        actionType = type
+        position = CGPoint(x: 20, y: 60)
+        userInteractionEnabled = true
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    convenience init(buttonType: ActionType) {
-        let color = UIColor()
-        let texture = SKTexture(imageNamed: "button_\(buttonType.rawValue)")
-        self.init(texture: texture, color: color, size: Constants.ActionButtonSize)
-        actionType = buttonType
-        position = getActionButtonPosition(buttonType)
-        hideButton()
-        physicsBody = SKPhysicsBody(circleOfRadius: size.width / 2)
-        physicsBody!.categoryBitMask = NodeType.ActionButton.rawValue
-        physicsBody!.collisionBitMask = 0
-        physicsBody!.contactTestBitMask = NodeType.Touch.rawValue
-        physicsBody!.dynamic = false
-        physicsBody!.allowsRotation = false
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        showLabel()
+    }
+    
+    override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
+     
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if labelShowed {
+            var robot = parent as! Robot
+            robot.appendAction(actionType)
+        }
+        hideLabel()
+    }
+    
+    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
+        var touchesSet = touches as! Set<UITouch>
+        for touch in touchesSet {
+            var touchLocation = touch.locationInNode(parent)
+            if !containsPoint(touchLocation) {
+                hideLabel()
+            } else {
+                showLabel()
+            }
+        }
     }
     
     func getActionType() -> ActionType {
@@ -42,25 +59,26 @@ class ActionButton: SKSpriteNode {
     }
     
     func showButton() {
-        hidden = false
         let move = SKAction.moveTo(getActionButtonPosition(actionType), duration: 0.1)
         runAction(move)
     }
     
     func hideButton() {
-        let move = SKAction.moveTo(CGPoint(x: Constants.Robot_StartPosition.x, y: Constants.Robot_StartPosition.y + CGFloat(40)), duration: 0.1)
-        runAction(move)
-        hidden = true
+        let move = SKAction.moveTo(CGPoint(x: 20, y: 60), duration: 0.1)
+        let sequence = SKAction.sequence([move, SKAction.removeFromParent()])
+        runAction(sequence)
     }
     
     func showLabel() {
         labelShowed = true
-        println("show")
+        texture = SKTexture(imageNamed: "button_\(actionType.rawValue)_Pressed")
+        size = texture!.size()
     }
     
     func hideLabel() {
         labelShowed = false
-        println("hide")
+        texture = SKTexture(imageNamed: "button_\(actionType.rawValue)")
+        size = texture!.size()
     }
     
     func isLabelShowed() -> Bool {

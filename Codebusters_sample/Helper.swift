@@ -26,34 +26,29 @@ enum FloorPosition: Int {
 
 struct Constants {
     static let ScreenSize = UIScreen.mainScreen().bounds
-    static let ActionCellSize = CGSize(width: ScreenSize.width * 239/2048, height: ScreenSize.height * 66/1536)
-    static let ActionCellFirstPosition = CGPoint(x: ScreenSize.width * 1748/2048, y: ScreenSize.height * 1241/1536)
-    static let ActionButtonSize = CGSize(width: ScreenSize.width * 84/2048, height: ScreenSize.height * 84/1536)
-    static let Button_MoveForwardPosition = CGPoint(x: ScreenSize.width * 166/2048, y: ScreenSize.height * 915/1536)
-    static let Button_TurnPosition = CGPoint(x: ScreenSize.width * 481/2048, y: ScreenSize.height * 915/1536)
-    static let Button_PushPosition = CGPoint(x: ScreenSize.width * 384/2048, y: ScreenSize.height * 984/1536)
-    static let Button_JumpPosition = CGPoint(x: ScreenSize.width * 263/2048, y: ScreenSize.height * 984/1536)
-    static let Button_StartPosition = CGPoint(x: ScreenSize.width * 1742/2048, y: ScreenSize.height * 213/1536)
-    static let Button_PausePosition = CGPoint(x: ScreenSize.width * 102/2048, y: ScreenSize.height * 1436/1536)
-    static let Button_TipsPosition = CGPoint(x: ScreenSize.width * 102/2048, y: ScreenSize.height * 1316/1536)
-    static let Button_PauseSize = CGSize(width: ScreenSize.width * 94/2048, height: ScreenSize.height * 94/1536)
-    static let Robot_StartPosition = CGPoint(x: ScreenSize.width * 323/2048, y: ScreenSize.height * 760/1536)
-    static let Button_StartSize = CGSize(width: ScreenSize.width * 169/2048, height: ScreenSize.height * 169/1536)
-    static let Robot_Size = CGSize(width: ScreenSize.width * 192/2048, height: ScreenSize.height * 304/1536)
-    static let Block_Size = CGSize(width: ScreenSize.width * 316/2048, height: ScreenSize.height * 263/1536)
-    static let Block_FirstPosition = CGPoint(x: ScreenSize.width * 327/2048, y: ScreenSize.height * 523/1536)
-    static let BlockFace_Size = CGSize(width: ScreenSize.width * 202/2048, height: ScreenSize.height * 199/1536)
-    static let GroundFloor = ScreenSize.height * 934/1536
-    static let FirstFloor = ScreenSize.height * 1052/1536
-    static let SecondFloor = ScreenSize.height * 1170/1536
+    static let ActionCellSize = CGSize(width: 239, height: 66)
+    static let ActionCellFirstPosition = CGPoint(x: 1748, y: 1238)
+    static let Button_MoveForwardPosition = CGPoint(x: -138, y: 156)    //(x: 166, y: 915)
+    static let Button_TurnPosition = CGPoint(x: -41, y: 224)            //(x: 481, y: 915)
+    static let Button_PushPosition = CGPoint(x: 74, y: 224)             //(x: 384, y: 984)
+    static let Button_JumpPosition = CGPoint(x: 175, y: 156)            //(x: 263, y: 984)
+    static let Button_StartPosition = CGPoint(x: 1742, y: 213)
+    static let Button_PausePosition = CGPoint(x:102, y: 1436)
+    static let Button_TipsPosition = CGPoint(x: 102, y: 1316)
+    static let Robot_FirstBlockPosition = CGPoint(x: 315, y: 760)
+    static let Block_FirstPosition = CGPoint(x: 125, y: 523)
+    static let BlockFace_Size = CGSize(width: 202, height: 199)
+    static let GroundFloor = CGFloat(561)
+    static let FirstFloor = CGFloat(760)
+    static let SecondFloor = CGFloat(959)
 }
 
 func getXBlockPosition(trackPosition: Int) -> CGFloat {
     return Constants.Block_FirstPosition.x + CGFloat(trackPosition) * Constants.BlockFace_Size.width
 }
 
-func getYBlockPosition(floorPosition: FloorPosition.RawValue) -> CGFloat {
-    return Constants.Block_FirstPosition.y + CGFloat(floorPosition - 1) * Constants.BlockFace_Size.height
+func getYBlockPosition(floorPosition: FloorPosition) -> CGFloat {
+    return Constants.Block_FirstPosition.y + CGFloat(floorPosition.rawValue - 1) * Constants.BlockFace_Size.height
 }
 
 func getActionButtonPosition(actionType: ActionType) -> CGPoint {
@@ -69,7 +64,15 @@ func getActionButtonPosition(actionType: ActionType) -> CGPoint {
     }
 }
 
-func getYPosition(floorPosition: FloorPosition) -> CGFloat {
+func getCGPointOfPosition(trackPosition: Int, floorPosition: FloorPosition) -> CGPoint {
+    return CGPoint(x: getXRobotPosition(trackPosition), y: getYRobotPosition(floorPosition))
+}
+
+func getXRobotPosition(trackPosition: Int) -> CGFloat {
+    return Constants.Robot_FirstBlockPosition.x + CGFloat(trackPosition - 1) * Constants.BlockFace_Size.width
+}
+
+func getYRobotPosition(floorPosition: FloorPosition) -> CGFloat {
     switch floorPosition {
     case .ground:
         return Constants.GroundFloor
@@ -81,7 +84,7 @@ func getYPosition(floorPosition: FloorPosition) -> CGFloat {
 }
 
 func getNextBlockPosition(blockPosition: CGPoint) -> CGPoint {
-    return CGPoint(x: blockPosition.x + Constants.Block_Size.width, y: blockPosition.y)
+    return CGPoint(x: blockPosition.x + UIImage(named: "block")!.size.width, y: blockPosition.y)
 }
 
 func MoveAnimationTextures(direction: Direction) -> [SKTexture] {
@@ -114,28 +117,49 @@ func JumpAnimationTextures(direction: Direction) -> [SKTexture] {
         for var i = 1; i <= 8; i++ {
             var imageString = "Jump\(i)"
             var image = UIImage(named: imageString)
-            image = UIImage(CGImage: image?.CGImage, scale: 1.0, orientation: .Left)
-            textures.append(SKTexture(image: image!))
+            
+            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
         }
     }
     
     return textures
 }
 
-func PushAnimationTextures(direction: Direction) -> [SKTexture] {
+func PushAnimationTextures_FirstPart(direction: Direction) -> [SKTexture] {
     var textures: [SKTexture] = []
     
     if direction == .ToRight {
-        for var i = 1; i <= 8; i++ {
+        for var i = 1; i <= 5; i++ {
             var imageString = "Push\(i)"
             textures.append(SKTexture(imageNamed: imageString))
         }
     } else {
-        for var i = 1; i <= 8; i++ {
+        for var i = 1; i <= 5; i++ {
             var imageString = "Push\(i)"
             var image = UIImage(named: imageString)
-            image = UIImage(CGImage: image?.CGImage, scale: 1.0, orientation: .Left)
-            textures.append(SKTexture(image: image!))
+
+            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
+        }
+    }
+    
+    return textures
+}
+
+
+func PushAnimationTextures_SecondPart(direction: Direction) -> [SKTexture] {
+    var textures: [SKTexture] = []
+    
+    if direction == .ToRight {
+        for var i = 6; i <= 9; i++ {
+            var imageString = "Push\(i)"
+            textures.append(SKTexture(imageNamed: imageString))
+        }
+    } else {
+        for var i = 6; i <= 9; i++ {
+            var imageString = "Push\(i)"
+            var image = UIImage(named: imageString)
+            
+            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
         }
     }
     
@@ -172,8 +196,8 @@ func TurnToFrontAnimationTextures(direction: Direction) -> [SKTexture] {
         for var i = 1; i < 6; i++ {
             var imageString = "TurnToFront\(i)"
             var image = UIImage(named: imageString)
-            image = UIImage(CGImage: image?.CGImage, scale: 1.0, orientation: .Left)
-            textures.append(SKTexture(image: image!))
+            
+            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
         }
     }
     
@@ -192,11 +216,54 @@ func TurnFromFrontAnimationTextures(direction: Direction) -> [SKTexture] {
         for var i = 5; i > 0; i-- {
             var imageString = "TurnToFront\(i)"
             var image = UIImage(named: imageString)
-            image = UIImage(CGImage: image?.CGImage, scale: 1.0, orientation: .Left)
-            textures.append(SKTexture(image: image!))
+           
+            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
         }
     }
     
     return textures
 }
 
+extension UIImage {
+        func imageRotatedByDegrees(degrees: CGFloat, flip: Bool) -> UIImage {
+        let radiansToDegrees: (CGFloat) -> CGFloat = {
+            return $0 * (180.0 / CGFloat(M_PI))
+        }
+        let degreesToRadians: (CGFloat) -> CGFloat = {
+            return $0 / 180.0 * CGFloat(M_PI)
+        }
+        
+        // calculate the size of the rotated view's containing box for our drawing space
+        let rotatedViewBox = UIView(frame: CGRect(origin: CGPointZero, size: size))
+        let t = CGAffineTransformMakeRotation(degreesToRadians(degrees));
+        rotatedViewBox.transform = t
+        let rotatedSize = rotatedViewBox.frame.size
+        
+        // Create the bitmap context
+        UIGraphicsBeginImageContext(rotatedSize)
+        let bitmap = UIGraphicsGetCurrentContext()
+        
+        // Move the origin to the middle of the image so we will rotate and scale around the center.
+        CGContextTranslateCTM(bitmap, rotatedSize.width / 2.0, rotatedSize.height / 2.0);
+        
+        //   // Rotate the image context
+        CGContextRotateCTM(bitmap, degreesToRadians(degrees));
+        
+        // Now, draw the rotated/scaled image into the context
+        var yFlip: CGFloat
+        
+        if(flip){
+            yFlip = CGFloat(-1.0)
+        } else {
+            yFlip = CGFloat(1.0)
+        }
+        
+        CGContextScaleCTM(bitmap, yFlip, -1.0)
+        CGContextDrawImage(bitmap, CGRectMake(-size.width / 2, -size.height / 2, size.width, size.height), CGImage)
+        
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
+}

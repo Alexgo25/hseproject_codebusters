@@ -12,22 +12,47 @@ import SpriteKit
 class RobotStanding {
     
     private var floorPosition: FloorPosition
-    var blocks: [Block] = []
+    private var blocks: [Block] = []
     private var trackPosition: Int
-    
-    func getFloorPosition() -> FloorPosition {
-        return floorPosition
-    }
-    
-    func setFloorPosition(floorPosition: FloorPosition) {
-        self.floorPosition = floorPosition
-    }
     
     init (trackPosition: Int, floorPosition: FloorPosition) {
         self.floorPosition = floorPosition
         self.trackPosition = trackPosition
         for var i = 1; i <= floorPosition.rawValue; i++ {
-            blocks.append(Block(trackPosition: trackPosition, floorPosition: i))
+            if let floor = FloorPosition(rawValue: i) {
+                blocks.append(Block(trackPosition: trackPosition, floorPosition: floor))
+            }
         }
+    }
+    
+    func getFloorPosition() -> FloorPosition {
+        return floorPosition
+    }
+    
+    func appendBlock(block: Block) {
+        blocks.append(block)
+        if let floor = FloorPosition(rawValue: blocks.count) {
+            floorPosition = floor
+        }
+    }
+    
+    func removeLastBlock() {
+        blocks.removeLast()
+        if let floor = FloorPosition(rawValue: blocks.count) {
+            floorPosition = floor
+        }
+    }
+    
+    func moveUpperBlock(direction: Direction, floorPosition: FloorPosition) -> SKAction {
+        var action = blocks.last!.moveToNextPosition(direction, floorPosition: floorPosition)
+        return action
+    }
+    
+    func getUpperBlock() -> Block {
+        return blocks.last!
+    }
+    
+    func getBlockAt(floorPosition: Int) -> Block {
+        return blocks[floorPosition]
     }
 }

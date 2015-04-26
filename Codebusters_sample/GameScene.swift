@@ -17,16 +17,6 @@ enum NodeType: UInt32 {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var background: SKSpriteNode?
-    var RAM: SKSpriteNode?
-    
-    var selectedNode: SKNode?
-    
-    func defaultScene() {
-        RAM = SKSpriteNode(imageNamed: "RAM")
-        RAM!.size = CGSize(width: size.width * 238/2048, height: size.height * 81/1536)
-        RAM!.position = CGPoint(x: size.width * 1163/2048, y: size.height * 753/1536)
-        addChild(RAM!)
-    }
     
     override func didMoveToView(view: SKView) {
         physicsWorld.contactDelegate = self
@@ -36,32 +26,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(background!)
     }
     
-    /*func didBeginContact(contact: SKPhysicsContact) {
-        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        switch contactMask {
-        case NodeType.ActionButton.rawValue | NodeType.Touch.rawValue:
-            var action = contact.bodyB.node as! ActionButton?
-            action!.showLabel()
-        default:
-            return
-        }
-    }
-    
-    func didEndContact(contact: SKPhysicsContact) {
-        let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        switch contactMask {
-        case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
-            var action = contact.bodyB.node as! ActionButton?
-            action!.hideLabel()
-        default:
-            return
-        }
-    }*/
-    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
+}
+    /*func didBeginContact(contact: SKPhysicsContact) {
+    let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+    switch contactMask {
+    case NodeType.ActionButton.rawValue | NodeType.Touch.rawValue:
+    var action = contact.bodyB.node as! ActionButton?
+    action!.showLabel()
+    default:
+    return
+    }
+    }
     
+    func didEndContact(contact: SKPhysicsContact) {
+    let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+    switch contactMask {
+    case NodeType.ActionButton.rawValue | NodeType.ActionCell.rawValue:
+    var action = contact.bodyB.node as! ActionButton?
+    action!.hideLabel()
+    default:
+    return
+    }
+    }*/
+    
+
     /*override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
         var touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
@@ -82,4 +73,3 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             selectedNode!.position = CGPoint(x: selectedNode!.position.x + translation.x, y: selectedNode!.position.y + translation.y)
         }
     }*/
-}

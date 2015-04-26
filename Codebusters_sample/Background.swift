@@ -74,7 +74,9 @@ class Background: SKSpriteNode {
             case button_Tip:
                 return
             default:
-                robot.turnFromFront(robot.getDirection())
+                if robot.isTurnedToFront() {
+                    robot.turnFromFront(robot.getDirection())
+                }
             }
         }
     }

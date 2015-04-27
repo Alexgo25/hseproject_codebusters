@@ -75,7 +75,7 @@ class RobotTrack {
     }
     
     func moveBlock(direction: Direction) -> SKAction {
-        if track[currentRobotPosition].getFloorPosition() == track[getNextRobotTrackPosition(direction)].getFloorPosition() {
+        if track[currentRobotPosition].getFloorPosition().rawValue >= track[getNextRobotTrackPosition(direction)].getFloorPosition().rawValue {
             return SKAction()
         }
         

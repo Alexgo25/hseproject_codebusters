@@ -20,6 +20,7 @@
 		11E38C691AD94BCC0061BE81 /* RobotTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E38C681AD94BCC0061BE81 /* RobotTrack.swift */; };
 		6131E1331AD2C9FF00D69DD6 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6131E1321AD2C9FF00D69DD6 /* Helper.swift */; };
 		615CEFD41AE6597B006403B5 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615CEFD31AE6597B006403B5 /* Detail.swift */; };
+		61A15FE91AEE4AA1008B36EA /* Jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 61A15FE81AEE4AA1008B36EA /* Jump.wav */; };
 		61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A436281AD09CC5002B8540 /* ActionButton.swift */; };
 		61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A4362A1AD16D1B002B8540 /* ActionCell.swift */; };
 		61B5E1991AE45C85002C734C /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B5E1981AE45C85002C734C /* Background.swift */; };
@@ -54,6 +55,7 @@
 		11E38C681AD94BCC0061BE81 /* RobotTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotTrack.swift; sourceTree = "<group>"; };
 		6131E1321AD2C9FF00D69DD6 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		615CEFD31AE6597B006403B5 /* Detail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		61A15FE81AEE4AA1008B36EA /* Jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Jump.wav; sourceTree = "<group>"; };
 		61A436281AD09CC5002B8540 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		61A4362A1AD16D1B002B8540 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
 		61B5E1981AE45C85002C734C /* Background.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 				61B5E1981AE45C85002C734C /* Background.swift */,
 				11E38C681AD94BCC0061BE81 /* RobotTrack.swift */,
 				61EFA4B31ADBEC4400EB8C6B /* Block.swift */,
+				61A15FE81AEE4AA1008B36EA /* Jump.wav */,
 				6131E1321AD2C9FF00D69DD6 /* Helper.swift */,
 				110952C71AC6DF5B000A960A /* GameViewController.swift */,
 				110952C91AC6DF5B000A960A /* Main.storyboard */,
@@ -226,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				110952D01AC6DF5B000A960A /* LaunchScreen.xib in Resources */,
+				61A15FE91AEE4AA1008B36EA /* Jump.wav in Resources */,
 				110952CD1AC6DF5B000A960A /* Images.xcassets in Resources */,
 				110952C41AC6DF5B000A960A /* GameScene.sks in Resources */,
 				110952CB1AC6DF5B000A960A /* Main.storyboard in Resources */,

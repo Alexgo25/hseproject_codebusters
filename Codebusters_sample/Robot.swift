@@ -45,10 +45,11 @@ class Robot: SKSpriteNode {
     func appendAction(actionType: ActionType) {
         parent!.addChild(ActionCell(actionType: actionType))
         if canPerformAction(actionType) {
+            actions.append(ActionCell.cells.last!.highlightBegin())
             switch actionType {
             case .moveForward:
                 actions.append(moveForward(direction))
-            
+                
             case .turn:
                 actions.append(turn(direction))
             
@@ -63,6 +64,7 @@ class Robot: SKSpriteNode {
             default:
                 println()
             }
+            actions.append(ActionCell.cells.last!.highlightEnd())
         } else {
             actions.append(turnToFront(direction))
             actions.append(SKAction.runBlock( { self.removeActionForKey("sequence") } ))
@@ -94,11 +96,14 @@ class Robot: SKSpriteNode {
     }
     
     func turn(direction: Direction) -> SKAction {
+        
+        let sound = SKAction.playSoundFileNamed("Jump.wav", waitForCompletion: false)
         let animate = SKAction.animateWithTextures(TurnAnimationTextures(direction), timePerFrame: 0.08, resize: true, restore: false)
         
         changeDirection()
         
-        return animate
+        let action = SKAction.group([sound, animate])
+        return action
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {

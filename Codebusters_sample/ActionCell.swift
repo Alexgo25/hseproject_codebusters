@@ -20,7 +20,7 @@ class ActionCell: SKSpriteNode {
     
     init(actionType: ActionType) {
         let texture = SKTexture(imageNamed: "cell_\(actionType.rawValue)")
-        super.init(texture: texture, color: UIColor(), size: Constants.ActionCellSize)
+        super.init(texture: texture, color: UIColor(), size: texture.size())
         self.actionType = actionType
         position = getNextPosition()
         ActionCell.cells.append(self)
@@ -44,6 +44,19 @@ class ActionCell: SKSpriteNode {
     }
     
     func getNextPosition() -> CGPoint {
-        return CGPoint(x: Constants.ActionCellFirstPosition.x, y: Constants.ActionCellFirstPosition.y - CGFloat(ActionCell.cells.count) * (Constants.ActionCellSize.height - 2))
+        println(texture!.size().height)
+        return CGPoint(x: Constants.ActionCellFirstPosition.x, y: Constants.ActionCellFirstPosition.y - CGFloat(ActionCell.cells.count) *  (texture!.size().height - 5))
+    }
+    
+    func highlightBegin() -> SKAction {
+        return SKAction.runBlock( { self.texture = SKTexture(imageNamed: "cell_\(self.actionType.rawValue)_Highlighted") } )
+    }
+    
+    func highlightEnd() -> SKAction {
+        return SKAction.runBlock( { self.texture = SKTexture(imageNamed: "cell_\(self.actionType.rawValue)") } )
+    }
+    
+    class func isArrayOfCellsFull() -> Bool {
+        return ActionCell.cells.count > 10
     }
 }

@@ -35,7 +35,7 @@ class ActionButton: SKSpriteNode {
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
-        if labelShowed {
+        if labelShowed && !ActionCell.isArrayOfCellsFull() {
             var robot = parent as! Robot
             robot.appendAction(actionType)
         }

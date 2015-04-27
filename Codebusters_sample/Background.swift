@@ -66,8 +66,8 @@ class Background: SKSpriteNode {
                 if robot.isOnStart() {
                     if robot.isOnDetailPosition() {
                         robot.takeDetail(detail.hideDetail())
-                        robot.performActions()
                     }
+                    robot.performActions()
                 }
             case button_Pause:
                 return

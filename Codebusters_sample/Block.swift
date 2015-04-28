@@ -29,12 +29,23 @@ class Block: SKSpriteNode {
     
     func moveToNextPosition(direction: Direction, floorPosition: FloorPosition) -> SKAction {
         let moveByX = SKAction.moveTo(getNextPosition(direction), duration: 0.5)
-        let moveByY = SKAction.moveTo(getNextPosition(direction, floorPosition: floorPosition), duration: 0.3)
-        let sequence = SKAction.sequence([moveByX, moveByY])
+        let moveByY = SKAction.moveTo(getNextPosition(direction, floorPosition: floorPosition), duration: 0.15)
+        let sequence: SKAction
+        let position = CGFloat(trackPosition + direction.rawValue + 7 * (floorPosition.rawValue - 1))
+        let z = SKAction.runBlock( { self.zPosition = position } )
+        
+        if self.floorPosition.rawValue > floorPosition.rawValue {
+            let sound = SKAction.playSoundFileNamed("CubeFalling.mp3", waitForCompletion: false)
+            sequence = SKAction.sequence([moveByX, z, sound, moveByY])
+        } else {
+            sequence = SKAction.sequence([moveByX, z, moveByY])
+        }
         self.floorPosition = floorPosition
         trackPosition += direction.rawValue
-        zPosition = CGFloat(trackPosition + 7 * (floorPosition.rawValue - 1))
-        return SKAction.runBlock( { self.runAction(sequence) } )
+        
+        return SKAction.runBlock( {
+            self.runAction(sequence)
+        } )
     }
     
     func getNextPosition(direction: Direction) -> CGPoint {

@@ -24,7 +24,7 @@ class ActionCell: SKSpriteNode {
         self.actionType = actionType
         position = getNextPosition()
         ActionCell.cells.append(self)
-        
+        zPosition = 3
         /*
         physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width * 2 / 5, height: size.height * 2 / 3))
         physicsBody!.categoryBitMask = NodeType.ActionCell.rawValue
@@ -44,7 +44,6 @@ class ActionCell: SKSpriteNode {
     }
     
     func getNextPosition() -> CGPoint {
-        println(texture!.size().height)
         return CGPoint(x: Constants.ActionCellFirstPosition.x, y: Constants.ActionCellFirstPosition.y - CGFloat(ActionCell.cells.count) *  (texture!.size().height - 5))
     }
     

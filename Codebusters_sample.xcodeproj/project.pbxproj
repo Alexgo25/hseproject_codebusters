@@ -19,11 +19,25 @@
 		11E38C671AD949460061BE81 /* RobotStanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E38C661AD949460061BE81 /* RobotStanding.swift */; };
 		11E38C691AD94BCC0061BE81 /* RobotTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E38C681AD94BCC0061BE81 /* RobotTrack.swift */; };
 		6131E1331AD2C9FF00D69DD6 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6131E1321AD2C9FF00D69DD6 /* Helper.swift */; };
+		614DA0B31AEF19780088A557 /* Reverse.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B21AEF19780088A557 /* Reverse.mp3 */; };
+		614DA0B51AEF19D00088A557 /* ActionSelection.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B41AEF19D00088A557 /* ActionSelection.mp3 */; };
+		614DA0B71AEF1A8A0088A557 /* CubeFalling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */; };
+		614DA0B91AEF1C060088A557 /* CubePush.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B81AEF1C060088A557 /* CubePush.mp3 */; };
+		614DA0BB1AEF1C750088A557 /* LevelCompleted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0BA1AEF1C750088A557 /* LevelCompleted.mp3 */; };
+		614DA0BD1AEF1C870088A557 /* DetailAchievement.wav in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0BC1AEF1C870088A557 /* DetailAchievement.wav */; };
+		614DA0BF1AEF1DCB0088A557 /* PauseButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0BE1AEF1DCB0088A557 /* PauseButton.mp3 */; };
+		614DA0C11AEF1E060088A557 /* StartButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C01AEF1E060088A557 /* StartButton.mp3 */; };
+		614DA0C31AEF1E440088A557 /* TipButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C21AEF1E440088A557 /* TipButton.mp3 */; };
+		614DA0C51AEF1E730088A557 /* Walk.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C41AEF1E730088A557 /* Walk.mp3 */; };
+		614DA0C71AEF36680088A557 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614DA0C61AEF36680088A557 /* MenuScene.swift */; };
 		615CEFD41AE6597B006403B5 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615CEFD31AE6597B006403B5 /* Detail.swift */; };
+		618F7BA61AEECC9200B2DBC5 /* MenuBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */; };
+		618F7BA81AEEDCEE00B2DBC5 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */; };
+		618F7BAA1AEEEAC500B2DBC5 /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */; };
 		61A15FE91AEE4AA1008B36EA /* Jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 61A15FE81AEE4AA1008B36EA /* Jump.wav */; };
 		61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A436281AD09CC5002B8540 /* ActionButton.swift */; };
 		61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A4362A1AD16D1B002B8540 /* ActionCell.swift */; };
-		61B5E1991AE45C85002C734C /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B5E1981AE45C85002C734C /* Background.swift */; };
+		61B5E1991AE45C85002C734C /* LevelBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B5E1981AE45C85002C734C /* LevelBackground.swift */; };
 		61EFA4B41ADBEC4400EB8C6B /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EFA4B31ADBEC4400EB8C6B /* Block.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,11 +68,25 @@
 		11E38C661AD949460061BE81 /* RobotStanding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotStanding.swift; sourceTree = "<group>"; };
 		11E38C681AD94BCC0061BE81 /* RobotTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotTrack.swift; sourceTree = "<group>"; };
 		6131E1321AD2C9FF00D69DD6 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		614DA0B21AEF19780088A557 /* Reverse.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Reverse.mp3; sourceTree = "<group>"; };
+		614DA0B41AEF19D00088A557 /* ActionSelection.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ActionSelection.mp3; sourceTree = "<group>"; };
+		614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = CubeFalling.mp3; sourceTree = "<group>"; };
+		614DA0B81AEF1C060088A557 /* CubePush.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = CubePush.mp3; sourceTree = "<group>"; };
+		614DA0BA1AEF1C750088A557 /* LevelCompleted.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LevelCompleted.mp3; sourceTree = "<group>"; };
+		614DA0BC1AEF1C870088A557 /* DetailAchievement.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = DetailAchievement.wav; sourceTree = "<group>"; };
+		614DA0BE1AEF1DCB0088A557 /* PauseButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = PauseButton.mp3; sourceTree = "<group>"; };
+		614DA0C01AEF1E060088A557 /* StartButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = StartButton.mp3; sourceTree = "<group>"; };
+		614DA0C21AEF1E440088A557 /* TipButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TipButton.mp3; sourceTree = "<group>"; };
+		614DA0C41AEF1E730088A557 /* Walk.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Walk.mp3; sourceTree = "<group>"; };
+		614DA0C61AEF36680088A557 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		615CEFD31AE6597B006403B5 /* Detail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBackground.swift; sourceTree = "<group>"; };
+		618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
+		618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		61A15FE81AEE4AA1008B36EA /* Jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Jump.wav; sourceTree = "<group>"; };
 		61A436281AD09CC5002B8540 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		61A4362A1AD16D1B002B8540 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
-		61B5E1981AE45C85002C734C /* Background.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
+		61B5E1981AE45C85002C734C /* LevelBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelBackground.swift; sourceTree = "<group>"; };
 		61EFA4B31ADBEC4400EB8C6B /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -105,13 +133,16 @@
 				61A436281AD09CC5002B8540 /* ActionButton.swift */,
 				110952C51AC6DF5B000A960A /* GameScene.swift */,
 				61A4362A1AD16D1B002B8540 /* ActionCell.swift */,
+				618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */,
 				615CEFD31AE6597B006403B5 /* Detail.swift */,
 				115C6E961ACBFA4200B79250 /* Robot.swift */,
 				11E38C661AD949460061BE81 /* RobotStanding.swift */,
-				61B5E1981AE45C85002C734C /* Background.swift */,
+				618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */,
+				61B5E1981AE45C85002C734C /* LevelBackground.swift */,
+				618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */,
+				614DA0C61AEF36680088A557 /* MenuScene.swift */,
 				11E38C681AD94BCC0061BE81 /* RobotTrack.swift */,
 				61EFA4B31ADBEC4400EB8C6B /* Block.swift */,
-				61A15FE81AEE4AA1008B36EA /* Jump.wav */,
 				6131E1321AD2C9FF00D69DD6 /* Helper.swift */,
 				110952C71AC6DF5B000A960A /* GameViewController.swift */,
 				110952C91AC6DF5B000A960A /* Main.storyboard */,
@@ -126,6 +157,17 @@
 		110952BF1AC6DF5B000A960A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */,
+				614DA0BE1AEF1DCB0088A557 /* PauseButton.mp3 */,
+				614DA0C41AEF1E730088A557 /* Walk.mp3 */,
+				614DA0C21AEF1E440088A557 /* TipButton.mp3 */,
+				614DA0BA1AEF1C750088A557 /* LevelCompleted.mp3 */,
+				614DA0B81AEF1C060088A557 /* CubePush.mp3 */,
+				614DA0C01AEF1E060088A557 /* StartButton.mp3 */,
+				614DA0BC1AEF1C870088A557 /* DetailAchievement.wav */,
+				614DA0B41AEF19D00088A557 /* ActionSelection.mp3 */,
+				614DA0B21AEF19780088A557 /* Reverse.mp3 */,
+				61A15FE81AEE4AA1008B36EA /* Jump.wav */,
 				110952C01AC6DF5B000A960A /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -229,10 +271,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				110952D01AC6DF5B000A960A /* LaunchScreen.xib in Resources */,
+				614DA0B71AEF1A8A0088A557 /* CubeFalling.mp3 in Resources */,
 				61A15FE91AEE4AA1008B36EA /* Jump.wav in Resources */,
+				614DA0BB1AEF1C750088A557 /* LevelCompleted.mp3 in Resources */,
 				110952CD1AC6DF5B000A960A /* Images.xcassets in Resources */,
+				614DA0B31AEF19780088A557 /* Reverse.mp3 in Resources */,
 				110952C41AC6DF5B000A960A /* GameScene.sks in Resources */,
+				614DA0BF1AEF1DCB0088A557 /* PauseButton.mp3 in Resources */,
+				614DA0BD1AEF1C870088A557 /* DetailAchievement.wav in Resources */,
 				110952CB1AC6DF5B000A960A /* Main.storyboard in Resources */,
+				614DA0C11AEF1E060088A557 /* StartButton.mp3 in Resources */,
+				614DA0B51AEF19D00088A557 /* ActionSelection.mp3 in Resources */,
+				614DA0C51AEF1E730088A557 /* Walk.mp3 in Resources */,
+				614DA0C31AEF1E440088A557 /* TipButton.mp3 in Resources */,
+				614DA0B91AEF1C060088A557 /* CubePush.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,7 +302,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61B5E1991AE45C85002C734C /* Background.swift in Sources */,
+				618F7BA61AEECC9200B2DBC5 /* MenuBackground.swift in Sources */,
+				61B5E1991AE45C85002C734C /* LevelBackground.swift in Sources */,
 				115C6E971ACBFA4200B79250 /* Robot.swift in Sources */,
 				615CEFD41AE6597B006403B5 /* Detail.swift in Sources */,
 				110952C61AC6DF5B000A960A /* GameScene.swift in Sources */,
@@ -258,9 +311,12 @@
 				110952C21AC6DF5B000A960A /* AppDelegate.swift in Sources */,
 				11E38C671AD949460061BE81 /* RobotStanding.swift in Sources */,
 				61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */,
+				618F7BAA1AEEEAC500B2DBC5 /* LevelScene.swift in Sources */,
 				61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */,
 				61EFA4B41ADBEC4400EB8C6B /* Block.swift in Sources */,
 				6131E1331AD2C9FF00D69DD6 /* Helper.swift in Sources */,
+				614DA0C71AEF36680088A557 /* MenuScene.swift in Sources */,
+				618F7BA81AEEDCEE00B2DBC5 /* DetailCell.swift in Sources */,
 				11E38C691AD94BCC0061BE81 /* RobotTrack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

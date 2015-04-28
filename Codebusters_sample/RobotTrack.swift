@@ -40,7 +40,7 @@ class RobotTrack {
             var bool: Bool = track[currentRobotPosition].getFloorPosition() != .ground && track[getNextRobotTrackPosition(direction)].getFloorPosition() != .ground
             return bool
         case .push:
-            return track[currentRobotPosition].getFloorPosition().rawValue >= track[getNextRobotTrackPosition(direction)].getFloorPosition().rawValue || track[getNextRobotTrackPosition(direction)].getFloorPosition() != track[currentRobotPosition + 2].getFloorPosition()
+            return track[currentRobotPosition].getFloorPosition().rawValue >= track[getNextRobotTrackPosition(direction)].getFloorPosition().rawValue || (track[getNextRobotTrackPosition(direction)].getFloorPosition() != track[currentRobotPosition + 2 * direction.rawValue].getFloorPosition() && track[getNextRobotTrackPosition(direction)].getFloorPosition().rawValue == track[currentRobotPosition].getFloorPosition().rawValue + 1)
         default:
             return true
         }

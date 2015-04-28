@@ -14,22 +14,39 @@ enum NodeType: UInt32 {
     Touch = 3
 }
 
+enum State {
+    case Menu,
+    Level
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    var background: SKSpriteNode?
+    var state: State = .Menu
+
+    var levelBackground: LevelScene?
     
     override func didMoveToView(view: SKView) {
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = CGVectorMake(0, 0)
         
-        background = Background(blocksPattern: [.first, .second, .first, .first, .first], robotPosition: 1, detailType: .RAM, detailPosition: 5, detailFloorPosition: .first)
-        addChild(background!)
+        levelBackground = getLevel(.CPU)
+        self.view?.presentScene(levelBackground!)
+        //let scene = getLevel(.CPU)
+        
+        //LevelScene(blocksPattern: [.first, .first, .first, .first, .first], robotPosition: 1, detailType: .CPU, detailPosition: 5, detailFloorPosition: .first)
+        //let transition = SKTransition.crossFadeWithDuration(0.7)
+        //self.view?.presentScene(scene, transition: transition)
+    
+        //levelBackground = LevelBackground(blocksPattern: [.first, .first, .first, .first, .first], robotPosition: 1, detailType: .RAM1, detailPosition: 5, detailFloorPosition: .first)
+        //addChild(levelBackground!)
     }
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
     }
 }
+
+
     /*func didBeginContact(contact: SKPhysicsContact) {
     let contactMask = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
     switch contactMask {

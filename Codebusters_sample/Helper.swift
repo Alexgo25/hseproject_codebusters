@@ -24,6 +24,67 @@ enum FloorPosition: Int {
     second = 2
 }
 
+struct LevelPatterns {
+    static let CPU: [FloorPosition] = [.first, .first, .first, .first, .first]
+    static let HardDrive: [FloorPosition] = [.first, .first, .first, .first, .first]
+    static let RAM1: [FloorPosition] = [.first, .first, .first, .first, .second]
+    static let RAM2: [FloorPosition] = [.first, .first, .second, .ground, .first]
+    static let Battery: [FloorPosition] = [.first, .ground, .second, .first, .first]
+    static let Fan: [FloorPosition] = [.first, .first, .second, .first, .first]
+}
+
+struct Levels {
+    static let CPU: LevelScene = LevelScene(blocksPattern: LevelPatterns.CPU, robotPosition: 1, detailType: DetailType.CPU, detailPosition: 5, detailFloorPosition: FloorPosition.first)
+    static let HardDrive: LevelScene = LevelScene(blocksPattern: LevelPatterns.HardDrive, robotPosition: 4, detailType: DetailType.HardDrive, detailPosition: 1, detailFloorPosition: FloorPosition.first)
+    static let RAM1: LevelScene = LevelScene(blocksPattern: LevelPatterns.RAM1, robotPosition: 1, detailType: DetailType.RAM1, detailPosition: 5, detailFloorPosition: FloorPosition.second)
+    static let RAM2: LevelScene = LevelScene(blocksPattern: LevelPatterns.RAM2, robotPosition: 1, detailType: DetailType.RAM2, detailPosition: 5, detailFloorPosition: FloorPosition.first)
+    static let Battery: LevelScene = LevelScene(blocksPattern: LevelPatterns.Battery, robotPosition: 3, detailType: DetailType.Battery, detailPosition: 1, detailFloorPosition: FloorPosition.first)
+    static let Fan: LevelScene = LevelScene(blocksPattern: LevelPatterns.Fan, robotPosition: 1, detailType: DetailType.Fan, detailPosition: 1, detailFloorPosition: FloorPosition.second)
+}
+
+func getLevel(detailType: DetailType) -> LevelScene {
+    switch detailType {
+    case .CPU:
+        return Levels.CPU
+    case .HardDrive:
+        return Levels.HardDrive
+    case .RAM1:
+        return Levels.RAM1
+    case .RAM2:
+        return Levels.RAM2
+    case .Battery:
+        return Levels.Battery
+    case .Fan:
+        return Levels.Fan
+    }
+}
+
+struct MenuConstants {
+    static let CPUPosition = CGPoint(x: 1510, y: 813)
+    static let HardDrivePosition = CGPoint(x: 1070, y: 730)
+    static let RAM2Position = CGPoint(x: 1649, y: 664)
+    static let RAM1Position = CGPoint(x: 1351, y: 664)
+    static let BatteryPosition = CGPoint(x: 1194, y: 1000)
+    static let FanPosition = CGPoint(x: 1669, y: 992)
+}
+
+func getDetailCellPosition(detailType: DetailType) -> CGPoint {
+    switch detailType {
+    case .Battery:
+        return MenuConstants.BatteryPosition
+    case .HardDrive:
+        return MenuConstants.HardDrivePosition
+    case .RAM1:
+        return MenuConstants.RAM1Position
+    case .RAM2:
+        return MenuConstants.RAM2Position
+    case .CPU:
+        return MenuConstants.CPUPosition
+    default:
+        return MenuConstants.FanPosition
+    }
+}
+
 struct Constants {
     static let ScreenSize = UIScreen.mainScreen().bounds
     static let ActionCellSize = CGSize(width: 239, height: 66)

@@ -14,12 +14,20 @@ enum DetailType: String {
     CPU = "CPU",
     Fan = "Fan",
     HardDrive = "HardDrive",
-    RAM = "RAM"
+    RAM1 = "RAM1",
+    RAM2 = "RAM2"
 }
 
 class Detail: SKSpriteNode {
+    private var detailType: DetailType
+    private var trackPosition: Int
+    private var floorPosition: FloorPosition
+    
     init(detailType: DetailType, trackPosition: Int, floorPosition: FloorPosition) {
-        let texture = SKTexture(imageNamed: detailType.rawValue)
+        let texture = SKTexture(imageNamed: "\(detailType.rawValue)__")
+        self.detailType = detailType
+        self.trackPosition = trackPosition
+        self.floorPosition = floorPosition
         super.init(texture: texture, color: UIColor(), size: texture.size())
         position = getCGPointOfPosition(trackPosition, floorPosition)
     }
@@ -29,9 +37,29 @@ class Detail: SKSpriteNode {
     }
     
     func hideDetail() -> SKAction {
-        var fadeOut = SKAction.fadeOutWithDuration(0.5)
+        /*let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject("", forKey: "\(detailType.rawValue)")*/
+        
+        var fadeOut = SKAction.fadeOutWithDuration(0.2)
         var remove = SKAction.removeFromParent()
         var sequence = SKAction.sequence([fadeOut, remove])
-        return SKAction.runBlock( { self.runAction(sequence) } )
+        return SKAction.runBlock( {
+            self.runAction(sequence)
+            self.runAction(SKAction.playSoundFileNamed("DetailAchievement.wav", waitForCompletion: false))
+        } )
+        
+        
+    }
+    
+    func getDetailType() -> DetailType {
+        return detailType
+    }
+    
+    func getTrackPosition() -> Int {
+        return trackPosition
+    }
+    
+    func getFloorPosition() -> FloorPosition {
+        return floorPosition
     }
 }

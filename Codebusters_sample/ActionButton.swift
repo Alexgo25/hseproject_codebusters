@@ -38,6 +38,7 @@ class ActionButton: SKSpriteNode {
         if labelShowed && !ActionCell.isArrayOfCellsFull() {
             var robot = parent as! Robot
             robot.appendAction(actionType)
+            runAction(SKAction.playSoundFileNamed("ActionSelection.mp3", waitForCompletion: false))
         }
         hideLabel()
     }

@@ -6,43 +6,20 @@
 //  Copyright (c) 2015 Kids'n'Code. All rights reserved.
 //
 
+import Foundation
 import SpriteKit
 
-enum NodeType: UInt32 {
-    case ActionButton = 1,
-    ActionCell = 2,
-    Touch = 3
-}
-
-enum State {
-    case Menu,
-    Level
-}
-
-class GameScene: SKScene, SKPhysicsContactDelegate {
-    
-    var state: State = .Menu
-
-    var levelBackground: LevelScene?
+class GameScene: SKScene {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func didMoveToView(view: SKView) {
-        physicsWorld.contactDelegate = self
-        physicsWorld.gravity = CGVectorMake(0, 0)
-        
-        levelBackground = getLevel(.CPU)
-        self.view?.presentScene(levelBackground!)
-        //let scene = getLevel(.CPU)
-        
-        //LevelScene(blocksPattern: [.first, .first, .first, .first, .first], robotPosition: 1, detailType: .CPU, detailPosition: 5, detailFloorPosition: .first)
-        //let transition = SKTransition.crossFadeWithDuration(0.7)
-        //self.view?.presentScene(scene, transition: transition)
     
-        //levelBackground = LevelBackground(blocksPattern: [.first, .first, .first, .first, .first], robotPosition: 1, detailType: .RAM1, detailPosition: 5, detailFloorPosition: .first)
-        //addChild(levelBackground!)
     }
     
     override func update(currentTime: CFTimeInterval) {
-        /* Called before each frame is rendered */
+       
     }
 }
 

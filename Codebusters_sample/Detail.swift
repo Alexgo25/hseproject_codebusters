@@ -30,25 +30,39 @@ class Detail: SKSpriteNode {
         self.floorPosition = floorPosition
         super.init(texture: texture, color: UIColor(), size: texture.size())
         position = getCGPointOfPosition(trackPosition, floorPosition)
+        if floorPosition == .first {
+            position.y += 60
+        } else {
+            position.y += 140
+        }
+        
+        if detailType == .Battery {
+            setScale(0.6)
+        }
+        
+        physicsBody = SKPhysicsBody(rectangleOfSize: size)
+        physicsBody!.categoryBitMask = PhysicsCategory.Detail
+        physicsBody!.contactTestBitMask = PhysicsCategory.Robot
+        physicsBody!.collisionBitMask = 0
+        
+        let moveUp = SKAction.moveByX(0, y: 90, duration: 1)
+        let moveDown = SKAction.moveByX(0, y: -90, duration: 1)
+        let sequence = SKAction.sequence([moveUp, moveDown])
+        runAction(SKAction.repeatActionForever(sequence))
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func hideDetail() -> SKAction {
-        /*let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject("", forKey: "\(detailType.rawValue)")*/
-        
+    func hideDetail() {
         var fadeOut = SKAction.fadeOutWithDuration(0.2)
         var remove = SKAction.removeFromParent()
         var sequence = SKAction.sequence([fadeOut, remove])
-        return SKAction.runBlock( {
+        runAction(SKAction.runBlock( {
             self.runAction(sequence)
             self.runAction(SKAction.playSoundFileNamed("DetailAchievement.wav", waitForCompletion: false))
-        } )
-        
-        
+        } ))
     }
     
     func getDetailType() -> DetailType {

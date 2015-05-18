@@ -24,6 +24,12 @@ enum FloorPosition: Int {
     second = 2
 }
 
+struct PhysicsCategory {
+    static let None: UInt32 = 0
+    static let Robot: UInt32 = 0b1  // 1
+    static let Detail: UInt32 = 0b10  // 2
+}
+
 struct LevelPatterns {
     static let CPU: [FloorPosition] = [.first, .first, .first, .first, .first]
     static let HardDrive: [FloorPosition] = [.first, .first, .first, .first, .first]
@@ -34,15 +40,20 @@ struct LevelPatterns {
 }
 
 struct Levels {
-    static let CPU: LevelScene = LevelScene(blocksPattern: LevelPatterns.CPU, robotPosition: 1, detailType: DetailType.CPU, detailPosition: 5, detailFloorPosition: FloorPosition.first)
-    static let HardDrive: LevelScene = LevelScene(blocksPattern: LevelPatterns.HardDrive, robotPosition: 4, detailType: DetailType.HardDrive, detailPosition: 1, detailFloorPosition: FloorPosition.first)
-    static let RAM1: LevelScene = LevelScene(blocksPattern: LevelPatterns.RAM1, robotPosition: 1, detailType: DetailType.RAM1, detailPosition: 5, detailFloorPosition: FloorPosition.second)
-    static let RAM2: LevelScene = LevelScene(blocksPattern: LevelPatterns.RAM2, robotPosition: 1, detailType: DetailType.RAM2, detailPosition: 5, detailFloorPosition: FloorPosition.first)
-    static let Battery: LevelScene = LevelScene(blocksPattern: LevelPatterns.Battery, robotPosition: 3, detailType: DetailType.Battery, detailPosition: 1, detailFloorPosition: FloorPosition.first)
-    static let Fan: LevelScene = LevelScene(blocksPattern: LevelPatterns.Fan, robotPosition: 1, detailType: DetailType.Fan, detailPosition: 1, detailFloorPosition: FloorPosition.second)
+    static let CPU = LevelScene(blocksPattern: LevelPatterns.CPU, robotPosition: 1, detailType: DetailType.CPU, detailPosition: 5, detailFloorPosition: FloorPosition.first)
+    static let HardDrive = LevelScene(blocksPattern: LevelPatterns.HardDrive, robotPosition: 4, detailType: DetailType.HardDrive, detailPosition: 1, detailFloorPosition: FloorPosition.first)
+    static let RAM1 = LevelScene(blocksPattern: LevelPatterns.RAM1, robotPosition: 1, detailType: DetailType.RAM1, detailPosition: 5, detailFloorPosition: FloorPosition.second)
+    static let RAM2 = LevelScene(blocksPattern: LevelPatterns.RAM2, robotPosition: 1, detailType: DetailType.RAM2, detailPosition: 5, detailFloorPosition: FloorPosition.first)
+    static let Battery = LevelScene(blocksPattern: LevelPatterns.Battery, robotPosition: 3, detailType: DetailType.Battery, detailPosition: 1, detailFloorPosition: FloorPosition.first)
+    static let Fan = LevelScene(blocksPattern: LevelPatterns.Fan, robotPosition: 1, detailType: DetailType.Fan, detailPosition: 1, detailFloorPosition: FloorPosition.second)
+    static let Array: [DetailType] = [.CPU, .HardDrive, .RAM1, .RAM2, .Battery, .Fan]
 }
 
-func getLevel(detailType: DetailType) -> LevelScene {
+func getLevel(level: Int) -> LevelScene? {
+    return getLevel(Levels.Array[level])
+}
+
+func getLevel(detailType: DetailType) -> LevelScene? {
     switch detailType {
     case .CPU:
         return Levels.CPU
@@ -89,13 +100,15 @@ struct Constants {
     static let ScreenSize = UIScreen.mainScreen().bounds
     static let ActionCellSize = CGSize(width: 239, height: 66)
     static let ActionCellFirstPosition = CGPoint(x: 1748, y: 1238)
-    static let Button_MoveForwardPosition = CGPoint(x: -138, y: 156)    //(x: 166, y: 915)
-    static let Button_TurnPosition = CGPoint(x: -41, y: 224)            //(x: 481, y: 915)
-    static let Button_PushPosition = CGPoint(x: 74, y: 224)             //(x: 384, y: 984)
-    static let Button_JumpPosition = CGPoint(x: 175, y: 156)            //(x: 263, y: 984)
+    static let Button_MoveForwardPosition = CGPoint(x: -168, y: 156)    //(x: 166, y: 915)
+    static let Button_TurnPosition = CGPoint(x: -61, y: 224)            //(x: 481, y: 915)
+    static let Button_PushPosition = CGPoint(x: 94, y: 224)             //(x: 384, y: 984)
+    static let Button_JumpPosition = CGPoint(x: 205, y: 156)            //(x: 263, y: 984)
     static let Button_StartPosition = CGPoint(x: 1742, y: 213)
     static let Button_PausePosition = CGPoint(x:102, y: 1436)
     static let Button_TipsPosition = CGPoint(x: 102, y: 1316)
+    static let Button_ResetPosition = CGPoint(x: 306, y: 730)
+    static let Button_ContinuePosition = CGPoint(x: 306, y: 882)
     static let Robot_FirstBlockPosition = CGPoint(x: 315, y: 760)
     static let Block_FirstPosition = CGPoint(x: 125, y: 523)
     static let BlockFace_Size = CGSize(width: 202, height: 199)

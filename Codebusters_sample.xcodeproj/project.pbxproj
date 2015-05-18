@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		110952C21AC6DF5B000A960A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110952C11AC6DF5B000A960A /* AppDelegate.swift */; };
-		110952C41AC6DF5B000A960A /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 110952C31AC6DF5B000A960A /* GameScene.sks */; };
 		110952C61AC6DF5B000A960A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110952C51AC6DF5B000A960A /* GameScene.swift */; };
 		110952C81AC6DF5B000A960A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110952C71AC6DF5B000A960A /* GameViewController.swift */; };
 		110952CB1AC6DF5B000A960A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 110952C91AC6DF5B000A960A /* Main.storyboard */; };
@@ -19,6 +18,7 @@
 		11E38C671AD949460061BE81 /* RobotStanding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E38C661AD949460061BE81 /* RobotStanding.swift */; };
 		11E38C691AD94BCC0061BE81 /* RobotTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E38C681AD94BCC0061BE81 /* RobotTrack.swift */; };
 		6131E1331AD2C9FF00D69DD6 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6131E1321AD2C9FF00D69DD6 /* Helper.swift */; };
+		613B797C1B0613F30021658D /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B797B1B0613F30021658D /* PauseView.swift */; };
 		614DA0B31AEF19780088A557 /* Reverse.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B21AEF19780088A557 /* Reverse.mp3 */; };
 		614DA0B51AEF19D00088A557 /* ActionSelection.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B41AEF19D00088A557 /* ActionSelection.mp3 */; };
 		614DA0B71AEF1A8A0088A557 /* CubeFalling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */; };
@@ -37,7 +37,6 @@
 		61A15FE91AEE4AA1008B36EA /* Jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 61A15FE81AEE4AA1008B36EA /* Jump.wav */; };
 		61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A436281AD09CC5002B8540 /* ActionButton.swift */; };
 		61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A4362A1AD16D1B002B8540 /* ActionCell.swift */; };
-		61B5E1991AE45C85002C734C /* LevelBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B5E1981AE45C85002C734C /* LevelBackground.swift */; };
 		61EFA4B41ADBEC4400EB8C6B /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EFA4B31ADBEC4400EB8C6B /* Block.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +54,6 @@
 		110952BC1AC6DF5B000A960A /* Codebusters_sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Codebusters_sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		110952C01AC6DF5B000A960A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		110952C11AC6DF5B000A960A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		110952C31AC6DF5B000A960A /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		110952C51AC6DF5B000A960A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		110952C71AC6DF5B000A960A /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		110952CA1AC6DF5B000A960A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -68,6 +66,7 @@
 		11E38C661AD949460061BE81 /* RobotStanding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotStanding.swift; sourceTree = "<group>"; };
 		11E38C681AD94BCC0061BE81 /* RobotTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotTrack.swift; sourceTree = "<group>"; };
 		6131E1321AD2C9FF00D69DD6 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		613B797B1B0613F30021658D /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		614DA0B21AEF19780088A557 /* Reverse.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Reverse.mp3; sourceTree = "<group>"; };
 		614DA0B41AEF19D00088A557 /* ActionSelection.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ActionSelection.mp3; sourceTree = "<group>"; };
 		614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = CubeFalling.mp3; sourceTree = "<group>"; };
@@ -86,7 +85,6 @@
 		61A15FE81AEE4AA1008B36EA /* Jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Jump.wav; sourceTree = "<group>"; };
 		61A436281AD09CC5002B8540 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		61A4362A1AD16D1B002B8540 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
-		61B5E1981AE45C85002C734C /* LevelBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelBackground.swift; sourceTree = "<group>"; };
 		61EFA4B31ADBEC4400EB8C6B /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,7 +136,7 @@
 				115C6E961ACBFA4200B79250 /* Robot.swift */,
 				11E38C661AD949460061BE81 /* RobotStanding.swift */,
 				618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */,
-				61B5E1981AE45C85002C734C /* LevelBackground.swift */,
+				613B797B1B0613F30021658D /* PauseView.swift */,
 				618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */,
 				614DA0C61AEF36680088A557 /* MenuScene.swift */,
 				11E38C681AD94BCC0061BE81 /* RobotTrack.swift */,
@@ -148,7 +146,6 @@
 				110952C91AC6DF5B000A960A /* Main.storyboard */,
 				110952CC1AC6DF5B000A960A /* Images.xcassets */,
 				110952CE1AC6DF5B000A960A /* LaunchScreen.xib */,
-				110952C31AC6DF5B000A960A /* GameScene.sks */,
 				110952BF1AC6DF5B000A960A /* Supporting Files */,
 			);
 			path = Codebusters_sample;
@@ -276,7 +273,6 @@
 				614DA0BB1AEF1C750088A557 /* LevelCompleted.mp3 in Resources */,
 				110952CD1AC6DF5B000A960A /* Images.xcassets in Resources */,
 				614DA0B31AEF19780088A557 /* Reverse.mp3 in Resources */,
-				110952C41AC6DF5B000A960A /* GameScene.sks in Resources */,
 				614DA0BF1AEF1DCB0088A557 /* PauseButton.mp3 in Resources */,
 				614DA0BD1AEF1C870088A557 /* DetailAchievement.wav in Resources */,
 				110952CB1AC6DF5B000A960A /* Main.storyboard in Resources */,
@@ -303,7 +299,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				618F7BA61AEECC9200B2DBC5 /* MenuBackground.swift in Sources */,
-				61B5E1991AE45C85002C734C /* LevelBackground.swift in Sources */,
+				613B797C1B0613F30021658D /* PauseView.swift in Sources */,
 				115C6E971ACBFA4200B79250 /* Robot.swift in Sources */,
 				615CEFD41AE6597B006403B5 /* Detail.swift in Sources */,
 				110952C61AC6DF5B000A960A /* GameScene.swift in Sources */,

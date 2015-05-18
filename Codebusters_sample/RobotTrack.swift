@@ -34,7 +34,7 @@ class RobotTrack {
     func canPerformActionWithDirection(action: ActionType, direction: Direction) -> Bool {
         switch action {
         case .moveForward:
-            var bool = track[currentRobotPosition].getFloorPosition() == track[getNextRobotTrackPosition(direction)].getFloorPosition()
+            var bool = ((track[currentRobotPosition].getFloorPosition().rawValue >= track[getNextRobotTrackPosition(direction)].getFloorPosition().rawValue) && (track[getNextRobotTrackPosition(direction)].getFloorPosition() != .ground))
             return bool
         case .jump:
             var bool: Bool = track[currentRobotPosition].getFloorPosition() != .ground && track[getNextRobotTrackPosition(direction)].getFloorPosition() != .ground

@@ -14,13 +14,17 @@ enum Direction: Int {
     ToLeft = -1
 }
 
-class Robot: SKSpriteNode {
+class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     
     private var actions: [SKAction] = []
-    private var direction: Direction = .ToRight
-    private var tempPosition: Int = 0
-    private var turnedToFront: Bool = false
+    private var currentActionIndex = 0
+    private var direction: Direction = .ToRight // рассчитывается заранее
+    private var animationDirection: Direction = .ToRight // рассчитывается во время движения
+    private var turnedToFront = false
+    private var stopRobot = false
+    
     var track: RobotTrack
+    
     private let actionButtons: [ActionButton] = [ActionButton(type: .moveForward), ActionButton(type: .turn), ActionButton(type: .push), ActionButton(type: .jump)]
     var isOnStart = true
     
@@ -29,93 +33,149 @@ class Robot: SKSpriteNode {
         var texture = SKTexture(imageNamed: "robot")
         self.track = track
         super.init(texture: texture, color: UIColor(), size: texture.size())
-        tempPosition = trackPosition()
         zPosition = CGFloat(floorPosition().rawValue * 7 + trackPosition())
         moveToStart()
         actions = []
         userInteractionEnabled = true
+        
+        physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width - 50, height: size.height - 70))
+        physicsBody!.categoryBitMask = PhysicsCategory.Robot
+        physicsBody!.contactTestBitMask = PhysicsCategory.Detail
+        physicsBody!.collisionBitMask = 0
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func currentAction() -> Int {
+        return currentActionIndex
+    }
+    
     func canPerformAction(actionType: ActionType) -> Bool {
         return track.canPerformActionWithDirection(actionType, direction: direction)
+    }
+    
+    func takeDetail() {
+        stopRobot = true
     }
     
     func appendAction(actionType: ActionType) {
         parent!.addChild(ActionCell(actionType: actionType))
         if canPerformAction(actionType) {
-            actions.append(ActionCell.cells.last!.highlightBegin())
+            let highlightBeginAction = ActionCell.cells.last!.highlightBegin()
+            let highlightEndAction = ActionCell.cells.last!.highlightEnd()
+            var action: SKAction
             switch actionType {
             case .moveForward:
-                actions.append(moveForward(direction))
-                
+                action = moveForward()
             case .turn:
-                actions.append(turn(direction))
-            
+                action = turn()
             case .jump:
-                actions.append(jump(direction))
-            
+                action = jump(false)
             case .push:
-                actions.append(push_FirstPart(direction))
-                actions.append(track.moveBlock(direction))
-                actions.append(push_SecondPart(direction))
-            
+                action = push()
             default:
-                println()
+                return
             }
-            actions.append(ActionCell.cells.last!.highlightEnd())
+            let sequence = SKAction.sequence([highlightBeginAction, action, highlightEndAction])
+            actions.append(sequence)
         } else {
-            let turn = SKAction.animateWithTextures(TurnToFrontAnimationTextures(direction), timePerFrame: 0.05)
-            actions.append(turn)
-            actions.append(SKAction.runBlock( { self.removeActionForKey("sequence") } ))
+            actions.append(SKAction.runBlock() {
+                self.stopRobot = true
+            })
+            actions.append(SKAction())
         }
+    }
+    
+    func runActions() {
+        runAction(actions[currentActionIndex], completion: {
+            self.runAction(SKAction.runBlock() {
+                if self.stopRobot {
+                    let turn = SKAction.animateWithTextures(TurnToFrontAnimationTextures(self.animationDirection), timePerFrame: 0.05)
+                    self.runAction(turn)
+                    return
+                } else {
+                    if self.currentActionIndex < self.actions.count - 1 {
+                        self.currentActionIndex++
+                        self.runActions()
+                    }
+                }
+            })
+        })
     }
     
     func performActions() {
-        if turnedToFront {
-            turnFromFront(direction)
-        }
-        
-        let sequence = SKAction.sequence(actions)
-        if !actions.isEmpty {
+        if !actions.isEmpty && isOnStart {
+            if turnedToFront {
+                let turnFromFront = SKAction.runBlock() {
+                    self.turnFromFront()
+                }
+            
+                runAction(turnFromFront, completion: { self.runActions() } )
+                return
+            }
+            
             isOnStart = false
-            runAction(sequence, withKey: "sequence")
+            runActions()
         }
     }
     
-    func moveForward(direction: Direction) -> SKAction {
-        let move = SKAction.moveTo(getNextTempPositionCGPoint(direction), duration: 1.6)
-        let animate = SKAction.group([SKAction.animateWithTextures(MoveAnimationTextures(direction), timePerFrame: 0.04, resize: true, restore: false)])
-        let repeatAnimation = SKAction.repeatAction(animate, count: 5)
+    func moveForward() -> SKAction {
+        if floorPosition() == track.getFloorPositionAt(track.getNextRobotTrackPosition(direction)) {
+            let move = SKAction.moveByX(Constants.BlockFace_Size.width * CGFloat(direction.rawValue), y: 0, duration: 1.6)
         
-        let position = getZPosition(track.getFloorPositionAt(track.getNextRobotTrackPosition(direction)), tempPosition: tempPosition)
-        let action = SKAction.runBlock( {
+            let animate = SKAction.group([SKAction.animateWithTextures(MoveAnimationTextures(direction), timePerFrame: 0.04, resize: true, restore: false)])
+            let repeatAnimation = SKAction.repeatAction(animate, count: 5)
+        
+            let nextTrackPosition = self.track.getNextRobotTrackPosition(direction)
+            let setZPosition = SKAction.runBlock() {
+                let nextFloorPosition = self.track.getFloorPositionAt(nextTrackPosition)
+                let position = self.getNextZPosition(nextFloorPosition, trackPosition: nextTrackPosition)
             self.zPosition = position
-        } )
-        let moveAndAnimate = SKAction.group([move, repeatAnimation, action])
+            }
+       
+            let moveAndAnimate = SKAction.group([move, repeatAnimation, setZPosition])
         
-        tempPosition += direction.rawValue
-        track.setNextRobotTrackPosition(direction)
+            track.setNextRobotTrackPosition(direction)
         
-        return moveAndAnimate
+            return moveAndAnimate
+        } else {
+            let nextTrackPosition = self.track.getNextRobotTrackPosition(direction)
+            
+            let move = SKAction.moveByX(Constants.BlockFace_Size.width * CGFloat(direction.rawValue)/5, y: 0, duration: 0.32)
+            
+            let animate = SKAction.group([SKAction.animateWithTextures(MoveAnimationTextures(direction), timePerFrame: 0.04, resize: true, restore: false)])
+            let repeatAnimation = SKAction.repeatAction(animate, count: 1)
+            
+            let setZPosition = SKAction.runBlock() {
+                let nextFloorPosition = self.track.getFloorPositionAt(nextTrackPosition)
+                let position = self.getNextZPosition(nextFloorPosition, trackPosition: nextTrackPosition)
+                self.zPosition = position
+            }
+            
+            let moveAndAnimate = SKAction.group([move, repeatAnimation])
+            let sequence = SKAction.sequence([moveAndAnimate, setZPosition, jump(true)])
+            
+            return sequence
+        }
     }
     
-    func turn(direction: Direction) -> SKAction {
+    func turn() -> SKAction {
         let sound = SKAction.playSoundFileNamed("Reverse.mp3", waitForCompletion: false)
-        
         let animate = SKAction.animateWithTextures(TurnAnimationTextures(direction), timePerFrame: 0.08, resize: true, restore: false)
-        
+        let changeAnimationDirection = SKAction.runBlock() {
+            self.changeAnimationDirection()
+        }
         changeDirection()
-        let action = SKAction.group([sound, animate])
+        
+        let action = SKAction.group([changeAnimationDirection, sound, animate])
         return action
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        if !turnedToFront {
-            runAction(turnToFront(direction))
+        if !turnedToFront && isOnStart {
+            runAction(turnToFront())
         }
     }
     
@@ -123,22 +183,23 @@ class Robot: SKSpriteNode {
     
     }
     
-    func turnToFront(direction: Direction) -> SKAction {
-        var block = SKAction.runBlock( {
-        for button in self.actionButtons {
-            self.addChild(button)
-            button.showButton()
+    func turnToFront() -> SKAction {
+        var block = SKAction.runBlock() {
+            for button in self.actionButtons {
+                self.addChild(button)
+                button.showButton()
+            }
+        
+            let animate = SKAction.animateWithTextures(TurnToFrontAnimationTextures(.ToRight), timePerFrame: 0.05, resize: true, restore: false)
+            self.runAction(animate)
+            self.turnedToFront = true
         }
         
-        let animate = SKAction.animateWithTextures(TurnToFrontAnimationTextures(direction), timePerFrame: 0.05, resize: true, restore: false)
-        self.runAction(animate)
-        self.turnedToFront = true
-        } )
         return block
     }
     
-    func turnFromFront(direction: Direction) {
-        let animate = SKAction.animateWithTextures(TurnFromFrontAnimationTextures(direction), timePerFrame: 0.05, resize: true, restore: false)
+    func turnFromFront() {
+        let animate = SKAction.animateWithTextures(TurnFromFrontAnimationTextures(.ToRight), timePerFrame: 0.05, resize: true, restore: false)
         runAction(animate)
         turnedToFront = false
         for button in actionButtons {
@@ -146,94 +207,79 @@ class Robot: SKSpriteNode {
         }
     }
     
-    func jump(direction: Direction) -> SKAction {
-        
-        /*let moveUp = SKAction.moveToY(max(getNextTempPositionCGPoint(direction).y, getTempPositionCGPoint().y) + Constants.BlockFace_Size.height/3, duration: 0.5)
-        let move = SKAction.moveToX(getNextTempPositionCGPoint(direction).x, duration: 0.5)
-        let moveDown = SKAction.moveTo(getNextTempPositionCGPoint(direction), duration: 0.5)
-        let action = SKAction.runBlock( { self.zPosition = self.getTempZPosition(self.track.getNextTrackFloorPosition(direction)) } )
-        let animateBegin = SKAction.animateWithTextures(JumpAnimationTextures(direction), timePerFrame: 0.04, resize: true, restore: false)
-        let animateEnd = animateBegin.reversedAction()
-        let sequence = SKAction.sequence([animateBegin, moveUp, action, move, moveDown, animateEnd])
-        */
-        
+    func jump(afterStep: Bool) -> SKAction {
+        let nextTrackPosition = self.track.getNextRobotTrackPosition(direction)
+        var currentPositionPoint = getCurrentPositionPoint()
+      
+        if afterStep {
+            let x = Int(currentPositionPoint.x) + Int(Constants.BlockFace_Size.width * CGFloat(direction.rawValue)/5)
+            currentPositionPoint.x = CGFloat(x)
+        }
+    
         let path = UIBezierPath()
-        path.moveToPoint(getTempPositionCGPoint())
-        var endPoint = CGPoint(x: getNextTempPositionCGPoint(direction).x, y: getNextTempPositionCGPoint(direction).y + 45)
-        var controlPoint = CGPoint(x: (getNextTempPositionCGPoint(direction).x + getTempPositionCGPoint().x)/2, y: max(getNextTempPositionCGPoint(direction).y, getTempPositionCGPoint().y) + UIImage(named: "block")!.size.height )
-        
+        path.moveToPoint(currentPositionPoint)
+        var endPoint = CGPoint(x: getNextPositionPoint(direction).x , y: getNextPositionPoint(direction).y + 45)
+        var controlPoint: CGPoint
+
+        if floorPosition() != track.getFloorPositionAt(nextTrackPosition) {
+            controlPoint = CGPoint(x: (getNextPositionPoint(direction).x + currentPositionPoint.x)/2, y: max(getNextPositionPoint(direction).y, currentPositionPoint.y) + UIImage(named: "block")!.size.height )
+        } else {
+            controlPoint = CGPoint(x: (getNextPositionPoint(direction).x + currentPositionPoint.x)/2, y: max(getNextPositionPoint(direction).y, currentPositionPoint.y) + UIImage(named: "block")!.size.height/2 )
+        }
         path.addQuadCurveToPoint(endPoint, controlPoint: controlPoint)
         
-        let position = getZPosition(track.getFloorPositionAt(track.getNextRobotTrackPosition (direction)), tempPosition: tempPosition)
-        let action = SKAction.runBlock( { self.zPosition = position } )
+        let setZPosition = SKAction.runBlock() {
+            let nextFloorPosition = self.track.getFloorPositionAt(nextTrackPosition)
+            let position = self.getNextZPosition(nextFloorPosition, trackPosition: nextTrackPosition)
+            self.zPosition = position
+        }
         
         let animateBegin = SKAction.animateWithTextures(JumpAnimationTextures(direction), timePerFrame: 0.04, resize: true, restore: false)
         let moveByCurve = SKAction.followPath(path.CGPath, asOffset: false, orientToPath: false, duration: 1)
-        let animateEnd =  SKAction.group([SKAction.moveTo(self.getNextTempPositionCGPoint(direction), duration: 0.2), animateBegin.reversedAction()])
+        let animateEnd =  SKAction.group([SKAction.moveTo(self.getNextPositionPoint(direction), duration: 0.2), animateBegin.reversedAction()])
+        
         let sound = SKAction.playSoundFileNamed("Jump.wav", waitForCompletion: false)
         
-        let sequence = SKAction.sequence([animateBegin, sound, moveByCurve, action, animateEnd])
+        let sequence = SKAction.sequence([animateBegin, sound, moveByCurve, setZPosition, animateEnd])
         
-        tempPosition += direction.rawValue
         track.setNextRobotTrackPosition(direction)
         
         return sequence
     }
     
-    func push_FirstPart(direction: Direction) -> SKAction {
+    func push() -> SKAction {
+        let sequence = SKAction.sequence([push_FirstPart(), track.moveBlock(direction), push_SecondPart()])
+        return sequence
+    }
+    
+    func push_FirstPart() -> SKAction {
         let animate = SKAction.animateWithTextures(PushAnimationTextures_FirstPart(direction), timePerFrame: 0.08, resize: true, restore: false)
         let sound = SKAction.playSoundFileNamed("CubePush.mp3", waitForCompletion: false)
         let action = SKAction.group([animate, sound])
         return action
     }
     
-    func push_SecondPart(direction: Direction) -> SKAction {
+    func push_SecondPart() -> SKAction {
         let animate = SKAction.animateWithTextures(PushAnimationTextures_SecondPart(direction), timePerFrame: 0.08, resize: true, restore: false)
         
         return animate
     }
     
-    func takeDetail(action: SKAction) {
-        actions.append(action)
-        let turn = SKAction.animateWithTextures(TurnToFrontAnimationTextures(direction), timePerFrame: 0.05)
-        actions.append(turn)
-        let sound = SKAction.playSoundFileNamed("LevelCompleted.mp3", waitForCompletion: false)
-        actions.append(sound)
-        //MenuBackground.details[MenuBackground.currentLevel].setCellState(.Placed)
-        if MenuBackground.currentLevel < 6 {
-            MenuBackground.currentLevel++
-            //MenuBackground.details[MenuBackground.currentLevel].setCellState(.Active)
-        }
-        
-        let transition = SKAction.runBlock( {
-            let scene: SKScene
-            if MenuBackground.currentLevel < 6 {
-                scene = getLevel(MenuBackground.details[MenuBackground.currentLevel].getDetailType())
-            } else {
-                scene = MenuScene()
-            }
-            let transition = SKTransition.crossFadeWithDuration(0.7)
-            let action: Void? = self.scene?.view?.presentScene(scene, transition: transition)
-        } )
-        actions.append(transition)
-    }
-    
     func moveToStart() {
         isOnStart = true
         position = getCGPointOfPosition(track.getRobotStartPosition(), track.getFloorPositionAt(track.getRobotStartPosition()))
-        tempPosition = track.getCurrentRobotPosition()
     }
     
     func getStartPosition() -> Int {
         return track.getRobotStartPosition()
     }
     
-    func getTempPositionCGPoint() -> CGPoint {
-        return getCGPointOfPosition(tempPosition, track.getFloorPositionAt(tempPosition))
+    func getCurrentPositionPoint() -> CGPoint {
+        return getCGPointOfPosition(trackPosition(), floorPosition())
     }
     
-    func getNextTempPositionCGPoint(direction: Direction) -> CGPoint {
-        return getCGPointOfPosition(tempPosition + direction.rawValue, track.getFloorPositionAt(tempPosition + direction.rawValue))
+    func getNextPositionPoint(direction: Direction) -> CGPoint {
+        return getCGPointOfPosition(trackPosition() + direction.rawValue, track.getFloorPositionAt(trackPosition() + direction.rawValue))
     }
     
     func getDirection() -> Direction {
@@ -242,9 +288,17 @@ class Robot: SKSpriteNode {
     
     func changeDirection() {
         if direction == .ToRight {
-            self.direction = .ToLeft
+            direction = .ToLeft
         } else {
-            self.direction = .ToRight
+            direction = .ToRight
+        }
+    }
+    
+    func changeAnimationDirection() {
+        if animationDirection == .ToRight {
+            animationDirection = .ToLeft
+        } else {
+            animationDirection = .ToRight
         }
     }
     
@@ -252,16 +306,12 @@ class Robot: SKSpriteNode {
         return turnedToFront
     }
     
-    /*func iSOnStart() -> Bool {
-        return position == getCGPointOfPosition(getStartPosition(), track.getFloorPositionAt(getStartPosition()))
-    }*/
-    
     func isOnDetailPosition() -> Bool {
         return track.robotIsOnDetailPosition()
     }
     
-    private func getZPosition(floorPosition: FloorPosition, tempPosition: Int) -> CGFloat {
-        return CGFloat(tempPosition + floorPosition.rawValue * 7)
+    private func getNextZPosition(floorPosition: FloorPosition, trackPosition: Int) -> CGFloat {
+        return CGFloat(trackPosition + floorPosition.rawValue * 7)
     }
     
     private func trackPosition() -> Int {

@@ -166,12 +166,12 @@ func MoveAnimationTextures(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 1; i <= 8; i++ {
-            var imageString = "MoveForward\(i)"
+            var imageString = "Move\(i)_ToRight"
             textures.append(SKTexture(imageNamed: imageString))
         }
     } else {
         for var i = 1; i <= 8; i++ {
-            var imageString = "MoveBack\(i)"
+            var imageString = "Move\(i)_ToLeft"
             textures.append(SKTexture(imageNamed: imageString))
         }
     }
@@ -184,15 +184,13 @@ func JumpAnimationTextures(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 1; i <= 8; i++ {
-            var imageString = "Jump\(i)"
+            var imageString = "Jump\(i)_ToRight"
             textures.append(SKTexture(imageNamed: imageString))
         }
     } else {
         for var i = 1; i <= 8; i++ {
-            var imageString = "Jump\(i)"
-            var image = UIImage(named: imageString)
-            
-            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
+            var imageString = "Jump\(i)_ToLeft"
+            textures.append(SKTexture(imageNamed: imageString))
         }
     }
     
@@ -204,36 +202,31 @@ func PushAnimationTextures_FirstPart(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 1; i <= 5; i++ {
-            var imageString = "Push\(i)"
+            var imageString = "Push\(i)_ToRight"
             textures.append(SKTexture(imageNamed: imageString))
         }
     } else {
         for var i = 1; i <= 5; i++ {
-            var imageString = "Push\(i)"
-            var image = UIImage(named: imageString)
-
-            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
+            var imageString = "Push\(i)_ToLeft"
+            textures.append(SKTexture(imageNamed: imageString))
         }
     }
     
     return textures
 }
 
-
 func PushAnimationTextures_SecondPart(direction: Direction) -> [SKTexture] {
     var textures: [SKTexture] = []
     
     if direction == .ToRight {
         for var i = 6; i <= 9; i++ {
-            var imageString = "Push\(i)"
+            var imageString = "Push\(i)_ToRight"
             textures.append(SKTexture(imageNamed: imageString))
         }
     } else {
         for var i = 6; i <= 9; i++ {
-            var imageString = "Push\(i)"
-            var image = UIImage(named: imageString)
-            
-            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
+            var imageString = "Push\(i)_ToLeft"
+            textures.append(SKTexture(imageNamed: imageString))
         }
     }
     
@@ -263,12 +256,12 @@ func TurnToFrontAnimationTextures(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 1; i < 6; i++ {
-            var imageString = "TurnToFront\(i)"
+            var imageString = "TurnToFront\(i)_ToRight"
             textures.append(SKTexture(imageNamed: imageString))
         }
     } else {
         for var i = 1; i < 6; i++ {
-            var imageString = "TurnToFront\(i)"
+            var imageString = "TurnToFront\(i)_ToRight"
             var image = UIImage(named: imageString)
             
             textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
@@ -283,12 +276,12 @@ func TurnFromFrontAnimationTextures(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 5; i > 0; i-- {
-            var imageString = "TurnToFront\(i)"
+            var imageString = "TurnToFront\(i)_ToRight"
             textures.append(SKTexture(imageNamed: imageString))
         }
     } else {
         for var i = 5; i > 0; i-- {
-            var imageString = "TurnToFront\(i)"
+            var imageString = "TurnToFront\(i)_ToRight"
             var image = UIImage(named: imageString)
            
             textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))

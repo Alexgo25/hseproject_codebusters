@@ -24,7 +24,6 @@ class ActionCell: SKSpriteNode {
         self.actionType = actionType
         position = getNextPosition()
         ActionCell.cells.append(self)
-        zPosition = 3
         /*
         physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width * 2 / 5, height: size.height * 2 / 3))
         physicsBody!.categoryBitMask = NodeType.ActionCell.rawValue
@@ -48,11 +47,15 @@ class ActionCell: SKSpriteNode {
     }
     
     func highlightBegin() -> SKAction {
-        return SKAction.runBlock( { self.texture = SKTexture(imageNamed: "cell_\(self.actionType.rawValue)_Highlighted") } )
+        return SKAction.runBlock() {
+            self.texture = SKTexture(imageNamed: "cell_\(self.actionType.rawValue)_Highlighted")
+        }
     }
     
     func highlightEnd() -> SKAction {
-        return SKAction.runBlock( { self.texture = SKTexture(imageNamed: "cell_\(self.actionType.rawValue)") } )
+        return SKAction.runBlock() {
+            self.texture = SKTexture(imageNamed: "cell_\(self.actionType.rawValue)")
+        }
     }
     
     class func isArrayOfCellsFull() -> Bool {

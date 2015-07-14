@@ -19,7 +19,7 @@ class PauseView: SKSpriteNode {
     init() {
         let texture = SKTexture(imageNamed: "pauseBackgroundRightPart")
         super.init(texture: texture, color: UIColor(), size: texture.size())
-        zPosition = 200
+        zPosition = 100
         alpha = 0
         anchorPoint = CGPointZero
         backgroundLeftPart.anchorPoint = CGPointZero
@@ -38,13 +38,13 @@ class PauseView: SKSpriteNode {
         let moveLeftPart = SKAction.moveByX(backgroundLeftPart.size.width, y: 0, duration: 0.15)
         backgroundLeftPart.runAction(moveLeftPart)
         let pause = SKAction.runBlock() {
-            self.scene?.paused = true
+            self.scene!.paused = true
         }
         runAction(SKAction.sequence([appear, pause]))
     }
     
     func hide() {
-        self.scene?.paused = false
+        self.scene!.paused = false
         let disappear = SKAction.fadeOutWithDuration(0.15)
         let moveLeftPart = SKAction.moveByX(-backgroundLeftPart.size.width, y: 0, duration: 0.15)
         backgroundLeftPart.runAction(moveLeftPart)

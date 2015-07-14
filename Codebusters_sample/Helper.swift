@@ -11,7 +11,7 @@ import UIKit
 import SpriteKit
 
 enum ActionType: String {
-    case moveForward = "MoveForward",
+    case move = "Move",
     turn = "Turn",
     push = "Push",
     jump = "Jump",
@@ -22,6 +22,12 @@ enum FloorPosition: Int {
     case ground = 0,
     first = 1,
     second = 2
+}
+
+enum DetailCellState: String {
+    case NonActive = "_NonActive",
+    Active = "_Active",
+    Placed = ""
 }
 
 struct PhysicsCategory {
@@ -39,6 +45,7 @@ struct LevelPatterns {
     static let Fan: [FloorPosition] = [.first, .first, .second, .first, .first]
 }
 
+/*
 struct Levels {
     static let CPU = LevelScene(blocksPattern: LevelPatterns.CPU, robotPosition: 1, detailType: DetailType.CPU, detailPosition: 5, detailFloorPosition: FloorPosition.first)
     static let HardDrive = LevelScene(blocksPattern: LevelPatterns.HardDrive, robotPosition: 4, detailType: DetailType.HardDrive, detailPosition: 1, detailFloorPosition: FloorPosition.first)
@@ -68,7 +75,7 @@ func getLevel(detailType: DetailType) -> LevelScene? {
     case .Fan:
         return Levels.Fan
     }
-}
+}*/
 
 struct MenuConstants {
     static let CPUPosition = CGPoint(x: 1510, y: 813)
@@ -100,7 +107,7 @@ struct Constants {
     static let ScreenSize = UIScreen.mainScreen().bounds
     static let ActionCellSize = CGSize(width: 239, height: 66)
     static let ActionCellFirstPosition = CGPoint(x: 1748, y: 1238)
-    static let Button_MoveForwardPosition = CGPoint(x: -168, y: 156)    //(x: 166, y: 915)
+    static let Button_MovePosition = CGPoint(x: -168, y: 156)    //(x: 166, y: 915)
     static let Button_TurnPosition = CGPoint(x: -61, y: 224)            //(x: 481, y: 915)
     static let Button_PushPosition = CGPoint(x: 94, y: 224)             //(x: 384, y: 984)
     static let Button_JumpPosition = CGPoint(x: 205, y: 156)            //(x: 263, y: 984)
@@ -127,8 +134,8 @@ func getYBlockPosition(floorPosition: FloorPosition) -> CGFloat {
 
 func getActionButtonPosition(actionType: ActionType) -> CGPoint {
     switch actionType {
-    case .moveForward:
-        return Constants.Button_MoveForwardPosition
+    case .move:
+        return Constants.Button_MovePosition
     case .turn:
         return Constants.Button_TurnPosition
     case .push:
@@ -166,13 +173,11 @@ func MoveAnimationTextures(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 1; i <= 8; i++ {
-            var imageString = "Move\(i)_ToRight"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Move\(i)_ToRight"))
         }
     } else {
         for var i = 1; i <= 8; i++ {
-            var imageString = "Move\(i)_ToLeft"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Move\(i)_ToLeft"))
         }
     }
     
@@ -184,13 +189,11 @@ func JumpAnimationTextures(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 1; i <= 8; i++ {
-            var imageString = "Jump\(i)_ToRight"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Jump\(i)_ToRight"))
         }
     } else {
         for var i = 1; i <= 8; i++ {
-            var imageString = "Jump\(i)_ToLeft"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Jump\(i)_ToLeft"))
         }
     }
     
@@ -202,13 +205,11 @@ func PushAnimationTextures_FirstPart(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 1; i <= 5; i++ {
-            var imageString = "Push\(i)_ToRight"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Push\(i)_ToRight"))
         }
     } else {
         for var i = 1; i <= 5; i++ {
-            var imageString = "Push\(i)_ToLeft"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Push\(i)_ToLeft"))
         }
     }
     
@@ -220,13 +221,11 @@ func PushAnimationTextures_SecondPart(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 6; i <= 9; i++ {
-            var imageString = "Push\(i)_ToRight"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Push\(i)_ToRight"))
         }
     } else {
         for var i = 6; i <= 9; i++ {
-            var imageString = "Push\(i)_ToLeft"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Push\(i)_ToLeft"))
         }
     }
     
@@ -238,13 +237,11 @@ func TurnAnimationTextures(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 7; i >= 1; i-- {
-            var imageString = "Turn\(i)"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Turn\(i)"))
         }
     } else {
         for var i = 1; i <= 7; i++ {
-            var imageString = "Turn\(i)"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "Turn\(i)"))
         }
     }
     
@@ -256,15 +253,11 @@ func TurnToFrontAnimationTextures(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 1; i < 6; i++ {
-            var imageString = "TurnToFront\(i)_ToRight"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "TurnToFront\(i)_ToRight"))
         }
     } else {
         for var i = 1; i < 6; i++ {
-            var imageString = "TurnToFront\(i)_ToRight"
-            var image = UIImage(named: imageString)
-            
-            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
+            textures.append(SKTexture(imageNamed: "TurnToFront\(i)_ToLeft"))
         }
     }
     
@@ -276,61 +269,13 @@ func TurnFromFrontAnimationTextures(direction: Direction) -> [SKTexture] {
     
     if direction == .ToRight {
         for var i = 5; i > 0; i-- {
-            var imageString = "TurnToFront\(i)_ToRight"
-            textures.append(SKTexture(imageNamed: imageString))
+            textures.append(SKTexture(imageNamed: "TurnToFront\(i)_ToRight"))
         }
     } else {
         for var i = 5; i > 0; i-- {
-            var imageString = "TurnToFront\(i)_ToRight"
-            var image = UIImage(named: imageString)
-           
-            textures.append(SKTexture(image: image!.imageRotatedByDegrees(0, flip: true)))
+            textures.append(SKTexture(imageNamed: "TurnToFront\(i)_ToRight"))
         }
     }
     
     return textures
-}
-
-extension UIImage {
-        func imageRotatedByDegrees(degrees: CGFloat, flip: Bool) -> UIImage {
-        let radiansToDegrees: (CGFloat) -> CGFloat = {
-            return $0 * (180.0 / CGFloat(M_PI))
-        }
-        let degreesToRadians: (CGFloat) -> CGFloat = {
-            return $0 / 180.0 * CGFloat(M_PI)
-        }
-        
-        // calculate the size of the rotated view's containing box for our drawing space
-        let rotatedViewBox = UIView(frame: CGRect(origin: CGPointZero, size: size))
-        let t = CGAffineTransformMakeRotation(degreesToRadians(degrees));
-        rotatedViewBox.transform = t
-        let rotatedSize = rotatedViewBox.frame.size
-        
-        // Create the bitmap context
-        UIGraphicsBeginImageContext(rotatedSize)
-        let bitmap = UIGraphicsGetCurrentContext()
-        
-        // Move the origin to the middle of the image so we will rotate and scale around the center.
-        CGContextTranslateCTM(bitmap, rotatedSize.width / 2.0, rotatedSize.height / 2.0);
-        
-        //   // Rotate the image context
-        CGContextRotateCTM(bitmap, degreesToRadians(degrees));
-        
-        // Now, draw the rotated/scaled image into the context
-        var yFlip: CGFloat
-        
-        if(flip){
-            yFlip = CGFloat(-1.0)
-        } else {
-            yFlip = CGFloat(1.0)
-        }
-        
-        CGContextScaleCTM(bitmap, yFlip, -1.0)
-        CGContextDrawImage(bitmap, CGRectMake(-size.width / 2, -size.height / 2, size.width, size.height), CGImage)
-        
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
-    }
 }

@@ -24,7 +24,7 @@ class Detail: SKSpriteNode {
     private var floorPosition: FloorPosition
     
     init(detailType: DetailType, trackPosition: Int, floorPosition: FloorPosition) {
-        let texture = SKTexture(imageNamed: "\(detailType.rawValue)__")
+        let texture = SKTexture(imageNamed: "\(detailType.rawValue)")
         self.detailType = detailType
         self.trackPosition = trackPosition
         self.floorPosition = floorPosition

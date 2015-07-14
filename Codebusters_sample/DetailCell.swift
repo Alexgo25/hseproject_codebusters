@@ -15,7 +15,7 @@ class DetailCell: SKSpriteNode {
     private var detailType: DetailType
     
     init(detailType: DetailType, cellState: DetailCellState) {
-        var texture = SKTexture(imageNamed: "\(detailType.rawValue)_\(cellState.rawValue)")
+        var texture = SKTexture(imageNamed: "\(detailType.rawValue)\(cellState.rawValue)")
         self.cellState = cellState
         self.detailType = detailType
         super.init(texture: texture, color: UIColor(), size: texture.size())
@@ -33,8 +33,7 @@ class DetailCell: SKSpriteNode {
     
     func setCellState(cellState: DetailCellState) {
         self.cellState = cellState
-        self.texture = SKTexture(imageNamed: "\(detailType.rawValue)_\(cellState.rawValue)")
-        println("\(detailType.rawValue)_\(cellState.rawValue)")
+        self.texture = SKTexture(imageNamed: "\(detailType.rawValue)\(cellState.rawValue)")
         self.size = texture!.size()
     }
     

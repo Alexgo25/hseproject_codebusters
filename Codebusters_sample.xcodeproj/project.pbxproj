@@ -30,6 +30,7 @@
 		614DA0C31AEF1E440088A557 /* TipButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C21AEF1E440088A557 /* TipButton.mp3 */; };
 		614DA0C51AEF1E730088A557 /* Walk.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C41AEF1E730088A557 /* Walk.mp3 */; };
 		614DA0C71AEF36680088A557 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614DA0C61AEF36680088A557 /* MenuScene.swift */; };
+		615ADA101B51578400CA5D7F /* Levels.plist in Resources */ = {isa = PBXBuildFile; fileRef = 615ADA0F1B51578400CA5D7F /* Levels.plist */; };
 		615CEFD41AE6597B006403B5 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615CEFD31AE6597B006403B5 /* Detail.swift */; };
 		618F7BA61AEECC9200B2DBC5 /* MenuBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */; };
 		618F7BA81AEEDCEE00B2DBC5 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */; };
@@ -78,6 +79,7 @@
 		614DA0C21AEF1E440088A557 /* TipButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TipButton.mp3; sourceTree = "<group>"; };
 		614DA0C41AEF1E730088A557 /* Walk.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Walk.mp3; sourceTree = "<group>"; };
 		614DA0C61AEF36680088A557 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		615ADA0F1B51578400CA5D7F /* Levels.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Levels.plist; sourceTree = "<group>"; };
 		615CEFD31AE6597B006403B5 /* Detail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
 		618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBackground.swift; sourceTree = "<group>"; };
 		618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */,
 				613B797B1B0613F30021658D /* PauseView.swift */,
 				618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */,
+				615ADA0F1B51578400CA5D7F /* Levels.plist */,
 				614DA0C61AEF36680088A557 /* MenuScene.swift */,
 				11E38C681AD94BCC0061BE81 /* RobotTrack.swift */,
 				61EFA4B31ADBEC4400EB8C6B /* Block.swift */,
@@ -278,6 +281,7 @@
 				110952CB1AC6DF5B000A960A /* Main.storyboard in Resources */,
 				614DA0C11AEF1E060088A557 /* StartButton.mp3 in Resources */,
 				614DA0B51AEF19D00088A557 /* ActionSelection.mp3 in Resources */,
+				615ADA101B51578400CA5D7F /* Levels.plist in Resources */,
 				614DA0C51AEF1E730088A557 /* Walk.mp3 in Resources */,
 				614DA0C31AEF1E440088A557 /* TipButton.mp3 in Resources */,
 				614DA0B91AEF1C060088A557 /* CubePush.mp3 in Resources */,

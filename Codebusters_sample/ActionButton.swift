@@ -13,7 +13,7 @@ class ActionButton: SKSpriteNode {
 
     private var actionType: ActionType = .none
     private var tapped = false
-    private var label: SKSpriteNode = SKSpriteNode()
+    private var label = SKSpriteNode()
     
     init(type: ActionType) {
         let texture = SKTexture(imageNamed: "button_\(type.rawValue)")

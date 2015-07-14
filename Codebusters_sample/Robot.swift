@@ -25,7 +25,7 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     
     var track: RobotTrack
     
-    private let actionButtons: [ActionButton] = [ActionButton(type: .moveForward), ActionButton(type: .turn), ActionButton(type: .push), ActionButton(type: .jump)]
+    private let actionButtons = [ActionButton(type: .move), ActionButton(type: .turn), ActionButton(type: .push), ActionButton(type: .jump)]
     var isOnStart = true
     
     
@@ -67,8 +67,8 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
             let highlightEndAction = ActionCell.cells.last!.highlightEnd()
             var action: SKAction
             switch actionType {
-            case .moveForward:
-                action = moveForward()
+            case .move:
+                action = move()
             case .turn:
                 action = turn()
             case .jump:
@@ -107,6 +107,7 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     
     func performActions() {
         if !actions.isEmpty && isOnStart {
+            isOnStart = false
             if turnedToFront {
                 let turnFromFront = SKAction.runBlock() {
                     self.turnFromFront()
@@ -116,23 +117,22 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
                 return
             }
             
-            isOnStart = false
             runActions()
         }
     }
     
-    func moveForward() -> SKAction {
+    func move() -> SKAction {
         if floorPosition() == track.getFloorPositionAt(track.getNextRobotTrackPosition(direction)) {
             let move = SKAction.moveByX(Constants.BlockFace_Size.width * CGFloat(direction.rawValue), y: 0, duration: 1.6)
         
             let animate = SKAction.group([SKAction.animateWithTextures(MoveAnimationTextures(direction), timePerFrame: 0.04, resize: true, restore: false)])
             let repeatAnimation = SKAction.repeatAction(animate, count: 5)
         
-            let nextTrackPosition = self.track.getNextRobotTrackPosition(direction)
+            let nextTrackPosition = track.getNextRobotTrackPosition(direction)
             let setZPosition = SKAction.runBlock() {
                 let nextFloorPosition = self.track.getFloorPositionAt(nextTrackPosition)
-                let position = self.getNextZPosition(nextFloorPosition, trackPosition: nextTrackPosition)
-            self.zPosition = position
+                let zPosition = self.getNextZPosition(nextFloorPosition, trackPosition: nextTrackPosition)
+                self.zPosition = zPosition
             }
        
             let moveAndAnimate = SKAction.group([move, repeatAnimation, setZPosition])
@@ -177,10 +177,6 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
         if !turnedToFront && isOnStart {
             runAction(turnToFront())
         }
-    }
-    
-    override func touchesMoved(touches: Set<NSObject>, withEvent event: UIEvent) {
-    
     }
     
     func turnToFront() -> SKAction {
@@ -266,6 +262,8 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     }
     
     func moveToStart() {
+        stopRobot = false
+        turnedToFront = false
         isOnStart = true
         position = getCGPointOfPosition(track.getRobotStartPosition(), track.getFloorPositionAt(track.getRobotStartPosition()))
     }

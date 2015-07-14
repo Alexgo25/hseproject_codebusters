@@ -12,7 +12,7 @@ import SpriteKit
 class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let scene = LevelScene.level(0) {
+        let scene = /*LevelScene(size: CGSize(width: 2048, height: 1536))*/ MenuScene() /*LevelScene.level(0)*/
             let skView = self.view as! SKView
             skView.showsFPS = true
             skView.showsNodeCount = true
@@ -21,8 +21,7 @@ class GameViewController: UIViewController {
             scene.scaleMode = .AspectFill
             skView.presentScene(scene)
         }
-    }
-    
+
     override func prefersStatusBarHidden() -> Bool {
         return true
     }

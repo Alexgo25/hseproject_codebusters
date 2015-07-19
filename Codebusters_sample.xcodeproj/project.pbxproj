@@ -32,7 +32,6 @@
 		614DA0C71AEF36680088A557 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614DA0C61AEF36680088A557 /* MenuScene.swift */; };
 		615ADA101B51578400CA5D7F /* Levels.plist in Resources */ = {isa = PBXBuildFile; fileRef = 615ADA0F1B51578400CA5D7F /* Levels.plist */; };
 		615CEFD41AE6597B006403B5 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615CEFD31AE6597B006403B5 /* Detail.swift */; };
-		618F7BA61AEECC9200B2DBC5 /* MenuBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */; };
 		618F7BA81AEEDCEE00B2DBC5 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */; };
 		618F7BAA1AEEEAC500B2DBC5 /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */; };
 		61A15FE91AEE4AA1008B36EA /* Jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 61A15FE81AEE4AA1008B36EA /* Jump.wav */; };
@@ -81,7 +80,6 @@
 		614DA0C61AEF36680088A557 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		615ADA0F1B51578400CA5D7F /* Levels.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Levels.plist; sourceTree = "<group>"; };
 		615CEFD31AE6597B006403B5 /* Detail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
-		618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBackground.swift; sourceTree = "<group>"; };
 		618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		61A15FE81AEE4AA1008B36EA /* Jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Jump.wav; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 				11E38C661AD949460061BE81 /* RobotStanding.swift */,
 				618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */,
 				613B797B1B0613F30021658D /* PauseView.swift */,
-				618F7BA51AEECC9200B2DBC5 /* MenuBackground.swift */,
 				615ADA0F1B51578400CA5D7F /* Levels.plist */,
 				614DA0C61AEF36680088A557 /* MenuScene.swift */,
 				11E38C681AD94BCC0061BE81 /* RobotTrack.swift */,
@@ -239,6 +236,7 @@
 				TargetAttributes = {
 					110952BB1AC6DF5B000A960A = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 4YNF6U5553;
 					};
 					110952D41AC6DF5B000A960A = {
 						CreatedOnToolsVersion = 6.2;
@@ -302,7 +300,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				618F7BA61AEECC9200B2DBC5 /* MenuBackground.swift in Sources */,
 				613B797C1B0613F30021658D /* PauseView.swift in Sources */,
 				115C6E971ACBFA4200B79250 /* Robot.swift in Sources */,
 				615CEFD41AE6597B006403B5 /* Detail.swift in Sources */,
@@ -442,9 +439,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Codebusters_sample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -452,9 +452,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Codebusters_sample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

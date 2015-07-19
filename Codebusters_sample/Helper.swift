@@ -45,38 +45,6 @@ struct LevelPatterns {
     static let Fan: [FloorPosition] = [.first, .first, .second, .first, .first]
 }
 
-/*
-struct Levels {
-    static let CPU = LevelScene(blocksPattern: LevelPatterns.CPU, robotPosition: 1, detailType: DetailType.CPU, detailPosition: 5, detailFloorPosition: FloorPosition.first)
-    static let HardDrive = LevelScene(blocksPattern: LevelPatterns.HardDrive, robotPosition: 4, detailType: DetailType.HardDrive, detailPosition: 1, detailFloorPosition: FloorPosition.first)
-    static let RAM1 = LevelScene(blocksPattern: LevelPatterns.RAM1, robotPosition: 1, detailType: DetailType.RAM1, detailPosition: 5, detailFloorPosition: FloorPosition.second)
-    static let RAM2 = LevelScene(blocksPattern: LevelPatterns.RAM2, robotPosition: 1, detailType: DetailType.RAM2, detailPosition: 5, detailFloorPosition: FloorPosition.first)
-    static let Battery = LevelScene(blocksPattern: LevelPatterns.Battery, robotPosition: 3, detailType: DetailType.Battery, detailPosition: 1, detailFloorPosition: FloorPosition.first)
-    static let Fan = LevelScene(blocksPattern: LevelPatterns.Fan, robotPosition: 1, detailType: DetailType.Fan, detailPosition: 1, detailFloorPosition: FloorPosition.second)
-    static let Array: [DetailType] = [.CPU, .HardDrive, .RAM1, .RAM2, .Battery, .Fan]
-}
-
-func getLevel(level: Int) -> LevelScene? {
-    return getLevel(Levels.Array[level])
-}
-
-func getLevel(detailType: DetailType) -> LevelScene? {
-    switch detailType {
-    case .CPU:
-        return Levels.CPU
-    case .HardDrive:
-        return Levels.HardDrive
-    case .RAM1:
-        return Levels.RAM1
-    case .RAM2:
-        return Levels.RAM2
-    case .Battery:
-        return Levels.Battery
-    case .Fan:
-        return Levels.Fan
-    }
-}*/
-
 struct MenuConstants {
     static let CPUPosition = CGPoint(x: 1510, y: 813)
     static let HardDrivePosition = CGPoint(x: 1070, y: 730)
@@ -278,4 +246,29 @@ func TurnFromFrontAnimationTextures(direction: Direction) -> [SKTexture] {
     }
     
     return textures
+}
+
+func MistakeAnimationTextures() -> [SKTexture] {
+    var textures: [SKTexture] = []
+    
+    for var i = 1; i < 10; i++ {
+        textures.append(SKTexture(imageNamed: "Mistake\(i)"))
+    }
+    
+    return textures
+}
+
+func getLevelsData() -> NSDictionary {
+    let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+    let documentsDirectory = paths[0] as? String
+    let path = documentsDirectory?.stringByAppendingPathComponent("Levels.plist")
+    let config = NSMutableDictionary(contentsOfFile: path!)!
+    return config
+}
+
+func getLevelsDataPath() -> String {
+    let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+    let documentsDirectory = paths[0] as? String
+    let path = documentsDirectory?.stringByAppendingPathComponent("Levels.plist")
+    return path!
 }

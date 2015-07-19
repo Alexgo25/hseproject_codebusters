@@ -16,15 +16,6 @@ class MenuScene: SKScene {
     
     var details: [DetailCell] = []
 
-    /*static var details: [DetailCell] = [
-        DetailCell(detailType: .CPU, cellState: .Active),
-        DetailCell(detailType: .HardDrive, cellState: .NonActive),
-        DetailCell(detailType: .RAM1, cellState: .NonActive),
-        DetailCell(detailType: .RAM2, cellState: .NonActive),
-        DetailCell(detailType: .Battery, cellState: .NonActive),
-        DetailCell(detailType: .Fan, cellState: .NonActive)
-    ]*/
-    
     override init() {
         super.init(size: CGSize(width: 2048, height: 1536))
         background.anchorPoint = CGPointZero
@@ -35,7 +26,17 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        let config = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Levels", ofType: "plist")!)!
+        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
+        let documentsDirectory = paths[0] as? String
+        let path = documentsDirectory?.stringByAppendingPathComponent("Levels.plist")
+        let fileManager = NSFileManager.defaultManager()
+        if !fileManager.fileExistsAtPath(path!) {
+            if let bundle = NSBundle.mainBundle().pathForResource("Levels", ofType: "plist") {
+                fileManager.copyItemAtPath(bundle, toPath: path!, error:nil)
+            }
+        }
+
+        let config = NSDictionary(contentsOfFile: path!)!
         let levels = config["levels"] as! [[String : AnyObject]]
         for level in levels {
             let detailTypeString = level["detailType"] as! String

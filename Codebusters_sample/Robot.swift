@@ -22,12 +22,12 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     private var animationDirection: Direction = .ToRight // рассчитывается во время движения
     private var turnedToFront = false
     private var stopRobot = false
+    private var robotTookDetail = false
     
     var track: RobotTrack
     
     private let actionButtons = [ActionButton(type: .move), ActionButton(type: .turn), ActionButton(type: .push), ActionButton(type: .jump)]
     var isOnStart = true
-    
     
     init(track: RobotTrack) {
         var texture = SKTexture(imageNamed: "robot")
@@ -58,6 +58,7 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     
     func takeDetail() {
         stopRobot = true
+        robotTookDetail = true
     }
     
     func appendAction(actionType: ActionType) {
@@ -84,8 +85,16 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
             actions.append(SKAction.runBlock() {
                 self.stopRobot = true
             })
+            
             actions.append(SKAction())
         }
+    }
+    
+    func resetActions() {
+        actions.removeAll(keepCapacity: false)
+        direction = .ToRight
+        stopRobot = false
+        track.resetRobotPosition()
     }
     
     func runActions() {
@@ -93,7 +102,13 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
             self.runAction(SKAction.runBlock() {
                 if self.stopRobot {
                     let turn = SKAction.animateWithTextures(TurnToFrontAnimationTextures(self.animationDirection), timePerFrame: 0.05)
-                    self.runAction(turn)
+                    if self.robotTookDetail {
+                        self.runAction(turn)
+                    } else {
+                        let sequence = SKAction.sequence([turn, self.mistake()])
+                        self.runAction(sequence)
+                    }
+                    
                     return
                 } else {
                     if self.currentActionIndex < self.actions.count - 1 {
@@ -119,6 +134,12 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
             
             runActions()
         }
+    }
+    
+    func mistake() -> SKAction {
+        let animate = SKAction.animateWithTextures(MistakeAnimationTextures(), timePerFrame: 0.06)
+
+        return animate
     }
     
     func move() -> SKAction {

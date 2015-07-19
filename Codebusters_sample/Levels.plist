@@ -7,8 +7,6 @@
 		<dict>
 			<key>cellState</key>
 			<string>_Active</string>
-			<key>New item</key>
-			<string></string>
 			<key>blocksPattern</key>
 			<array>
 				<integer>1</integer>

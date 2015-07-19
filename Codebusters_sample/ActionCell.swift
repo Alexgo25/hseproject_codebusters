@@ -24,13 +24,7 @@ class ActionCell: SKSpriteNode {
         self.actionType = actionType
         position = getNextPosition()
         ActionCell.cells.append(self)
-        /*
-        physicsBody = SKPhysicsBody(rectangleOfSize: CGSize(width: size.width * 2 / 5, height: size.height * 2 / 3))
-        physicsBody!.categoryBitMask = NodeType.ActionCell.rawValue
-        physicsBody!.collisionBitMask = 0
-        physicsBody!.contactTestBitMask = NodeType.ActionButton.rawValue
-        physicsBody!.dynamic = false
-        */
+        name = "\(ActionCell.cells.count - 1)"
     }
     
     func setActionType(actionType: ActionType) {
@@ -43,7 +37,7 @@ class ActionCell: SKSpriteNode {
     }
     
     func getNextPosition() -> CGPoint {
-        return CGPoint(x: Constants.ActionCellFirstPosition.x, y: Constants.ActionCellFirstPosition.y - CGFloat(ActionCell.cells.count) *  (texture!.size().height - 5))
+        return CGPoint(x: Constants.ActionCellFirstPosition.x, y: Constants.ActionCellFirstPosition.y - CGFloat(ActionCell.cells.count) * texture!.size().height)
     }
     
     func highlightBegin() -> SKAction {

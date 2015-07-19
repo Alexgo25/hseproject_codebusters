@@ -46,6 +46,10 @@ class RobotTrack {
         }
     }
     
+    func resetRobotPosition() {
+        currentRobotPosition = startRobotPosition
+    }
+    
     func robotIsOnDetailPosition() -> Bool {
         return currentRobotPosition == detailPosition
     }

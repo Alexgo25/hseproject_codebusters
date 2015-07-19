@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 
-class LevelScene: SKScene, SKPhysicsContactDelegate {
+class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate {
     var currentLevel = 0
 
     var levelBackground = SKSpriteNode(imageNamed: "levelBackground")
@@ -79,10 +79,9 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    
+
     override func didMoveToView(view: SKView) {
-        var path = NSBundle.mainBundle().pathForResource("Levels", ofType: "plist")
-        var config = NSMutableDictionary(contentsOfFile: path!)!
+        var config = getLevelsData()
         var levels = config["levels"] as! [[String : AnyObject]]
         var levelData = levels[currentLevel]
         
@@ -95,7 +94,46 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             levelData.updateValue(DetailCellState.Active.rawValue, forKey: "cellState")
             levels[currentLevel] = levelData
             config.setValue(levels, forKey: "levels")
-            config.writeToFile(path!, atomically: true)
+
+            config.writeToFile(getLevelsDataPath(), atomically: true)
+        }
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("swipedLeft:"))
+        swipeLeft.direction = .Left
+        swipeLeft.delegate = self
+        view.addGestureRecognizer(swipeLeft)
+    }
+    
+    func swipedLeft(swipe: UISwipeGestureRecognizer) {
+        if robot!.isOnStart {
+            var touchLocation = swipe.locationInView(view)
+            touchLocation.x *= 2
+            touchLocation.y = 1536 - touchLocation.y * 2
+            let node = nodeAtPoint(touchLocation)
+            if node.isMemberOfClass(ActionCell) {
+                var cell = node as! ActionCell
+            
+                cell = ActionCell.cells[cell.name!.toInt()!]
+                let action = SKAction.group([SKAction.moveByX(-100, y: 0, duration: 0.2), SKAction.fadeOutWithDuration(0.2)])
+            
+                cell.runAction(SKAction.sequence([action, SKAction.removeFromParent()]), completion: {
+                    ActionCell.cells.removeAtIndex(cell.name!.toInt()!)
+                    
+                    self.robot!.resetActions()
+            
+                    var array: [ActionCell] = []
+
+                    for cell in ActionCell.cells {
+                        array.append(cell)
+                        cell.removeFromParent()
+                        ActionCell.cells.removeAtIndex(0)
+                    }
+            
+                    for var i = 0; i < array.count; i++ {
+                        self.robot!.appendAction(array[i].getActionType())
+                    }
+                } )
+            }
         }
     }
     
@@ -106,8 +144,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             detail!.hideDetail()
             robot!.takeDetail()
             
-            var path = NSBundle.mainBundle().pathForResource("Levels", ofType: "plist")
-            var config = NSMutableDictionary(contentsOfFile: path!)!
+            var config = getLevelsData()
             var levels = config["levels"] as! [[String : AnyObject]]
             var levelData = levels[currentLevel]
             
@@ -115,7 +152,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
                 levelData.updateValue(DetailCellState.Placed.rawValue, forKey: "cellState")
                 levels[currentLevel] = levelData
                 config.setValue(levels, forKey: "levels")
-                config.writeToFile(path!, atomically: true)
+                config.writeToFile(getLevelsDataPath(), atomically: true)
             }
             
             if currentLevel < 5 {
@@ -139,8 +176,8 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         var touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
-            var touchLocation = touch.locationInNode(self)
-            var node = nodeAtPoint(touchLocation)
+            let touchLocation = touch.locationInNode(self)
+            let node = nodeAtPoint(touchLocation)
             switch node {
             case button_Start:
                 return
@@ -149,7 +186,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             case button_Tip:
                 button_Tip.texture = SKTexture(imageNamed: "button_Tip_Pressed")
             default:
-                if robot!.isTurnedToFront() {
+                if robot!.isTurnedToFront() && !node.isMemberOfClass(ActionCell) {
                     robot!.turnFromFront()
                 }
             }
@@ -161,7 +198,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         for touch in touchesSet {
             var touchLocation = touch.locationInNode(self)
             var node = nodeAtPoint(touchLocation)
-            
             switch node {
             case button_Start:
                 runAction(SKAction.playSoundFileNamed("StartButton.mp3", waitForCompletion: false))
@@ -181,13 +217,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    /*class func level(levelNumber: Int) -> LevelScene? {
-        var scene = getLevel(levelNumber)
-        scene!.scaleMode = .AspectFill
-        scene!.currentLevel = levelNumber
-        return scene
-    }*/
-
     func newGame() {
         let scene = LevelScene(size: size, level: currentLevel)
         view!.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))

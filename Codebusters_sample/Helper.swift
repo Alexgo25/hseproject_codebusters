@@ -36,15 +36,6 @@ struct PhysicsCategory {
     static let Detail: UInt32 = 0b10  // 2
 }
 
-struct LevelPatterns {
-    static let CPU: [FloorPosition] = [.first, .first, .first, .first, .first]
-    static let HardDrive: [FloorPosition] = [.first, .first, .first, .first, .first]
-    static let RAM1: [FloorPosition] = [.first, .first, .first, .first, .second]
-    static let RAM2: [FloorPosition] = [.first, .first, .second, .ground, .first]
-    static let Battery: [FloorPosition] = [.first, .ground, .second, .first, .first]
-    static let Fan: [FloorPosition] = [.first, .first, .second, .first, .first]
-}
-
 struct MenuConstants {
     static let CPUPosition = CGPoint(x: 1510, y: 813)
     static let HardDrivePosition = CGPoint(x: 1070, y: 730)
@@ -79,7 +70,10 @@ struct Constants {
     static let Button_TurnPosition = CGPoint(x: -61, y: 224)            //(x: 481, y: 915)
     static let Button_PushPosition = CGPoint(x: 94, y: 224)             //(x: 384, y: 984)
     static let Button_JumpPosition = CGPoint(x: 205, y: 156)            //(x: 263, y: 984)
-    static let Button_StartPosition = CGPoint(x: 1742, y: 213)
+    //static let Button_StartPosition = CGPoint(x: 1742, y: 213)
+    static let Button_StartPosition = CGPoint(x: 1751, y: 153)
+    static let Button_ClearPosition = CGPoint(x: 1875, y: 323)
+    static let Button_DebugPosition = CGPoint(x: 1628, y: 323)
     static let Button_PausePosition = CGPoint(x:102, y: 1436)
     static let Button_TipsPosition = CGPoint(x: 102, y: 1316)
     static let Button_ResetPosition = CGPoint(x: 306, y: 730)
@@ -98,6 +92,21 @@ func getXBlockPosition(trackPosition: Int) -> CGFloat {
 
 func getYBlockPosition(floorPosition: FloorPosition) -> CGFloat {
     return Constants.Block_FirstPosition.y + CGFloat(floorPosition.rawValue - 1) * Constants.BlockFace_Size.height
+}
+
+func getGameButtonPosition(type: GameButtonType) -> CGPoint {
+    switch type {
+    case .Clear:
+        return Constants.Button_ClearPosition
+    case .Debug:
+        return Constants.Button_DebugPosition
+    case .Pause:
+        return Constants.Button_PausePosition
+    case .Start:
+        return Constants.Button_StartPosition
+    case .Tip:
+        return Constants.Button_TipsPosition
+    }
 }
 
 func getActionButtonPosition(actionType: ActionType) -> CGPoint {

@@ -13,9 +13,13 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
     var currentLevel = 0
 
     var levelBackground = SKSpriteNode(imageNamed: "levelBackground")
-    var button_Pause = SKSpriteNode(imageNamed: "button_Pause")
-    var button_Tip = SKSpriteNode(imageNamed: "button_Tip")
-    var button_Start = SKSpriteNode(imageNamed: "button_Start")
+    var button_Pause = GameButton(type: .Pause)
+    var button_Tip = GameButton(type: .Tip)
+    var button_Start = GameButton(type: .Start)
+    var button_Debug = GameButton(type: .Debug)
+    var button_Clear = GameButton(type: .Clear)
+    var gameButtons: [GameButton] = []
+    
     var robot: Robot?
     var detail: Detail?
     var track: RobotTrack?
@@ -61,17 +65,18 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
         levelBackground.zPosition = -1
         
         userInteractionEnabled = true
-        button_Pause.position = Constants.Button_PausePosition
-        button_Tip.position = Constants.Button_TipsPosition
-        button_Start.position = Constants.Button_StartPosition
         anchorPoint = CGPointZero
         
         addChild(levelBackground)
         addChild(button_Pause)
         addChild(button_Start)
         addChild(button_Tip)
+        addChild(button_Debug)
+        addChild(button_Clear)
         addChild(robot!)
         addChild(detail!)
+        
+        gameButtons = [button_Pause, button_Start, button_Debug, button_Clear, button_Tip]
         
         for var i = 1; i <= blocksPattern.count; i++ {
             for var j = 0; j < blocksPattern[i - 1].rawValue; j++ {
@@ -119,10 +124,10 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
                 cell.runAction(SKAction.sequence([action, SKAction.removeFromParent()]), completion: {
                     ActionCell.cells.removeAtIndex(cell.name!.toInt()!)
                     
-                    self.robot!.resetActions()
-            
                     var array: [ActionCell] = []
 
+                    self.robot!.resetActions()
+                    
                     for cell in ActionCell.cells {
                         array.append(cell)
                         cell.removeFromParent()
@@ -179,15 +184,12 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
             let touchLocation = touch.locationInNode(self)
             let node = nodeAtPoint(touchLocation)
             switch node {
-            case button_Start:
-                return
-            case button_Pause:
-                button_Pause.texture = SKTexture(imageNamed: "button_Pause_Pressed")
-            case button_Tip:
-                button_Tip.texture = SKTexture(imageNamed: "button_Tip_Pressed")
+            case button_Start, button_Pause, button_Tip, button_Debug, button_Clear:
+                var button = node as! GameButton
+                button.touched()
             default:
                 if robot!.isTurnedToFront() && !node.isMemberOfClass(ActionCell) {
-                    robot!.turnFromFront()
+                    robot!.runAction(robot!.turnFromFront())
                 }
             }
         }
@@ -200,19 +202,50 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
             var node = nodeAtPoint(touchLocation)
             switch node {
             case button_Start:
-                runAction(SKAction.playSoundFileNamed("StartButton.mp3", waitForCompletion: false))
-                robot!.performActions()
+                if button_Start.isTouched {
+                    button_Start.resetTexture()
+                    runAction(SKAction.playSoundFileNamed("StartButton.mp3", waitForCompletion: false))
+                    robot!.performActions()
+                }
             case button_Pause:
-                button_Pause.texture = SKTexture(imageNamed: "button_Pause")
-                runAction(SKAction.playSoundFileNamed("PauseButton.mp3", waitForCompletion: false))
-                let pauseView = PauseView()
-                addChild(pauseView)
+                if button_Pause.isTouched {
+                    button_Pause.resetTexture()
+                    button_Pause.texture = SKTexture(imageNamed: "button_Pause")
+                    runAction(SKAction.playSoundFileNamed("PauseButton.mp3", waitForCompletion: false))
+                    let pauseView = PauseView()
+                    addChild(pauseView)
+                }
             case button_Tip:
-                button_Tip.texture = SKTexture(imageNamed: "button_Tip")
-                runAction(SKAction.playSoundFileNamed("TipButton.mp3", waitForCompletion: false))
-                view!.presentScene(MenuScene(), transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.5))
+                if button_Tip.isTouched {
+                    button_Tip.resetTexture()
+                    button_Tip.texture = SKTexture(imageNamed: "button_Tip")
+                    runAction(SKAction.playSoundFileNamed("TipButton.mp3", waitForCompletion: false))
+                    view!.presentScene(MenuScene(), transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.5))
+                }
+            case button_Clear:
+                if button_Clear.isTouched {
+                    button_Clear.resetTexture()
+                    self.robot!.resetActions()
+                
+                    for cell in ActionCell.cells {
+                        cell.removeFromParent()
+                        ActionCell.cells.removeAtIndex(0)
+                    }
+                }
+            case button_Debug:
+                if button_Debug.isTouched {
+                    button_Debug.resetTexture()
+                    runAction(SKAction.playSoundFileNamed("StartButton.mp3", waitForCompletion: false))
+                    robot!.debug()
+                }
             default:
                 return
+            }
+     
+            for button in gameButtons {
+                if button.isTouched {
+                    button.resetTexture()
+                }
             }
         }
     }

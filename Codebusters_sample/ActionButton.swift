@@ -14,8 +14,9 @@ class ActionButton: SKSpriteNode {
     private var actionType: ActionType = .none
     private var tapped = false
     private var label = SKSpriteNode()
-    
+
     init(type: ActionType) {
+        
         let texture = SKTexture(imageNamed: "button_\(type.rawValue)")
         super.init(texture: texture, color: UIColor(), size: texture.size())
         actionType = type

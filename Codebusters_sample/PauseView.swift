@@ -77,9 +77,9 @@ class PauseView: SKSpriteNode {
             switch node {
             case buttonReset:
                 buttonReset.alpha = 1
-                self.scene?.paused = false
-                let scene = self.scene as? LevelScene
-                scene?.newGame()
+                self.scene!.paused = false
+                let scene = self.scene as! LevelScene
+                scene.newGame()
                 
             case backgroundLeftPart:
                 return

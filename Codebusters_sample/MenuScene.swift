@@ -37,12 +37,13 @@ class MenuScene: SKScene {
         }
 
         let config = NSDictionary(contentsOfFile: path!)!
-        let levels = config["levels"] as! [[String : AnyObject]]
-        for level in levels {
-            let detailTypeString = level["detailType"] as! String
+        
+        let levelPacks = config["levelPacks"] as! [[String : AnyObject]]
+        for levelPack in levelPacks {
+            let detailTypeString = levelPack["detailType"] as! String
             let detailType = DetailType(rawValue: detailTypeString)
             
-            let cellStateString = level["cellState"] as! String
+            let cellStateString = levelPack["cellState"] as! String
             let cellState = DetailCellState(rawValue: cellStateString)
             
             let detailCell = DetailCell(detailType: detailType!, cellState: cellState!)
@@ -64,7 +65,7 @@ class MenuScene: SKScene {
                 case .Active, .Placed:
                     for var i = 0; i < details.count; i++ {
                         if details[i].getDetailType() == cell.getDetailType() {
-                            view!.presentScene(LevelScene(size: size, level: i), transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
+                            view!.presentScene(LevelScene(size: size, levelPack: i, level: 0), transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
                             break
                         }
                     }

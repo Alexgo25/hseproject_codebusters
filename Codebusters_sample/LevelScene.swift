@@ -11,6 +11,7 @@ import SpriteKit
 
 class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate {
     var currentLevel = 0
+    var currentLevelPack = 0
 
     var levelBackground = SKSpriteNode(imageNamed: "levelBackground")
     var button_Pause = GameButton(type: .Pause)
@@ -25,7 +26,8 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
     var track: RobotTrack?
     private var blocksPattern: [FloorPosition] = []
     
-    init(size: CGSize, level: Int) {
+    init(size: CGSize, levelPack: Int, level: Int) {
+        currentLevelPack = levelPack
         currentLevel = level
         super.init(size: size)
     }
@@ -34,7 +36,11 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
         super.init(size: size)
     }
     
-    func createScenery(levelData: [String:AnyObject]) {
+    func createScenery(levelData: [String : AnyObject]) {
+        ActionCell.cellsLayer.removeFromParent()
+        addChild(ActionCell.cellsLayer)
+        ActionCell.resetCells()
+        
         ActionCell.cells.removeAll(keepCapacity: false)
         
         let blocks: AnyObject? = levelData["blocksPattern"]
@@ -87,19 +93,21 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
 
     override func didMoveToView(view: SKView) {
         var config = getLevelsData()
-        var levels = config["levels"] as! [[String : AnyObject]]
-        var levelData = levels[currentLevel]
+        
+        var levelPacks = config["levelPacks"] as! [[String : AnyObject]]
+        var levelPackData = levelPacks[currentLevelPack]
+        let levels = levelPackData["levels"] as! [[String : AnyObject]]
+        let levelData = levels[currentLevel]
         
         createScenery(levelData)
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         
-        if levelData["cellState"] as! String == DetailCellState.NonActive.rawValue {
-            levelData.updateValue(DetailCellState.Active.rawValue, forKey: "cellState")
-            levels[currentLevel] = levelData
-            config.setValue(levels, forKey: "levels")
-
+        if levelPackData["cellState"] as! String == DetailCellState.NonActive.rawValue {
+            levelPackData.updateValue(DetailCellState.Active.rawValue, forKey: "cellState")
+            levelPacks[currentLevelPack] = levelPackData
+            config.setValue(levelPacks, forKey: "levelPacks")
             config.writeToFile(getLevelsDataPath(), atomically: true)
         }
         
@@ -107,6 +115,16 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
         swipeLeft.direction = .Left
         swipeLeft.delegate = self
         view.addGestureRecognizer(swipeLeft)
+        
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: Selector("swipedUp:"))
+        swipeUp.direction = .Up
+        swipeUp.delegate = self
+        view.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: Selector("swipedDown:"))
+        swipeDown.direction = .Down
+        swipeDown.delegate = self
+        view.addGestureRecognizer(swipeDown)
     }
     
     func swipedLeft(swipe: UISwipeGestureRecognizer) {
@@ -115,9 +133,9 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
             touchLocation.x *= 2
             touchLocation.y = 1536 - touchLocation.y * 2
             let node = nodeAtPoint(touchLocation)
-            if node.isMemberOfClass(ActionCell) {
+            if node.isMemberOfClass(ActionCell) && node.alpha > 0 {
                 var cell = node as! ActionCell
-            
+                
                 cell = ActionCell.cells[cell.name!.toInt()!]
                 let action = SKAction.group([SKAction.moveByX(-100, y: 0, duration: 0.2), SKAction.fadeOutWithDuration(0.2)])
             
@@ -142,6 +160,26 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
         }
     }
     
+    func swipedUp(swipe: UISwipeGestureRecognizer) {
+        var touchLocation = swipe.locationInView(view)
+        touchLocation.x *= 2
+        touchLocation.y = 1536 - touchLocation.y * 2
+        let node = nodeAtPoint(touchLocation)
+        if node.isMemberOfClass(ActionCell) && !robot!.isDebuggingOrRunningActions() {
+            ActionCell.moveCellsLayerUp()
+        }
+    }
+    
+    func swipedDown(swipe: UISwipeGestureRecognizer) {
+        var touchLocation = swipe.locationInView(view)
+        touchLocation.x *= 2
+        touchLocation.y = 1536 - touchLocation.y * 2
+        let node = nodeAtPoint(touchLocation)
+        if node.isMemberOfClass(ActionCell) && !robot!.isDebuggingOrRunningActions() {
+            ActionCell.moveCellsLayerDown()
+        }
+    }
+    
     func didBeginContact(contact: SKPhysicsContact) {
         let contactMask: UInt32 = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
         switch contactMask {
@@ -150,24 +188,36 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
             robot!.takeDetail()
             
             var config = getLevelsData()
-            var levels = config["levels"] as! [[String : AnyObject]]
-            var levelData = levels[currentLevel]
+            var levelPacks = config["levelPacks"] as! [[String : AnyObject]]
+            var levelPackData = levelPacks[currentLevelPack]
+            let levels = levelPackData["levels"] as! [[String : AnyObject]]
             
-            if levelData["cellState"] as! String != DetailCellState.Placed.rawValue {
-                levelData.updateValue(DetailCellState.Placed.rawValue, forKey: "cellState")
-                levels[currentLevel] = levelData
-                config.setValue(levels, forKey: "levels")
-                config.writeToFile(getLevelsDataPath(), atomically: true)
-            }
-            
-            if currentLevel < 5 {
-                currentLevel++
-                runAction(SKAction.sequence([SKAction.waitForDuration(2), SKAction.runBlock(newGame)]))
+            if detail!.getDetailType() == DetailType.Crystall {
+                if currentLevel < levels.count - 1 {
+                    currentLevel++
+                    runAction(SKAction.sequence([SKAction.waitForDuration(2), SKAction.runBlock(newGame)]))
+                }
             } else {
+                if levelPackData["cellState"] as! String != DetailCellState.Placed.rawValue {
+                    levelPackData.updateValue(DetailCellState.Placed.rawValue, forKey: "cellState")
+                    levelPacks[currentLevelPack] = levelPackData
+                    
+                    if currentLevelPack < levelPacks.count - 1 {
+                        if levelPacks[currentLevelPack + 1]["cellState"] as! String == DetailCellState.NonActive.rawValue {
+                            var nextLevelPack = levelPacks[currentLevelPack + 1]
+                            nextLevelPack.updateValue(DetailCellState.Active.rawValue, forKey: "cellState")
+                            levelPacks[currentLevelPack + 1] = nextLevelPack
+                        }
+                    }
+                    
+                    config.setValue(levelPacks, forKey: "levelPacks")
+                    config.writeToFile(getLevelsDataPath(), atomically: true)
+                }
                 
-                runAction(SKAction.sequence([SKAction.waitForDuration(2), SKAction.runBlock(newGame)]))
-            }
-        
+                view!.presentScene(MenuScene(), transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 1))
+                
+             }
+            
         default:
             return
         }
@@ -219,18 +269,15 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
                 if button_Tip.isTouched {
                     button_Tip.resetTexture()
                     button_Tip.texture = SKTexture(imageNamed: "button_Tip")
-                    runAction(SKAction.playSoundFileNamed("TipButton.mp3", waitForCompletion: false))
+                runAction(SKAction.playSoundFileNamed("TipButton.mp3", waitForCompletion: false))
                     view!.presentScene(MenuScene(), transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.5))
                 }
             case button_Clear:
-                if button_Clear.isTouched {
+                if button_Clear.isTouched && robot!.isOnStart {
                     button_Clear.resetTexture()
                     self.robot!.resetActions()
                 
-                    for cell in ActionCell.cells {
-                        cell.removeFromParent()
-                        ActionCell.cells.removeAtIndex(0)
-                    }
+                    ActionCell.resetCells()
                 }
             case button_Debug:
                 if button_Debug.isTouched {
@@ -251,7 +298,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
     }
     
     func newGame() {
-        let scene = LevelScene(size: size, level: currentLevel)
+        let scene = LevelScene(size: size, levelPack: currentLevelPack, level: currentLevel)
         view!.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
     }
     

@@ -15,7 +15,8 @@ enum DetailType: String {
     Fan = "Fan",
     HardDrive = "HardDrive",
     RAM1 = "RAM1",
-    RAM2 = "RAM2"
+    RAM2 = "RAM2",
+    Crystall = "Crystall"
 }
 
 class Detail: SKSpriteNode {
@@ -30,6 +31,7 @@ class Detail: SKSpriteNode {
         self.floorPosition = floorPosition
         super.init(texture: texture, color: UIColor(), size: texture.size())
         position = getCGPointOfPosition(trackPosition, floorPosition)
+        zPosition = CGFloat(trackPosition + 7 * (floorPosition.rawValue - 1))
         if floorPosition == .first {
             position.y += 60
         } else {

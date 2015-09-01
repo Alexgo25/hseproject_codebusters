@@ -50,6 +50,10 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func isDebuggingOrRunningActions() -> Bool {
+        return debugging || runningActions
+    }
+    
     func currentAction() -> Int {
         return currentActionIndex
     }
@@ -64,7 +68,14 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     }
     
     func appendAction(actionType: ActionType) {
-        parent!.addChild(ActionCell(actionType: actionType))
+        
+        ActionCell.cellsLayer.addChild(ActionCell(actionType: actionType))
+        if ActionCell.cellsCount >= 11 {
+            ActionCell.cellsLayer.runAction(SKAction.runBlock() {
+                ActionCell.appendCellWithMovingLayer() })
+        }
+        ActionCell.cellsCount++
+
         if canPerformAction(actionType) {
             let highlightBeginAction = ActionCell.cells.last!.highlightBegin()
             let highlightEndAction = ActionCell.cells.last!.highlightEnd()
@@ -94,6 +105,7 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     
     func resetActions() {
         actions.removeAll(keepCapacity: false)
+        ActionCell.cellsLayer.removeAllChildren()
         direction = .ToRight
         stopRobot = false
         track.resetRobotPosition()
@@ -103,7 +115,9 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     func startDebugging() {
         if !actions.isEmpty {
             debugging = true
+            
             if isOnStart {
+                ActionCell.moveCellsLayerToTop()
                 isOnStart = false
                 if turnedToFront {
                     runAction(self.turnFromFront(), completion: { self.debug() } )
@@ -135,6 +149,9 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
                         } else {
                             if self.currentActionIndex < self.actions.count - 1 {
                                 self.currentActionIndex++
+                                if self.currentActionIndex > 5 && self.currentActionIndex + 5 < ActionCell.cellsCount && ActionCell.canMoveCellsLayerUp() {
+                                    ActionCell.moveCellsLayerUp()
+                                }
                             } else {
                                 self.stopRobot = true
                                 let turn = SKAction.animateWithTextures(TurnToFrontAnimationTextures(self.animationDirection), timePerFrame: 0.05)
@@ -164,6 +181,9 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
                 } else {
                     if self.currentActionIndex < self.actions.count - 1 {
                         self.currentActionIndex++
+                        if self.currentActionIndex > 5 && self.currentActionIndex + 5 < ActionCell.cellsCount && ActionCell.canMoveCellsLayerUp() {
+                            ActionCell.moveCellsLayerUp()
+                        }
                         self.runActions()
                     } else {
                         let turn = SKAction.animateWithTextures(TurnToFrontAnimationTextures(self.animationDirection), timePerFrame: 0.05)
@@ -177,6 +197,9 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     func performActions() {
         if !actions.isEmpty && isOnStart {
             isOnStart = false
+            
+            ActionCell.moveCellsLayerToTop()
+            
             if turnedToFront {
                 let turnFromFront = SKAction.runBlock() {
                     self.turnFromFront()
@@ -187,7 +210,7 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
             }
             
             runActions()
-        }
+        } 
     }
     
     func mistake() -> SKAction {

@@ -11,42 +11,64 @@ import SpriteKit
 
 enum GameButtonType: String {
     case Pause = "Pause",
-    Tip = "Tip",
+    Tips = "Tips",
     Debug = "Debug",
     Clear = "Clear",
-    Start = "Start"
+    Start = "Start",
+    Restart = "Restart",
+    Restart_PauseView = "Restart_PauseView",
+    Continue_PauseView = "Continue_PauseView",
+    Exit_PauseView = "Exit_PauseView"
 }
 
 class GameButton: SKSpriteNode {
     
     private var gameButtonType: GameButtonType
-    var isTouched = false
+    private var atlas = SKTextureAtlas(named: "GameButtons")
     
     init(type: GameButtonType) {
-        let texture = SKTexture(imageNamed: "button_\(type.rawValue)")
+        let texture = atlas.textureNamed("GameButton_\(type.rawValue)")
         gameButtonType = type
         super.init(texture: texture, color: UIColor(), size: texture.size())
         position = getGameButtonPosition(type)
-        zPosition = 1
+        zPosition = 1001
+
+        userInteractionEnabled = true
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        touched()
     }
-   
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        var touchesSet = touches as! Set<UITouch>
+        for touch in touchesSet {
+            AudioPlayer.sharedInstance.playSoundEffect("Sound_GameButton_\(gameButtonType.rawValue).mp3")
+            var touchLocation = touch.locationInNode(parent)
+            if containsPoint(touchLocation) {
+                parent!.touchesEnded(touches, withEvent: event)
+            }
+            resetTexture()
+        }
+    }
+    
+    override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
+        resetTexture()
+    }
+    
     func touched() {
-        texture = SKTexture(imageNamed: "button_\(gameButtonType.rawValue)_Pressed")
-        size = texture!.size()
-        isTouched = true
+        texture = atlas.textureNamed("GameButton_\(gameButtonType.rawValue)_Pressed")
     }
     
     func resetTexture() {
-        texture = SKTexture(imageNamed: "button_\(gameButtonType.rawValue)")
-        size = texture!.size()
-        isTouched = false
+        texture = atlas.textureNamed("GameButton_\(gameButtonType.rawValue)")
     }
     
     func getActionType() -> GameButtonType {
         return gameButtonType
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

@@ -15,11 +15,14 @@ class RobotTrack {
     private var currentRobotPosition: Int
     private let startRobotPosition: Int
     private let detailPosition: Int
-
+    var trackLength: CGFloat
+    
     init(pattern: [FloorPosition], robotPosition: Int, detailPosition: Int) {
         startRobotPosition = robotPosition
         self.detailPosition = detailPosition
         currentRobotPosition = robotPosition
+        trackLength = CGFloat(pattern.count + 3) * Constants.BlockFace_Size.width
+        
         initTrackFromPattern(pattern)
     }
     

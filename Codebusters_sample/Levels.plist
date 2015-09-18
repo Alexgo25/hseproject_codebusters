@@ -8,9 +8,28 @@
 			<key>detailType</key>
 			<string>CPU</string>
 			<key>cellState</key>
-			<string>_Active</string>
+			<string>Active</string>
 			<key>levels</key>
 			<array>
+				<dict>
+					<key>blocksPattern</key>
+					<array>
+						<integer>1</integer>
+						<integer>2</integer>
+						<integer>0</integer>
+						<integer>2</integer>
+						<integer>1</integer>
+						<integer>1</integer>
+					</array>
+					<key>robotPosition</key>
+					<integer>5</integer>
+					<key>detailType</key>
+					<string>RAM1</string>
+					<key>detailPosition</key>
+					<integer>3</integer>
+					<key>detailFloorPosition</key>
+					<integer>2</integer>
+				</dict>
 				<dict>
 					<key>blocksPattern</key>
 					<array>
@@ -91,7 +110,7 @@
 			<key>detailType</key>
 			<string>HardDrive</string>
 			<key>cellState</key>
-			<string>_NonActive</string>
+			<string>NonActive</string>
 			<key>levels</key>
 			<array>
 				<dict>
@@ -195,7 +214,7 @@
 			<key>detailType</key>
 			<string>RAM1</string>
 			<key>cellState</key>
-			<string>_NonActive</string>
+			<string>NonActive</string>
 			<key>levels</key>
 			<array>
 				<dict>
@@ -299,7 +318,7 @@
 			<key>detailType</key>
 			<string>RAM2</string>
 			<key>cellState</key>
-			<string>_NonActive</string>
+			<string>NonActive</string>
 			<key>levels</key>
 			<array>
 				<dict>
@@ -408,7 +427,7 @@
 			<key>detailType</key>
 			<string>Battery</string>
 			<key>cellState</key>
-			<string>_NonActive</string>
+			<string>NonActive</string>
 			<key>levels</key>
 			<array>
 				<dict>
@@ -517,7 +536,7 @@
 			<key>detailType</key>
 			<string>Fan</string>
 			<key>cellState</key>
-			<string>_NonActive</string>
+			<string>NonActive</string>
 			<key>levels</key>
 			<array>
 				<dict>
@@ -601,26 +620,6 @@
 					<integer>2</integer>
 				</dict>
 			</array>
-		</dict>
-		<dict>
-			<key>cellState</key>
-			<string>_NonActive</string>
-			<key>blocksPattern</key>
-			<array>
-				<integer>1</integer>
-				<integer>1</integer>
-				<integer>2</integer>
-				<integer>1</integer>
-				<integer>1</integer>
-			</array>
-			<key>robotPosition</key>
-			<integer>1</integer>
-			<key>detailType</key>
-			<string>Fan</string>
-			<key>detailPosition</key>
-			<integer>1</integer>
-			<key>detailFloorPosition</key>
-			<integer>2</integer>
 		</dict>
 	</array>
 </dict>

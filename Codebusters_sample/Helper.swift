@@ -24,11 +24,6 @@ enum FloorPosition: Int {
     second = 2
 }
 
-enum DetailCellState: String {
-    case NonActive = "_NonActive",
-    Active = "_Active",
-    Placed = ""
-}
 
 struct PhysicsCategory {
     static let None: UInt32 = 0
@@ -70,14 +65,15 @@ struct Constants {
     static let Button_TurnPosition = CGPoint(x: -61, y: 224)            //(x: 481, y: 915)
     static let Button_PushPosition = CGPoint(x: 94, y: 224)             //(x: 384, y: 984)
     static let Button_JumpPosition = CGPoint(x: 205, y: 156)            //(x: 263, y: 984)
-    //static let Button_StartPosition = CGPoint(x: 1742, y: 213)
-    static let Button_StartPosition = CGPoint(x: 1751, y: 153)
-    static let Button_ClearPosition = CGPoint(x: 1875, y: 323)
-    static let Button_DebugPosition = CGPoint(x: 1628, y: 323)
-    static let Button_PausePosition = CGPoint(x:102, y: 1436)
-    static let Button_TipsPosition = CGPoint(x: 102, y: 1316)
-    static let Button_ResetPosition = CGPoint(x: 306, y: 730)
-    static let Button_ContinuePosition = CGPoint(x: 306, y: 882)
+    static let Button_StartPosition = CGPoint(x: 1769, y: 120)
+    static let Button_ClearPosition = CGPoint(x: 1892, y: 289)
+    static let Button_DebugPosition = CGPoint(x: 1648, y: 289)
+    static let Button_PausePosition = CGPoint(x:103, y: 1440)
+    static let Button_TipsPosition = CGPoint(x: 237, y: 1440)
+    static let Button_Restart_PauseViewPosition = CGPoint(x: 306, y: 950)
+    static let Button_RestartPosition = CGPoint(x: 370, y: 1440)
+    static let Button_Continue_PauseViewPosition = CGPoint(x: 306, y: 1094)
+    static let Button_Exit_PauseViewPosition = CGPoint(x: 306, y: 806)
     static let Robot_FirstBlockPosition = CGPoint(x: 315, y: 760)
     static let Block_FirstPosition = CGPoint(x: 125, y: 523)
     static let BlockFace_Size = CGSize(width: 202, height: 199)
@@ -104,8 +100,16 @@ func getGameButtonPosition(type: GameButtonType) -> CGPoint {
         return Constants.Button_PausePosition
     case .Start:
         return Constants.Button_StartPosition
-    case .Tip:
+    case .Tips:
         return Constants.Button_TipsPosition
+    case .Restart:
+        return Constants.Button_RestartPosition
+    case .Restart_PauseView:
+        return Constants.Button_Restart_PauseViewPosition
+    case .Continue_PauseView:
+        return Constants.Button_Continue_PauseViewPosition
+    case .Exit_PauseView:
+        return Constants.Button_Exit_PauseViewPosition
     }
 }
 
@@ -145,126 +149,35 @@ func getNextBlockPosition(blockPosition: CGPoint) -> CGPoint {
     return CGPoint(x: blockPosition.x + UIImage(named: "block")!.size.width, y: blockPosition.y)
 }
 
-func MoveAnimationTextures(direction: Direction) -> [SKTexture] {
+func getRobotAnimation(actionType: String, direction: Direction) -> [SKTexture] {
     var textures: [SKTexture] = []
+    var directionString: String = ""
     
-    if direction == .ToRight {
-        for var i = 1; i <= 8; i++ {
-            textures.append(SKTexture(imageNamed: "Move\(i)_ToRight"))
-        }
+    if direction == .ToRight && actionType != "mistake" {
+        directionString = "_ToRight"
     } else {
-        for var i = 1; i <= 8; i++ {
-            textures.append(SKTexture(imageNamed: "Move\(i)_ToLeft"))
-        }
+        directionString = "_ToLeft"
+    }
+    
+    let atlasName = "Animation_\(actionType)\(directionString)"
+    let atlas = SKTextureAtlas(named: atlasName)
+    
+    for var i = 1; i <= atlas.textureNames.count; i++ {
+        textures.append(atlas.textureNamed("\(atlasName)_\(i)"))
     }
     
     return textures
 }
 
-func JumpAnimationTextures(direction: Direction) -> [SKTexture] {
-    var textures: [SKTexture] = []
-    
-    if direction == .ToRight {
-        for var i = 1; i <= 8; i++ {
-            textures.append(SKTexture(imageNamed: "Jump\(i)_ToRight"))
-        }
-    } else {
-        for var i = 1; i <= 8; i++ {
-            textures.append(SKTexture(imageNamed: "Jump\(i)_ToLeft"))
-        }
-    }
-    
-    return textures
-}
-
-func PushAnimationTextures_FirstPart(direction: Direction) -> [SKTexture] {
-    var textures: [SKTexture] = []
-    
-    if direction == .ToRight {
-        for var i = 1; i <= 5; i++ {
-            textures.append(SKTexture(imageNamed: "Push\(i)_ToRight"))
-        }
-    } else {
-        for var i = 1; i <= 5; i++ {
-            textures.append(SKTexture(imageNamed: "Push\(i)_ToLeft"))
-        }
-    }
-    
-    return textures
-}
-
-func PushAnimationTextures_SecondPart(direction: Direction) -> [SKTexture] {
-    var textures: [SKTexture] = []
-    
-    if direction == .ToRight {
-        for var i = 6; i <= 9; i++ {
-            textures.append(SKTexture(imageNamed: "Push\(i)_ToRight"))
-        }
-    } else {
-        for var i = 6; i <= 9; i++ {
-            textures.append(SKTexture(imageNamed: "Push\(i)_ToLeft"))
-        }
-    }
-    
-    return textures
-}
-
-func TurnAnimationTextures(direction: Direction) -> [SKTexture] {
-    var textures: [SKTexture] = []
-    
-    if direction == .ToRight {
-        for var i = 7; i >= 1; i-- {
-            textures.append(SKTexture(imageNamed: "Turn\(i)"))
-        }
-    } else {
-        for var i = 1; i <= 7; i++ {
-            textures.append(SKTexture(imageNamed: "Turn\(i)"))
-        }
-    }
-    
-    return textures
-}
-
-func TurnToFrontAnimationTextures(direction: Direction) -> [SKTexture] {
-    var textures: [SKTexture] = []
-    
-    if direction == .ToRight {
-        for var i = 1; i < 6; i++ {
-            textures.append(SKTexture(imageNamed: "TurnToFront\(i)_ToRight"))
-        }
-    } else {
-        for var i = 1; i < 6; i++ {
-            textures.append(SKTexture(imageNamed: "TurnToFront\(i)_ToLeft"))
-        }
-    }
-    
-    return textures
-}
-
-func TurnFromFrontAnimationTextures(direction: Direction) -> [SKTexture] {
-    var textures: [SKTexture] = []
-    
-    if direction == .ToRight {
-        for var i = 5; i > 0; i-- {
-            textures.append(SKTexture(imageNamed: "TurnToFront\(i)_ToRight"))
-        }
-    } else {
-        for var i = 5; i > 0; i-- {
-            textures.append(SKTexture(imageNamed: "TurnToFront\(i)_ToRight"))
-        }
-    }
-    
-    return textures
-}
-
-func MistakeAnimationTextures() -> [SKTexture] {
-    var textures: [SKTexture] = []
-    
-    for var i = 1; i < 10; i++ {
-        textures.append(SKTexture(imageNamed: "Mistake\(i)"))
-    }
-    
-    return textures
+func createLabel(text: String, fontColor: UIColor, fontSize: CGFloat, position: CGPoint) -> SKLabelNode {
+    let label = SKLabelNode(fontNamed: "Ubuntu Bold")
+    label.text = text
+    label.fontColor = fontColor
+    label.fontSize = fontSize
+    label.position = position
+    label.zPosition = 1001
+    label.verticalAlignmentMode = .Center
+    return label
 }
 
 func getLevelsData() -> NSDictionary {

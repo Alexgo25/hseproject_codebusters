@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		110952C21AC6DF5B000A960A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110952C11AC6DF5B000A960A /* AppDelegate.swift */; };
-		110952C61AC6DF5B000A960A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110952C51AC6DF5B000A960A /* GameScene.swift */; };
 		110952C81AC6DF5B000A960A /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 110952C71AC6DF5B000A960A /* GameViewController.swift */; };
 		110952CB1AC6DF5B000A960A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 110952C91AC6DF5B000A960A /* Main.storyboard */; };
 		110952CD1AC6DF5B000A960A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 110952CC1AC6DF5B000A960A /* Images.xcassets */; };
@@ -20,25 +19,50 @@
 		6131E1331AD2C9FF00D69DD6 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6131E1321AD2C9FF00D69DD6 /* Helper.swift */; };
 		613B797C1B0613F30021658D /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B797B1B0613F30021658D /* PauseView.swift */; };
 		614DA0B31AEF19780088A557 /* Reverse.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B21AEF19780088A557 /* Reverse.mp3 */; };
-		614DA0B51AEF19D00088A557 /* ActionSelection.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B41AEF19D00088A557 /* ActionSelection.mp3 */; };
+		614DA0B51AEF19D00088A557 /* Sound_ActionButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B41AEF19D00088A557 /* Sound_ActionButton.mp3 */; };
 		614DA0B71AEF1A8A0088A557 /* CubeFalling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */; };
 		614DA0B91AEF1C060088A557 /* CubePush.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B81AEF1C060088A557 /* CubePush.mp3 */; };
 		614DA0BB1AEF1C750088A557 /* LevelCompleted.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0BA1AEF1C750088A557 /* LevelCompleted.mp3 */; };
 		614DA0BD1AEF1C870088A557 /* DetailAchievement.wav in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0BC1AEF1C870088A557 /* DetailAchievement.wav */; };
-		614DA0BF1AEF1DCB0088A557 /* PauseButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0BE1AEF1DCB0088A557 /* PauseButton.mp3 */; };
-		614DA0C11AEF1E060088A557 /* StartButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C01AEF1E060088A557 /* StartButton.mp3 */; };
-		614DA0C31AEF1E440088A557 /* TipButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C21AEF1E440088A557 /* TipButton.mp3 */; };
+		614DA0BF1AEF1DCB0088A557 /* Sound_GameButton_Pause.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0BE1AEF1DCB0088A557 /* Sound_GameButton_Pause.mp3 */; };
+		614DA0C11AEF1E060088A557 /* Sound_GameButton_Start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C01AEF1E060088A557 /* Sound_GameButton_Start.mp3 */; };
+		614DA0C31AEF1E440088A557 /* Sound_GameButton_Tips.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C21AEF1E440088A557 /* Sound_GameButton_Tips.mp3 */; };
 		614DA0C51AEF1E730088A557 /* Walk.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0C41AEF1E730088A557 /* Walk.mp3 */; };
 		614DA0C71AEF36680088A557 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614DA0C61AEF36680088A557 /* MenuScene.swift */; };
 		615231DE1B5E0F3100F7E96B /* GameButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615231DD1B5E0F3100F7E96B /* GameButton.swift */; };
+		6157866A1BA37FBA008AF886 /* Ubuntu.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 615786691BA37731008AF886 /* Ubuntu.ttf */; };
 		615ADA101B51578400CA5D7F /* Levels.plist in Resources */ = {isa = PBXBuildFile; fileRef = 615ADA0F1B51578400CA5D7F /* Levels.plist */; };
+		615C882A1BA77A8A00B755F6 /* Animation_Mistake_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 615C88291BA77A8A00B755F6 /* Animation_Mistake_ToLeft.atlas */; };
+		615C882C1BA77AA200B755F6 /* Animation_Mistake_ToRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 615C882B1BA77AA200B755F6 /* Animation_Mistake_ToRight.atlas */; };
 		615CEFD41AE6597B006403B5 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615CEFD31AE6597B006403B5 /* Detail.swift */; };
+		617AB2121BAB429700DC71BD /* PauseView.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 617AB2111BAB429700DC71BD /* PauseView.atlas */; };
+		617AB2141BAB68DF00DC71BD /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617AB2131BAB68DF00DC71BD /* AudioPlayer.swift */; };
 		618F7BA81AEEDCEE00B2DBC5 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */; };
 		618F7BAA1AEEEAC500B2DBC5 /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */; };
 		61A15FE91AEE4AA1008B36EA /* Jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 61A15FE81AEE4AA1008B36EA /* Jump.wav */; };
 		61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A436281AD09CC5002B8540 /* ActionButton.swift */; };
 		61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A4362A1AD16D1B002B8540 /* ActionCell.swift */; };
+		61AC5DAF1BA586C000CA109C /* ActionButtons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9A1BA586C000CA109C /* ActionButtons.atlas */; };
+		61AC5DB01BA586C000CA109C /* ActionCells.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9B1BA586C000CA109C /* ActionCells.atlas */; };
+		61AC5DB11BA586C000CA109C /* DetailCells.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9C1BA586C000CA109C /* DetailCells.atlas */; };
+		61AC5DB21BA586C000CA109C /* Details.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9D1BA586C000CA109C /* Details.atlas */; };
+		61AC5DB31BA586C000CA109C /* GameButtons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9E1BA586C000CA109C /* GameButtons.atlas */; };
+		61AC5DD81BA5881300CA109C /* Animation_Jump_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DC81BA5881300CA109C /* Animation_Jump_ToLeft.atlas */; };
+		61AC5DD91BA5881300CA109C /* Animation_Move_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DC91BA5881300CA109C /* Animation_Move_ToLeft.atlas */; };
+		61AC5DDA1BA5881300CA109C /* Animation_Push_FirstPart_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DCA1BA5881300CA109C /* Animation_Push_FirstPart_ToLeft.atlas */; };
+		61AC5DDB1BA5881300CA109C /* Animation_Push_SecondPart_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DCB1BA5881300CA109C /* Animation_Push_SecondPart_ToLeft.atlas */; };
+		61AC5DDC1BA5881300CA109C /* Animation_Turn_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DCC1BA5881300CA109C /* Animation_Turn_ToLeft.atlas */; };
+		61AC5DDD1BA5881300CA109C /* Animation_TurnFromFront_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DCD1BA5881300CA109C /* Animation_TurnFromFront_ToLeft.atlas */; };
+		61AC5DDE1BA5881300CA109C /* Animation_TurnToFront_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DCE1BA5881300CA109C /* Animation_TurnToFront_ToLeft.atlas */; };
+		61AC5DDF1BA5881300CA109C /* Animation_Jump_ToRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DD01BA5881300CA109C /* Animation_Jump_ToRight.atlas */; };
+		61AC5DE01BA5881300CA109C /* Animation_Move_ToRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DD11BA5881300CA109C /* Animation_Move_ToRight.atlas */; };
+		61AC5DE11BA5881300CA109C /* Animation_Push_FirstPart_ToRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DD21BA5881300CA109C /* Animation_Push_FirstPart_ToRight.atlas */; };
+		61AC5DE21BA5881300CA109C /* Animation_Push_SecondPart_ToRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DD31BA5881300CA109C /* Animation_Push_SecondPart_ToRight.atlas */; };
+		61AC5DE31BA5881300CA109C /* Animation_Turn_ToRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DD41BA5881300CA109C /* Animation_Turn_ToRight.atlas */; };
+		61AC5DE41BA5881300CA109C /* Animation_TurnFromFront_ToRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DD51BA5881300CA109C /* Animation_TurnFromFront_ToRight.atlas */; };
+		61AC5DE51BA5881300CA109C /* Animation_TurnToFront_ToRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DD61BA5881300CA109C /* Animation_TurnToFront_ToRight.atlas */; };
 		61EFA4B41ADBEC4400EB8C6B /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EFA4B31ADBEC4400EB8C6B /* Block.swift */; };
+		61F698C21BAC1F120022018A /* Switcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61F698C11BAC1F120022018A /* Switcher.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +79,6 @@
 		110952BC1AC6DF5B000A960A /* Codebusters_sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Codebusters_sample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		110952C01AC6DF5B000A960A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		110952C11AC6DF5B000A960A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		110952C51AC6DF5B000A960A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		110952C71AC6DF5B000A960A /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		110952CA1AC6DF5B000A960A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		110952CC1AC6DF5B000A960A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -69,25 +92,50 @@
 		6131E1321AD2C9FF00D69DD6 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		613B797B1B0613F30021658D /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
 		614DA0B21AEF19780088A557 /* Reverse.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Reverse.mp3; sourceTree = "<group>"; };
-		614DA0B41AEF19D00088A557 /* ActionSelection.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ActionSelection.mp3; sourceTree = "<group>"; };
+		614DA0B41AEF19D00088A557 /* Sound_ActionButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sound_ActionButton.mp3; sourceTree = "<group>"; };
 		614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = CubeFalling.mp3; sourceTree = "<group>"; };
 		614DA0B81AEF1C060088A557 /* CubePush.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = CubePush.mp3; sourceTree = "<group>"; };
 		614DA0BA1AEF1C750088A557 /* LevelCompleted.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = LevelCompleted.mp3; sourceTree = "<group>"; };
 		614DA0BC1AEF1C870088A557 /* DetailAchievement.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = DetailAchievement.wav; sourceTree = "<group>"; };
-		614DA0BE1AEF1DCB0088A557 /* PauseButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = PauseButton.mp3; sourceTree = "<group>"; };
-		614DA0C01AEF1E060088A557 /* StartButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = StartButton.mp3; sourceTree = "<group>"; };
-		614DA0C21AEF1E440088A557 /* TipButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TipButton.mp3; sourceTree = "<group>"; };
+		614DA0BE1AEF1DCB0088A557 /* Sound_GameButton_Pause.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sound_GameButton_Pause.mp3; sourceTree = "<group>"; };
+		614DA0C01AEF1E060088A557 /* Sound_GameButton_Start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sound_GameButton_Start.mp3; sourceTree = "<group>"; };
+		614DA0C21AEF1E440088A557 /* Sound_GameButton_Tips.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sound_GameButton_Tips.mp3; sourceTree = "<group>"; };
 		614DA0C41AEF1E730088A557 /* Walk.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Walk.mp3; sourceTree = "<group>"; };
 		614DA0C61AEF36680088A557 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		615231DD1B5E0F3100F7E96B /* GameButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameButton.swift; sourceTree = "<group>"; };
+		615786691BA37731008AF886 /* Ubuntu.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ubuntu.ttf; sourceTree = "<group>"; };
 		615ADA0F1B51578400CA5D7F /* Levels.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Levels.plist; sourceTree = "<group>"; };
+		615C88291BA77A8A00B755F6 /* Animation_Mistake_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Mistake_ToLeft.atlas; sourceTree = "<group>"; };
+		615C882B1BA77AA200B755F6 /* Animation_Mistake_ToRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Mistake_ToRight.atlas; sourceTree = "<group>"; };
 		615CEFD31AE6597B006403B5 /* Detail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		617AB2111BAB429700DC71BD /* PauseView.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = PauseView.atlas; sourceTree = "<group>"; };
+		617AB2131BAB68DF00DC71BD /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		61A15FE81AEE4AA1008B36EA /* Jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Jump.wav; sourceTree = "<group>"; };
 		61A436281AD09CC5002B8540 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		61A4362A1AD16D1B002B8540 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
+		61AC5D9A1BA586C000CA109C /* ActionButtons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ActionButtons.atlas; sourceTree = "<group>"; };
+		61AC5D9B1BA586C000CA109C /* ActionCells.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ActionCells.atlas; sourceTree = "<group>"; };
+		61AC5D9C1BA586C000CA109C /* DetailCells.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = DetailCells.atlas; sourceTree = "<group>"; };
+		61AC5D9D1BA586C000CA109C /* Details.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Details.atlas; sourceTree = "<group>"; };
+		61AC5D9E1BA586C000CA109C /* GameButtons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GameButtons.atlas; sourceTree = "<group>"; };
+		61AC5DC81BA5881300CA109C /* Animation_Jump_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Jump_ToLeft.atlas; sourceTree = "<group>"; };
+		61AC5DC91BA5881300CA109C /* Animation_Move_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Move_ToLeft.atlas; sourceTree = "<group>"; };
+		61AC5DCA1BA5881300CA109C /* Animation_Push_FirstPart_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Push_FirstPart_ToLeft.atlas; sourceTree = "<group>"; };
+		61AC5DCB1BA5881300CA109C /* Animation_Push_SecondPart_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Push_SecondPart_ToLeft.atlas; sourceTree = "<group>"; };
+		61AC5DCC1BA5881300CA109C /* Animation_Turn_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Turn_ToLeft.atlas; sourceTree = "<group>"; };
+		61AC5DCD1BA5881300CA109C /* Animation_TurnFromFront_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_TurnFromFront_ToLeft.atlas; sourceTree = "<group>"; };
+		61AC5DCE1BA5881300CA109C /* Animation_TurnToFront_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_TurnToFront_ToLeft.atlas; sourceTree = "<group>"; };
+		61AC5DD01BA5881300CA109C /* Animation_Jump_ToRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Jump_ToRight.atlas; sourceTree = "<group>"; };
+		61AC5DD11BA5881300CA109C /* Animation_Move_ToRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Move_ToRight.atlas; sourceTree = "<group>"; };
+		61AC5DD21BA5881300CA109C /* Animation_Push_FirstPart_ToRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Push_FirstPart_ToRight.atlas; sourceTree = "<group>"; };
+		61AC5DD31BA5881300CA109C /* Animation_Push_SecondPart_ToRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Push_SecondPart_ToRight.atlas; sourceTree = "<group>"; };
+		61AC5DD41BA5881300CA109C /* Animation_Turn_ToRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Turn_ToRight.atlas; sourceTree = "<group>"; };
+		61AC5DD51BA5881300CA109C /* Animation_TurnFromFront_ToRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_TurnFromFront_ToRight.atlas; sourceTree = "<group>"; };
+		61AC5DD61BA5881300CA109C /* Animation_TurnToFront_ToRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_TurnToFront_ToRight.atlas; sourceTree = "<group>"; };
 		61EFA4B31ADBEC4400EB8C6B /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		61F698C11BAC1F120022018A /* Switcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Switcher.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,12 +177,14 @@
 		110952BE1AC6DF5B000A960A /* Codebusters_sample */ = {
 			isa = PBXGroup;
 			children = (
+				61AC5D991BA586C000CA109C /* Textures */,
 				110952C11AC6DF5B000A960A /* AppDelegate.swift */,
 				61A436281AD09CC5002B8540 /* ActionButton.swift */,
 				615231DD1B5E0F3100F7E96B /* GameButton.swift */,
-				110952C51AC6DF5B000A960A /* GameScene.swift */,
 				61A4362A1AD16D1B002B8540 /* ActionCell.swift */,
 				618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */,
+				617AB2131BAB68DF00DC71BD /* AudioPlayer.swift */,
+				61F698C11BAC1F120022018A /* Switcher.swift */,
 				615CEFD31AE6597B006403B5 /* Detail.swift */,
 				115C6E961ACBFA4200B79250 /* Robot.swift */,
 				11E38C661AD949460061BE81 /* RobotStanding.swift */,
@@ -157,15 +207,16 @@
 		110952BF1AC6DF5B000A960A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				615786691BA37731008AF886 /* Ubuntu.ttf */,
 				614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */,
-				614DA0BE1AEF1DCB0088A557 /* PauseButton.mp3 */,
+				614DA0BE1AEF1DCB0088A557 /* Sound_GameButton_Pause.mp3 */,
 				614DA0C41AEF1E730088A557 /* Walk.mp3 */,
-				614DA0C21AEF1E440088A557 /* TipButton.mp3 */,
+				614DA0C21AEF1E440088A557 /* Sound_GameButton_Tips.mp3 */,
 				614DA0BA1AEF1C750088A557 /* LevelCompleted.mp3 */,
 				614DA0B81AEF1C060088A557 /* CubePush.mp3 */,
-				614DA0C01AEF1E060088A557 /* StartButton.mp3 */,
+				614DA0C01AEF1E060088A557 /* Sound_GameButton_Start.mp3 */,
 				614DA0BC1AEF1C870088A557 /* DetailAchievement.wav */,
-				614DA0B41AEF19D00088A557 /* ActionSelection.mp3 */,
+				614DA0B41AEF19D00088A557 /* Sound_ActionButton.mp3 */,
 				614DA0B21AEF19780088A557 /* Reverse.mp3 */,
 				61A15FE81AEE4AA1008B36EA /* Jump.wav */,
 				110952C01AC6DF5B000A960A /* Info.plist */,
@@ -188,6 +239,59 @@
 				110952DA1AC6DF5B000A960A /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		61AC5D991BA586C000CA109C /* Textures */ = {
+			isa = PBXGroup;
+			children = (
+				617AB2111BAB429700DC71BD /* PauseView.atlas */,
+				61AC5DC51BA5881300CA109C /* RobotAnimations */,
+				61AC5D9A1BA586C000CA109C /* ActionButtons.atlas */,
+				61AC5D9B1BA586C000CA109C /* ActionCells.atlas */,
+				61AC5D9C1BA586C000CA109C /* DetailCells.atlas */,
+				61AC5D9D1BA586C000CA109C /* Details.atlas */,
+				61AC5D9E1BA586C000CA109C /* GameButtons.atlas */,
+			);
+			path = Textures;
+			sourceTree = "<group>";
+		};
+		61AC5DC51BA5881300CA109C /* RobotAnimations */ = {
+			isa = PBXGroup;
+			children = (
+				61AC5DC71BA5881300CA109C /* ToLeft */,
+				61AC5DCF1BA5881300CA109C /* ToRight */,
+			);
+			path = RobotAnimations;
+			sourceTree = "<group>";
+		};
+		61AC5DC71BA5881300CA109C /* ToLeft */ = {
+			isa = PBXGroup;
+			children = (
+				615C88291BA77A8A00B755F6 /* Animation_Mistake_ToLeft.atlas */,
+				61AC5DC81BA5881300CA109C /* Animation_Jump_ToLeft.atlas */,
+				61AC5DC91BA5881300CA109C /* Animation_Move_ToLeft.atlas */,
+				61AC5DCA1BA5881300CA109C /* Animation_Push_FirstPart_ToLeft.atlas */,
+				61AC5DCB1BA5881300CA109C /* Animation_Push_SecondPart_ToLeft.atlas */,
+				61AC5DCC1BA5881300CA109C /* Animation_Turn_ToLeft.atlas */,
+				61AC5DCD1BA5881300CA109C /* Animation_TurnFromFront_ToLeft.atlas */,
+				61AC5DCE1BA5881300CA109C /* Animation_TurnToFront_ToLeft.atlas */,
+			);
+			path = ToLeft;
+			sourceTree = "<group>";
+		};
+		61AC5DCF1BA5881300CA109C /* ToRight */ = {
+			isa = PBXGroup;
+			children = (
+				615C882B1BA77AA200B755F6 /* Animation_Mistake_ToRight.atlas */,
+				61AC5DD01BA5881300CA109C /* Animation_Jump_ToRight.atlas */,
+				61AC5DD11BA5881300CA109C /* Animation_Move_ToRight.atlas */,
+				61AC5DD21BA5881300CA109C /* Animation_Push_FirstPart_ToRight.atlas */,
+				61AC5DD31BA5881300CA109C /* Animation_Push_SecondPart_ToRight.atlas */,
+				61AC5DD41BA5881300CA109C /* Animation_Turn_ToRight.atlas */,
+				61AC5DD51BA5881300CA109C /* Animation_TurnFromFront_ToRight.atlas */,
+				61AC5DD61BA5881300CA109C /* Animation_TurnToFront_ToRight.atlas */,
+			);
+			path = ToRight;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,21 +375,44 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				615C882C1BA77AA200B755F6 /* Animation_Mistake_ToRight.atlas in Resources */,
 				110952D01AC6DF5B000A960A /* LaunchScreen.xib in Resources */,
+				61AC5DAF1BA586C000CA109C /* ActionButtons.atlas in Resources */,
 				614DA0B71AEF1A8A0088A557 /* CubeFalling.mp3 in Resources */,
+				61AC5DB01BA586C000CA109C /* ActionCells.atlas in Resources */,
 				61A15FE91AEE4AA1008B36EA /* Jump.wav in Resources */,
 				614DA0BB1AEF1C750088A557 /* LevelCompleted.mp3 in Resources */,
+				61AC5DE11BA5881300CA109C /* Animation_Push_FirstPart_ToRight.atlas in Resources */,
 				110952CD1AC6DF5B000A960A /* Images.xcassets in Resources */,
+				61AC5DB31BA586C000CA109C /* GameButtons.atlas in Resources */,
+				61AC5DDF1BA5881300CA109C /* Animation_Jump_ToRight.atlas in Resources */,
+				61AC5DE51BA5881300CA109C /* Animation_TurnToFront_ToRight.atlas in Resources */,
+				61AC5DE01BA5881300CA109C /* Animation_Move_ToRight.atlas in Resources */,
 				614DA0B31AEF19780088A557 /* Reverse.mp3 in Resources */,
-				614DA0BF1AEF1DCB0088A557 /* PauseButton.mp3 in Resources */,
+				61AC5DDE1BA5881300CA109C /* Animation_TurnToFront_ToLeft.atlas in Resources */,
+				61AC5DE31BA5881300CA109C /* Animation_Turn_ToRight.atlas in Resources */,
+				61AC5DD91BA5881300CA109C /* Animation_Move_ToLeft.atlas in Resources */,
+				614DA0BF1AEF1DCB0088A557 /* Sound_GameButton_Pause.mp3 in Resources */,
+				61AC5DD81BA5881300CA109C /* Animation_Jump_ToLeft.atlas in Resources */,
 				614DA0BD1AEF1C870088A557 /* DetailAchievement.wav in Resources */,
 				110952CB1AC6DF5B000A960A /* Main.storyboard in Resources */,
-				614DA0C11AEF1E060088A557 /* StartButton.mp3 in Resources */,
-				614DA0B51AEF19D00088A557 /* ActionSelection.mp3 in Resources */,
+				614DA0C11AEF1E060088A557 /* Sound_GameButton_Start.mp3 in Resources */,
+				615C882A1BA77A8A00B755F6 /* Animation_Mistake_ToLeft.atlas in Resources */,
+				61AC5DE41BA5881300CA109C /* Animation_TurnFromFront_ToRight.atlas in Resources */,
+				61AC5DDC1BA5881300CA109C /* Animation_Turn_ToLeft.atlas in Resources */,
+				61AC5DDD1BA5881300CA109C /* Animation_TurnFromFront_ToLeft.atlas in Resources */,
+				614DA0B51AEF19D00088A557 /* Sound_ActionButton.mp3 in Resources */,
 				615ADA101B51578400CA5D7F /* Levels.plist in Resources */,
+				6157866A1BA37FBA008AF886 /* Ubuntu.ttf in Resources */,
+				61AC5DDB1BA5881300CA109C /* Animation_Push_SecondPart_ToLeft.atlas in Resources */,
 				614DA0C51AEF1E730088A557 /* Walk.mp3 in Resources */,
-				614DA0C31AEF1E440088A557 /* TipButton.mp3 in Resources */,
+				614DA0C31AEF1E440088A557 /* Sound_GameButton_Tips.mp3 in Resources */,
 				614DA0B91AEF1C060088A557 /* CubePush.mp3 in Resources */,
+				61AC5DE21BA5881300CA109C /* Animation_Push_SecondPart_ToRight.atlas in Resources */,
+				61AC5DDA1BA5881300CA109C /* Animation_Push_FirstPart_ToLeft.atlas in Resources */,
+				617AB2121BAB429700DC71BD /* PauseView.atlas in Resources */,
+				61AC5DB21BA586C000CA109C /* Details.atlas in Resources */,
+				61AC5DB11BA586C000CA109C /* DetailCells.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,11 +434,11 @@
 				615231DE1B5E0F3100F7E96B /* GameButton.swift in Sources */,
 				115C6E971ACBFA4200B79250 /* Robot.swift in Sources */,
 				615CEFD41AE6597B006403B5 /* Detail.swift in Sources */,
-				110952C61AC6DF5B000A960A /* GameScene.swift in Sources */,
 				110952C81AC6DF5B000A960A /* GameViewController.swift in Sources */,
 				110952C21AC6DF5B000A960A /* AppDelegate.swift in Sources */,
 				11E38C671AD949460061BE81 /* RobotStanding.swift in Sources */,
 				61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */,
+				617AB2141BAB68DF00DC71BD /* AudioPlayer.swift in Sources */,
 				618F7BAA1AEEEAC500B2DBC5 /* LevelScene.swift in Sources */,
 				61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */,
 				61EFA4B41ADBEC4400EB8C6B /* Block.swift in Sources */,
@@ -319,6 +446,7 @@
 				614DA0C71AEF36680088A557 /* MenuScene.swift in Sources */,
 				618F7BA81AEEDCEE00B2DBC5 /* DetailCell.swift in Sources */,
 				11E38C691AD94BCC0061BE81 /* RobotTrack.swift in Sources */,
+				61F698C21BAC1F120022018A /* Switcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,7 +522,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -431,7 +559,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;

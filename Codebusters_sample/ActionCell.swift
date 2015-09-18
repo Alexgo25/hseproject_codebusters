@@ -13,36 +13,26 @@ class ActionCell: SKSpriteNode {
     
     private var actionType: ActionType = .none
     static var cells: [ActionCell] = []
-    static var cellsCount = 0
-    static var cellsLayer = SKNode()
+    static let cellsLayer = SKNode()
     private static var upperCellIndex = 0
+    private let atlas = SKTextureAtlas(named: "ActionCells")
+
+    private static let cellsLayerStartPosition = CGPoint(x: 1765, y: 1232)
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    static func resetCells() {
-        cellsCount = 0
-        cellsLayer.removeAllChildren()
-        upperCellIndex = 0
-        cells = []
-        cellsLayer.position = CGPoint(x: 1748, y: 1238)
-    }
     
     init(actionType: ActionType) {
-        let texture = SKTexture(imageNamed: "cell_\(actionType.rawValue)")
+        let texture = atlas.textureNamed("ActionCell_\(actionType.rawValue)")
+        
         super.init(texture: texture, color: UIColor(), size: texture.size())
         self.actionType = actionType
         position = getNextPosition()
+        zPosition = 1001
         ActionCell.cells.append(self)
         alpha = 0
         runAction(SKAction.fadeInWithDuration(0.2))
         name = "\(ActionCell.cells.count - 1)"
-    }
-    
-    func setActionType(actionType: ActionType) {
-        self.actionType = actionType
-        texture = SKTexture(imageNamed: actionType.rawValue)
+        
+        showLabel()
     }
     
     func getActionType() -> ActionType {
@@ -55,53 +45,107 @@ class ActionCell: SKSpriteNode {
     
     func highlightBegin() -> SKAction {
         return SKAction.runBlock() {
-            self.texture = SKTexture(imageNamed: "cell_\(self.actionType.rawValue)_Highlighted")
+            self.texture = self.atlas.textureNamed("ActionCell_\(self.actionType.rawValue)_Highlighted")
         }
     }
     
     func highlightEnd() -> SKAction {
         return SKAction.runBlock() {
-            self.texture = SKTexture(imageNamed: "cell_\(self.actionType.rawValue)")
+            self.texture = self.atlas.textureNamed("ActionCell_\(self.actionType.rawValue)")
         }
     }
     
-    class func isArrayOfCellsFull() -> Bool {
-        return cells.count > 24
+    func showLabel() {
+        let label = SKLabelNode(fontNamed: "Ubuntu Bold")
+        
+        switch actionType {
+        case .move:
+            label.text = "ШАГНУТЬ"
+        case .jump:
+            label.text = "ПРЫГНУТЬ"
+        case .turn:
+            label.text = "ПОВЕРНУТЬ"
+        case .push:
+            label.text = "ТОЛКНУТЬ"
+        default:
+            label.text = ""
+        }
+        
+        label.fontSize = 23
+        label.position = CGPoint(x: 19, y: 2)
+        label.verticalAlignmentMode = .Center
+        label.zPosition = 1002
+        addChild(label)
+    }
+    
+    static func resetCellTextures() {
+        let atlas = SKTextureAtlas(named: "ActionCells")
+        for cell in cells {
+            cell.texture = atlas.textureNamed("ActionCell_\(cell.actionType.rawValue)")
+        }
+    }
+    
+    static func resetCells() {
+        cellsLayer.removeAllChildren()
+        upperCellIndex = 0
+        cells = []
+        cellsLayer.position = cellsLayerStartPosition
+    }
+    
+    static func isArrayOfCellsFull() -> Bool {
+        return cells.count > 30
+    }
+    
+    static func appendCell(actionType: ActionType) {
+        if !isArrayOfCellsFull() {
+            cellsLayer.addChild(ActionCell(actionType: actionType))
+            if cellsCount() > 11 {
+                appendCellWithMovingLayer()
+            }
+        }
+    }
+    
+    static func deleteCell(index: Int) {
+        if cells[index].alpha == 0 {
+            return
+        }
+        
+        let fadeOutAction = SKAction.group([SKAction.moveByX(-100, y: 0, duration: 0.2), SKAction.fadeOutWithDuration(0.2)])
+        
+        cells[index].runAction(SKAction.sequence([fadeOutAction, SKAction.removeFromParent()]), completion: {
+            self.moveCellsUpAfterDeleting(index)
+            self.cells.removeAtIndex(index)
+        } )
+    }
+    
+    static func moveCellsUpAfterDeleting(index: Int) {
+        for var i = index + 1; i < cellsCount(); i++ {
+            cells[i].runAction(SKAction.moveByX(0, y: Constants.ActionCellSize.height + 2, duration: 0.25))
+            cells[i].name = "\(i - 1)"
+        }
+        
+        if upperCellIndex + 11 < cellsCount() {
+            cells[upperCellIndex + 11].runAction(SKAction.fadeInWithDuration(0.25))
+        } else {
+            if upperCellIndex > 0 {
+                cellsLayer.runAction(SKAction.moveByX(0, y: -Constants.ActionCellSize.height - 2, duration: 0.25))
+                cells[upperCellIndex - 1].runAction(SKAction.fadeInWithDuration(0.25))
+                upperCellIndex--
+            }
+        }
     }
     
     static func appendCellWithMovingLayer() {
-        if upperCellIndex + 12 == cellsCount {
-            cellsLayer.runAction(SKAction.moveByX(0, y: Constants.ActionCellSize.height + 2, duration: 0.2))
-            cells[upperCellIndex].runAction(SKAction.fadeOutWithDuration(0.2))
-            upperCellIndex++
-        } else {
-            let downCellsQuantity = cellsCount - 11 - upperCellIndex
-            cellsLayer.runAction(SKAction.moveByX(0, y: (Constants.ActionCellSize.height + 2) * CGFloat(downCellsQuantity + 1), duration: 0.3))
-            let timePerCell = 0.3 / Double(downCellsQuantity)
-            for var i = upperCellIndex + 10; i < cellsCount; i++ {
-                cells[i - upperCellIndex - 10].runAction(SKAction.fadeOutWithDuration(timePerCell))
-                cells[i].runAction(SKAction.fadeInWithDuration(timePerCell))
-            }
-            
-            cells[upperCellIndex].runAction(SKAction.fadeOutWithDuration(0.2))
-            upperCellIndex++
+        let downCellsQuantity = cellsCount() - 11 - upperCellIndex
+        for var i = 0; i < downCellsQuantity; i++ {
+            moveCellsLayerUp()
         }
-    }
-    
-    static func canMoveCellsLayerUp() -> Bool {
-        return cellsCount - upperCellIndex - 11 > 0
     }
     
     static func moveCellsLayerToTop() {
         let topCellsQuantity = upperCellIndex
-        if Bool(topCellsQuantity) {
-            cellsLayer.runAction(SKAction.moveByX(0, y: -(Constants.ActionCellSize.height + 2) * CGFloat(topCellsQuantity), duration: 0.5))
-            let timePerCell = 0.25 / Double(topCellsQuantity)
-            for var i = upperCellIndex - 1; i >= 0; i-- {
-                cells[i].runAction(SKAction.fadeInWithDuration(0.5))
-                cells[i + 11].runAction(SKAction.fadeOutWithDuration(0.5))
-                upperCellIndex--
-            }
+        for var i = 0; i < topCellsQuantity; i++ {
+            moveCellsLayerDown()
         }
     }
     
@@ -122,5 +166,17 @@ class ActionCell: SKSpriteNode {
             cells[upperCellIndex + 10].runAction(SKAction.fadeOutWithDuration(0.25))
             upperCellIndex--
         }
+    }
+    
+    static func canMoveCellsLayerUp() -> Bool {
+        return cellsCount() - upperCellIndex - 11 > 0
+    }
+    
+    static func cellsCount() -> Int {
+        return cells.count
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

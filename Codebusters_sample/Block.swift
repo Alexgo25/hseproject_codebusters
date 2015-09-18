@@ -35,7 +35,9 @@ class Block: SKSpriteNode {
         let z = SKAction.runBlock( { self.zPosition = position } )
         
         if self.floorPosition.rawValue > floorPosition.rawValue {
-            let sound = SKAction.playSoundFileNamed("CubeFalling.mp3", waitForCompletion: false)
+            let sound = SKAction.runBlock() {
+                AudioPlayer.sharedInstance.playSoundEffect("CubeFalling.mp3")
+            }
             sequence = SKAction.sequence([moveByX, z, sound, moveByY])
         } else {
             sequence = SKAction.sequence([moveByX, z, moveByY])

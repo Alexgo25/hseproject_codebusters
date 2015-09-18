@@ -23,9 +23,10 @@ class Detail: SKSpriteNode {
     private var detailType: DetailType
     private var trackPosition: Int
     private var floorPosition: FloorPosition
+    private var atlas = SKTextureAtlas(named: "Details")
     
     init(detailType: DetailType, trackPosition: Int, floorPosition: FloorPosition) {
-        let texture = SKTexture(imageNamed: "\(detailType.rawValue)")
+        let texture = atlas.textureNamed("Detail_\(detailType.rawValue)")
         self.detailType = detailType
         self.trackPosition = trackPosition
         self.floorPosition = floorPosition
@@ -35,7 +36,7 @@ class Detail: SKSpriteNode {
         if floorPosition == .first {
             position.y += 60
         } else {
-            position.y += 140
+            position.y += 200
         }
         
         if detailType == .Battery {
@@ -63,7 +64,7 @@ class Detail: SKSpriteNode {
         var sequence = SKAction.sequence([fadeOut, remove])
         runAction(SKAction.runBlock( {
             self.runAction(sequence)
-            self.runAction(SKAction.playSoundFileNamed("DetailAchievement.wav", waitForCompletion: false))
+            AudioPlayer.sharedInstance.playSoundEffect("DetailAchievement.wav")
         } ))
     }
     

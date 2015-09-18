@@ -12,7 +12,6 @@ import SpriteKit
 class MenuScene: SKScene {
     
     var background = SKSpriteNode(imageNamed: "menuBackground")
-    var button_Pause: SKSpriteNode = SKSpriteNode(imageNamed: "button_Pause")
     
     var details: [DetailCell] = []
 
@@ -22,7 +21,6 @@ class MenuScene: SKScene {
         background.zPosition = -1
         addChild(background)
         userInteractionEnabled = true
-        button_Pause.position = Constants.Button_PausePosition
     }
     
     override func didMoveToView(view: SKView) {
@@ -32,7 +30,7 @@ class MenuScene: SKScene {
         let fileManager = NSFileManager.defaultManager()
         if !fileManager.fileExistsAtPath(path!) {
             if let bundle = NSBundle.mainBundle().pathForResource("Levels", ofType: "plist") {
-                fileManager.copyItemAtPath(bundle, toPath: path!, error:nil)
+                fileManager.copyItemAtPath(bundle, toPath: path!, error: nil)
             }
         }
 
@@ -48,8 +46,6 @@ class MenuScene: SKScene {
             
             let detailCell = DetailCell(detailType: detailType!, cellState: cellState!)
             details.append(detailCell)
-            detailCell.texture = SKTexture(imageNamed: "\(detailCell.getDetailType().rawValue)\(detailCell.getCellState().rawValue)")
-            detailCell.size = detailCell.texture!.size()
             addChild(detailCell)
         }
     }

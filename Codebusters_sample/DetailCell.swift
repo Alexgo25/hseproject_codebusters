@@ -9,13 +9,30 @@
 import UIKit
 import SpriteKit
 
+enum DetailCellState: String {
+    case NonActive = "NonActive",
+    Active = "Active",
+    Placed = ""
+}
+
 class DetailCell: SKSpriteNode {
 
     private var cellState: DetailCellState
     private var detailType: DetailType
+    private var atlas = SKTextureAtlas(named: "DetailCells")
     
     init(detailType: DetailType, cellState: DetailCellState) {
-        var texture = SKTexture(imageNamed: "\(detailType.rawValue)\(cellState.rawValue)")
+        var texture = SKTexture()
+        
+        switch cellState {
+        case .Active, .NonActive:
+            atlas = SKTextureAtlas(named: "DetailCells")
+            texture = atlas.textureNamed("DetailCell_\(detailType.rawValue)_\(cellState.rawValue)")
+        case .Placed:
+            atlas = SKTextureAtlas(named: "Details")
+            texture = atlas.textureNamed("Detail_\(detailType.rawValue)")
+        }
+        
         self.cellState = cellState
         self.detailType = detailType
         super.init(texture: texture, color: UIColor(), size: texture.size())
@@ -33,8 +50,15 @@ class DetailCell: SKSpriteNode {
     
     func setCellState(cellState: DetailCellState) {
         self.cellState = cellState
-        self.texture = SKTexture(imageNamed: "\(detailType.rawValue)\(cellState.rawValue)")
-        self.size = texture!.size()
+        
+        switch cellState {
+        case .Active, .NonActive:
+            atlas = SKTextureAtlas(named: "DetailCells")
+            texture = atlas.textureNamed("DetailCell_\(detailType.rawValue)_\(cellState.rawValue)")
+        case .Placed:
+            atlas = SKTextureAtlas(named: "Details")
+            texture = atlas.textureNamed("Detail_\(detailType.rawValue)")
+        }
     }
     
     func getDetailType() -> DetailType {

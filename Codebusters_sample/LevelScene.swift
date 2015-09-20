@@ -111,6 +111,12 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
             config.writeToFile(getLevelsDataPath(), atomically: true)
         }
         
+        if let count = view.gestureRecognizers?.count {
+            if count > 0 {
+                view.gestureRecognizers?.removeAll(keepCapacity: false)
+            }
+        }
+        
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("swipedLeft:"))
         swipeLeft.direction = .Left
         swipeLeft.delegate = self
@@ -166,9 +172,9 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
     
     func selectNodeForTouch(touchLocation: CGPoint) {
         let touchedNode = nodeAtPoint(touchLocation)
-        if touchedNode.isEqualToNode(trackLayer) {
-            selectedNode.removeAllActions()
+        if levelBackground1.containsPoint(touchLocation) && !levelBackground2.containsPoint(touchLocation) && !touchedNode.isMemberOfClass(GameButton) && !touchedNode.isMemberOfClass(Robot) && !touchedNode.isMemberOfClass(ActionButton) && !touchedNode.isMemberOfClass(SKLabelNode) {
             selectedNode = trackLayer
+            selectedNode.removeAllActions()
         } else {
             selectedNode = SKNode()
         }
@@ -198,6 +204,9 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
             let node = nodeAtPoint(touchLocation)
             if node.isMemberOfClass(ActionCell) {
                 var cell = node as! ActionCell
+                ActionCell.deleteCell(cell.name!.toInt()!)
+            } else if node.parent!.isMemberOfClass(ActionCell) {
+                var cell = node.parent! as! ActionCell
                 ActionCell.deleteCell(cell.name!.toInt()!)
             }
         }

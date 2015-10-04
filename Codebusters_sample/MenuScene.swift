@@ -11,7 +11,7 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
-    var background = SKSpriteNode(imageNamed: "menuBackground")
+    let background = SKSpriteNode(imageNamed: "menuBackground")
     
     var details: [DetailCell] = []
 
@@ -24,19 +24,35 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let documentsDirectory = paths[0] as? String
-        let path = documentsDirectory?.stringByAppendingPathComponent("Levels.plist")
-        let fileManager = NSFileManager.defaultManager()
-        if !fileManager.fileExistsAtPath(path!) {
-            if let bundle = NSBundle.mainBundle().pathForResource("Levels", ofType: "plist") {
-                fileManager.copyItemAtPath(bundle, toPath: path!, error: nil)
+        GameProgress.sharedInstance.writePropertyListFileToDevice()
+
+        showDetails()
+    }
+    
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+        var touchesSet = touches as! Set<UITouch>
+        for touch in touchesSet {
+            let touchLocation = touch.locationInNode(self)
+            if let cell = nodeAtPoint(touchLocation) as? DetailCell {
+                switch cell.getCellState() {
+                case .Active, .Placed:
+                    for var i = 0; i < details.count; i++ {
+                        if details[i].getDetailType() == cell.getDetailType() {
+                            GameProgress.sharedInstance.setLevel(i, level: 0)
+                            GameProgress.sharedInstance.newGame(view!)
+                           // view!.presentScene(LevelScene(size: size, levelPack: i, level: 0), transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
+                            break
+                        }
+                    }
+                case .NonActive:
+                    return
+                }
             }
         }
-
-        let config = NSDictionary(contentsOfFile: path!)!
-        
-        let levelPacks = config["levelPacks"] as! [[String : AnyObject]]
+    }
+    
+    func showDetails() {
+        let levelPacks = GameProgress.sharedInstance.getLevelPacks()
         for levelPack in levelPacks {
             let detailTypeString = levelPack["detailType"] as! String
             let detailType = DetailType(rawValue: detailTypeString)
@@ -47,29 +63,6 @@ class MenuScene: SKScene {
             let detailCell = DetailCell(detailType: detailType!, cellState: cellState!)
             details.append(detailCell)
             addChild(detailCell)
-        }
-    }
-    
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        var touchesSet = touches as! Set<UITouch>
-        for touch in touchesSet {
-            var touchLocation = touch.locationInNode(self)
-            var node = nodeAtPoint(touchLocation)
-            if node.isMemberOfClass(DetailCell) {
-                var cell = node as! DetailCell
-                switch cell.getCellState() {
-                case .Active, .Placed:
-                    for var i = 0; i < details.count; i++ {
-                        if details[i].getDetailType() == cell.getDetailType() {
-                            view!.presentScene(LevelScene(size: size, levelPack: i, level: 0), transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
-                            break
-                        }
-                    }
-                    
-                case .NonActive:
-                    return
-                }
-            }
         }
     }
     

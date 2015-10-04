@@ -21,15 +21,14 @@ class Switcher: SKSpriteNode {
     private var parameter: UnsafeMutablePointer<Bool> = nil
     
     
-    init(parameter: UnsafeMutablePointer<Bool>) {
-        
+    init(parameter: UnsafeMutablePointer<Bool>, name: String) {
         self.parameter = parameter
         
         switcher = SKSpriteNode(texture: atlas.textureNamed("Switcher_PauseView"))
         
         let texture = atlas.textureNamed("SwitcherBackground_On_PauseView")
         super.init(texture: texture, color: UIColor(), size: texture.size())
-        
+        self.name = name
         switcher.position = CGPoint(x: -52, y: 0)
         
         addChild(switcher)
@@ -62,6 +61,8 @@ class Switcher: SKSpriteNode {
         switcher.runAction(sequence)
         
         parameter.memory = true
+        
+        GameProgress.sharedInstance.changeSetting(name!, value: "On")
     }
     
     func switchOff() {
@@ -83,6 +84,8 @@ class Switcher: SKSpriteNode {
         switcher.runAction(sequence)
         
         parameter.memory = false
+        
+        GameProgress.sharedInstance.changeSetting(name!, value: "Off")
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -118,6 +121,10 @@ class MusicSwitcher: SKNode {
         }
         
         switcher.touchesEnded(touches, withEvent: event)
+    }
+    
+    func switchOff() {
+        switcher.switchOff()
     }
     
     required init?(coder aDecoder: NSCoder) {

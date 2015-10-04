@@ -32,11 +32,11 @@ class Detail: SKSpriteNode {
         self.floorPosition = floorPosition
         super.init(texture: texture, color: UIColor(), size: texture.size())
         position = getCGPointOfPosition(trackPosition, floorPosition)
-        zPosition = CGFloat(trackPosition + 7 * (floorPosition.rawValue - 1))
+        zPosition = 100
         if floorPosition == .first {
             position.y += 60
         } else {
-            position.y += 200
+            position.y += 180
         }
         
         if detailType == .Battery {
@@ -62,10 +62,8 @@ class Detail: SKSpriteNode {
         var fadeOut = SKAction.fadeOutWithDuration(0.2)
         var remove = SKAction.removeFromParent()
         var sequence = SKAction.sequence([fadeOut, remove])
-        runAction(SKAction.runBlock( {
-            self.runAction(sequence)
-            AudioPlayer.sharedInstance.playSoundEffect("DetailAchievement.wav")
-        } ))
+        runAction(sequence)
+        AudioPlayer.sharedInstance.playSoundEffect("DetailAchievement.wav")
     }
     
     func getDetailType() -> DetailType {

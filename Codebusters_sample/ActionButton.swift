@@ -13,7 +13,6 @@ class ActionButton: SKSpriteNode {
 
     private var actionType: ActionType = .none
     private let label = SKLabelNode(fontNamed: "Ubuntu Bold")
-
     private let atlas = SKTextureAtlas(named: "ActionButtons")
     
     
@@ -38,9 +37,9 @@ class ActionButton: SKSpriteNode {
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {                    tapEnded()
-        var touchesSet = touches as! Set<UITouch>
+        let touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
-            var touchLocation = touch.locationInNode(parent)
+            let touchLocation = touch.locationInNode(parent)
             if containsPoint(touchLocation) {
                 ActionCell.appendCell(actionType)
                 AudioPlayer.sharedInstance.playSoundEffect("Sound_ActionButton.mp3")

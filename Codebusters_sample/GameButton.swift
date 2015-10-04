@@ -18,13 +18,16 @@ enum GameButtonType: String {
     Restart = "Restart",
     Restart_PauseView = "Restart_PauseView",
     Continue_PauseView = "Continue_PauseView",
-    Exit_PauseView = "Exit_PauseView"
+    Exit_PauseView = "Exit_PauseView",
+    Exit_EndLevelView = "Exit_EndLevelView",
+    Restart_EndLevelView = "Restart_EndLevelView",
+    NextLevel_EndLevelView = "NextLevel_EndLevelView"
 }
 
 class GameButton: SKSpriteNode {
     
-    private var gameButtonType: GameButtonType
-    private var atlas = SKTextureAtlas(named: "GameButtons")
+    private let gameButtonType: GameButtonType
+    private let atlas = SKTextureAtlas(named: "GameButtons")
     
     init(type: GameButtonType) {
         let texture = atlas.textureNamed("GameButton_\(type.rawValue)")
@@ -41,10 +44,10 @@ class GameButton: SKSpriteNode {
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
-        var touchesSet = touches as! Set<UITouch>
+        let touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
             AudioPlayer.sharedInstance.playSoundEffect("Sound_GameButton_\(gameButtonType.rawValue).mp3")
-            var touchLocation = touch.locationInNode(parent)
+            let touchLocation = touch.locationInNode(parent)
             if containsPoint(touchLocation) {
                 parent!.touchesEnded(touches, withEvent: event)
             }

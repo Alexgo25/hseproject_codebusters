@@ -25,8 +25,8 @@ public class AudioPlayer {
     
     
     private init() {
-        soundsSwitcher = Switcher(parameter: &soundsAreOn)
-        musicSwitcher = MusicSwitcher(switcher: Switcher(parameter: &musicIsOn))
+        soundsSwitcher = Switcher(parameter: &soundsAreOn, name: "sounds")
+        musicSwitcher = MusicSwitcher(switcher: Switcher(parameter: &musicIsOn, name: "music"))
     }
     
     public func playBackgroundMusic(filename: String) {

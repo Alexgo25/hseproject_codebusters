@@ -11,19 +11,19 @@ import SpriteKit
 
 class PauseView: SKSpriteNode {
     
-    private var backgroundRightPart = SKSpriteNode(imageNamed: "pauseBackgroundRightPart")
-    private var backgroundLeftPart = SKSpriteNode(imageNamed: "pauseBackgroundLeftPart")
+    private let backgroundRightPart = SKSpriteNode(imageNamed: "pauseBackgroundRightPart")
+    private let backgroundLeftPart = SKSpriteNode(imageNamed: "pauseBackgroundLeftPart")
     
-    private var buttonRestart = GameButton(type: .Restart_PauseView)
-    private var buttonContinue = GameButton(type: .Continue_PauseView)
-    private var buttonExit = GameButton(type: .Exit_PauseView)
-
+    private let buttonRestart = GameButton(type: .Restart_PauseView)
+    private let buttonContinue = GameButton(type: .Continue_PauseView)
+    private let buttonExit = GameButton(type: .Exit_PauseView)
+    
     private let soundSwitcher = AudioPlayer.sharedInstance.soundsSwitcher
     private let musicSwitcher = AudioPlayer.sharedInstance.musicSwitcher
     
     
     init() {
-        let texture = SKTexture(imageNamed: "pauseBackgroundRightPart")
+        let texture = backgroundRightPart.texture!
         super.init(texture: texture, color: UIColor(), size: texture.size())
         zPosition = 2000
         backgroundRightPart.zPosition = 20000
@@ -46,12 +46,14 @@ class PauseView: SKSpriteNode {
         userInteractionEnabled = true
         
         soundSwitcher.position = CGPoint(x: 206.5, y: 552)
+        soundSwitcher.zPosition = 1001
         backgroundLeftPart.addChild(soundSwitcher)
         
         let soundLabel = createLabel("Звуки", UIColor.blackColor(), 29, CGPoint(x: 205.5, y: 473))
         backgroundLeftPart.addChild(soundLabel)
         
         musicSwitcher.position = CGPoint(x: 404, y: 552)
+        musicSwitcher.zPosition = 1001
         backgroundLeftPart.addChild(musicSwitcher)
         
         let musicLabel = createLabel("Музыка", UIColor.blackColor(), 29, CGPoint(x: 404.5, y: 473))
@@ -74,10 +76,10 @@ class PauseView: SKSpriteNode {
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        var touchesSet = touches as! Set<UITouch>
+        let touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
-            var touchLocation = touch.locationInNode(self)
-            var node = nodeAtPoint(touchLocation)
+            let touchLocation = touch.locationInNode(self)
+            let node = nodeAtPoint(touchLocation)
             switch node {
             case buttonContinue, buttonRestart, buttonExit:
                 let button = node as! GameButton
@@ -91,13 +93,13 @@ class PauseView: SKSpriteNode {
     }
     
     override func touchesCancelled(touches: Set<NSObject>!, withEvent event: UIEvent!) {
-        var touchesSet = touches as! Set<UITouch>
+        let touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
-            var touchLocation = touch.locationInNode(self)
-            var node = nodeAtPoint(touchLocation)
+            let touchLocation = touch.locationInNode(self)
+            let node = nodeAtPoint(touchLocation)
             switch node {
             case buttonContinue, buttonRestart, buttonExit:
-                var button = node as! GameButton
+                let button = node as! GameButton
                 button.resetTexture()
             case backgroundLeftPart:
                 return
@@ -108,25 +110,25 @@ class PauseView: SKSpriteNode {
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
-        var touchesSet = touches as! Set<UITouch>
+        let touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
-            var touchLocation = touch.locationInNode(self)
-            var node = nodeAtPoint(touchLocation)
+            let touchLocation = touch.locationInNode(self)
+            let node = nodeAtPoint(touchLocation)
             switch node {
             case buttonRestart, buttonRestart.children[0] as! SKNode:
                 buttonRestart.resetTexture()
-                let scene = self.scene as! LevelScene
-                scene.newGame()
+                GameProgress.sharedInstance.newGame(scene!.view!)
             case backgroundLeftPart:
                 return
             case buttonExit, buttonExit.children[0] as! SKNode:
-                scene!.view!.presentScene(MenuScene(), transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.5))
+                GameProgress.sharedInstance.goToMenu(scene!.view!)
             case soundSwitcher, musicSwitcher:
                 return
             default:
-                let scene = self.scene as! LevelScene
-                hide()
-                scene.background.paused = false
+                if let scene = self.scene as? LevelScene {
+                    hide()
+                    scene.background.paused = false
+                }
             }
         }
     }

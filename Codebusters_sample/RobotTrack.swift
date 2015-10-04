@@ -15,15 +15,25 @@ class RobotTrack {
     private var currentRobotPosition: Int
     private let startRobotPosition: Int
     private let detailPosition: Int
-    var trackLength: CGFloat
     
     init(pattern: [FloorPosition], robotPosition: Int, detailPosition: Int) {
         startRobotPosition = robotPosition
         self.detailPosition = detailPosition
         currentRobotPosition = robotPosition
-        trackLength = CGFloat(pattern.count + 3) * Constants.BlockFace_Size.width
         
         initTrackFromPattern(pattern)
+    }
+    
+    func trackLength(scale: CGFloat) -> CGFloat {
+        return CGFloat(track.count) * Constants.BlockFace_Size.width * scale
+    }
+    
+    func deleteBlocks() {
+        for robotStanding in track {
+            robotStanding.deleteBlocks()
+        }
+        
+        track.removeAll(keepCapacity: false)
     }
     
     func initTrackFromPattern(pattern: [FloorPosition]) {
@@ -37,11 +47,9 @@ class RobotTrack {
     func canPerformActionWithDirection(action: ActionType, direction: Direction) -> Bool {
         switch action {
         case .move:
-            var bool = ((track[currentRobotPosition].getFloorPosition().rawValue >= track[getNextRobotTrackPosition(direction)].getFloorPosition().rawValue) && (track[getNextRobotTrackPosition(direction)].getFloorPosition() != .ground))
-            return bool
+            return ((track[currentRobotPosition].getFloorPosition().rawValue >= track[getNextRobotTrackPosition(direction)].getFloorPosition().rawValue) && (track[getNextRobotTrackPosition(direction)].getFloorPosition() != .ground))
         case .jump:
-            var bool: Bool = track[currentRobotPosition].getFloorPosition() != .ground && track[getNextRobotTrackPosition(direction)].getFloorPosition() != .ground
-            return bool
+            return track[currentRobotPosition].getFloorPosition() != .ground && track[getNextRobotTrackPosition(direction)].getFloorPosition() != .ground
         case .push:
             return track[currentRobotPosition].getFloorPosition().rawValue >= track[getNextRobotTrackPosition(direction)].getFloorPosition().rawValue || (track[getNextRobotTrackPosition(direction)].getFloorPosition() != track[currentRobotPosition + 2 * direction.rawValue].getFloorPosition() && track[getNextRobotTrackPosition(direction)].getFloorPosition().rawValue == track[currentRobotPosition].getFloorPosition().rawValue + 1)
         default:

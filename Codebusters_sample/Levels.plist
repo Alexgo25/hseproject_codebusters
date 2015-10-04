@@ -15,25 +15,6 @@
 					<key>blocksPattern</key>
 					<array>
 						<integer>1</integer>
-						<integer>2</integer>
-						<integer>0</integer>
-						<integer>2</integer>
-						<integer>1</integer>
-						<integer>1</integer>
-					</array>
-					<key>robotPosition</key>
-					<integer>5</integer>
-					<key>detailType</key>
-					<string>RAM1</string>
-					<key>detailPosition</key>
-					<integer>3</integer>
-					<key>detailFloorPosition</key>
-					<integer>2</integer>
-				</dict>
-				<dict>
-					<key>blocksPattern</key>
-					<array>
-						<integer>1</integer>
 						<integer>1</integer>
 						<integer>1</integer>
 						<integer>1</integer>
@@ -622,5 +603,12 @@
 			</array>
 		</dict>
 	</array>
+	<key>settings</key>
+	<dict>
+		<key>sounds</key>
+		<string>On</string>
+		<key>music</key>
+		<string>On</string>
+	</dict>
 </dict>
 </plist>

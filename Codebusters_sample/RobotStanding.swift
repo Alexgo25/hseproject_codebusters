@@ -43,6 +43,14 @@ class RobotStanding {
         }
     }
     
+    func deleteBlocks() {
+        for block in blocks {
+            block.removeFromParent()
+        }
+        
+        blocks.removeAll(keepCapacity: false)
+    }
+    
     func moveUpperBlock(direction: Direction, floorPosition: FloorPosition) -> SKAction {
         var action = blocks.last!.moveToNextPosition(direction, floorPosition: floorPosition)
         return action

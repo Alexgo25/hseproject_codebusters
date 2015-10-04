@@ -36,7 +36,7 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
         var texture = SKTexture(imageNamed: "robot")
         self.track = track
         super.init(texture: texture, color: UIColor(), size: texture.size())
-        zPosition = CGFloat(floorPosition().rawValue * 7 + trackPosition())
+        zPosition = 101
         moveToStart()
         actions = []
         userInteractionEnabled = true
@@ -45,6 +45,7 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
         physicsBody!.categoryBitMask = PhysicsCategory.Robot
         physicsBody!.contactTestBitMask = PhysicsCategory.Detail
         physicsBody!.collisionBitMask = 0
+        setScale(0.8)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -204,6 +205,8 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
             appendAction(cell.getActionType())
         }
         
+        ActionCell.moveCellsLayerToTop()
+        
         if !actions.isEmpty && isOnStart {
             isOnStart = false
             
@@ -234,13 +237,8 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
             let repeatAnimation = SKAction.repeatAction(animate, count: 5)
         
             let nextTrackPosition = track.getNextRobotTrackPosition(direction)
-            let setZPosition = SKAction.runBlock() {
-                let nextFloorPosition = self.track.getFloorPositionAt(nextTrackPosition)
-                let zPosition = self.getNextZPosition(nextFloorPosition, trackPosition: nextTrackPosition)
-                self.zPosition = zPosition
-            }
-       
-            let moveAndAnimate = SKAction.group([move, repeatAnimation, setZPosition])
+           
+            let moveAndAnimate = SKAction.group([move, repeatAnimation])
         
             track.setNextRobotTrackPosition(direction)
         
@@ -253,14 +251,8 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
             let animate = SKAction.group([SKAction.animateWithTextures(getRobotAnimation("Move", direction), timePerFrame: 0.04, resize: true, restore: false)])
             let repeatAnimation = SKAction.repeatAction(animate, count: 1)
             
-            let setZPosition = SKAction.runBlock() {
-                let nextFloorPosition = self.track.getFloorPositionAt(nextTrackPosition)
-                let position = self.getNextZPosition(nextFloorPosition, trackPosition: nextTrackPosition)
-                self.zPosition = position
-            }
-            
             let moveAndAnimate = SKAction.group([move, repeatAnimation])
-            let sequence = SKAction.sequence([moveAndAnimate, setZPosition, jump(true)])
+            let sequence = SKAction.sequence([moveAndAnimate, jump(true)])
             
             return sequence
         }
@@ -344,12 +336,6 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
         }
         path.addQuadCurveToPoint(endPoint, controlPoint: controlPoint)
         
-        let setZPosition = SKAction.runBlock() {
-            let nextFloorPosition = self.track.getFloorPositionAt(nextTrackPosition)
-            let position = self.getNextZPosition(nextFloorPosition, trackPosition: nextTrackPosition)
-            self.zPosition = position
-        }
-        
         let animateBegin = SKAction.animateWithTextures(getRobotAnimation("Jump", direction), timePerFrame: 0.04, resize: true, restore: false)
         let moveByCurve = SKAction.followPath(path.CGPath, asOffset: false, orientToPath: false, duration: 1)
         let animateEnd =  SKAction.group([SKAction.moveTo(self.getNextPositionPoint(direction), duration: 0.2), animateBegin.reversedAction()])
@@ -358,7 +344,7 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
             AudioPlayer.sharedInstance.playSoundEffect("Jump.wav")
         }
         
-        let sequence = SKAction.sequence([animateBegin, sound, moveByCurve, setZPosition, animateEnd])
+        let sequence = SKAction.sequence([animateBegin, sound, moveByCurve, animateEnd])
         
         track.setNextRobotTrackPosition(direction)
         
@@ -430,10 +416,6 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     
     func isOnDetailPosition() -> Bool {
         return track.robotIsOnDetailPosition()
-    }
-    
-    private func getNextZPosition(floorPosition: FloorPosition, trackPosition: Int) -> CGFloat {
-        return CGFloat(trackPosition + floorPosition.rawValue * 7)
     }
     
     private func trackPosition() -> Int {

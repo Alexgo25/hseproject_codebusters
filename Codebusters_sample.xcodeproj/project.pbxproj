@@ -18,6 +18,7 @@
 		11E38C691AD94BCC0061BE81 /* RobotTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11E38C681AD94BCC0061BE81 /* RobotTrack.swift */; };
 		6131E1331AD2C9FF00D69DD6 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6131E1321AD2C9FF00D69DD6 /* Helper.swift */; };
 		613B797C1B0613F30021658D /* PauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 613B797B1B0613F30021658D /* PauseView.swift */; };
+		6149A5501BB67EF000525716 /* Block.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 6149A54F1BB67EF000525716 /* Block.atlas */; };
 		614DA0B31AEF19780088A557 /* Reverse.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B21AEF19780088A557 /* Reverse.mp3 */; };
 		614DA0B51AEF19D00088A557 /* Sound_ActionButton.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B41AEF19D00088A557 /* Sound_ActionButton.mp3 */; };
 		614DA0B71AEF1A8A0088A557 /* CubeFalling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */; };
@@ -35,6 +36,9 @@
 		615C882A1BA77A8A00B755F6 /* Animation_Mistake_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 615C88291BA77A8A00B755F6 /* Animation_Mistake_ToLeft.atlas */; };
 		615C882C1BA77AA200B755F6 /* Animation_Mistake_ToRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 615C882B1BA77AA200B755F6 /* Animation_Mistake_ToRight.atlas */; };
 		615CEFD41AE6597B006403B5 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615CEFD31AE6597B006403B5 /* Detail.swift */; };
+		615D6E8A1BBE7E0000229AD6 /* GameProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615D6E891BBE7E0000229AD6 /* GameProgress.swift */; };
+		615D6E8C1BBEF2FC00229AD6 /* Sound_ActionCellRemoving.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 615D6E8B1BBEF2FB00229AD6 /* Sound_ActionCellRemoving.mp3 */; };
+		615D6E8E1BBF2F2600229AD6 /* EndLevelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615D6E8D1BBF2F2600229AD6 /* EndLevelView.swift */; };
 		617AB2121BAB429700DC71BD /* PauseView.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 617AB2111BAB429700DC71BD /* PauseView.atlas */; };
 		617AB2141BAB68DF00DC71BD /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 617AB2131BAB68DF00DC71BD /* AudioPlayer.swift */; };
 		618F7BA81AEEDCEE00B2DBC5 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */; };
@@ -91,6 +95,7 @@
 		11E38C681AD94BCC0061BE81 /* RobotTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RobotTrack.swift; sourceTree = "<group>"; };
 		6131E1321AD2C9FF00D69DD6 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		613B797B1B0613F30021658D /* PauseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseView.swift; sourceTree = "<group>"; };
+		6149A54F1BB67EF000525716 /* Block.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Block.atlas; sourceTree = "<group>"; };
 		614DA0B21AEF19780088A557 /* Reverse.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Reverse.mp3; sourceTree = "<group>"; };
 		614DA0B41AEF19D00088A557 /* Sound_ActionButton.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sound_ActionButton.mp3; sourceTree = "<group>"; };
 		614DA0B61AEF1A8A0088A557 /* CubeFalling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = CubeFalling.mp3; sourceTree = "<group>"; };
@@ -108,6 +113,9 @@
 		615C88291BA77A8A00B755F6 /* Animation_Mistake_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Mistake_ToLeft.atlas; sourceTree = "<group>"; };
 		615C882B1BA77AA200B755F6 /* Animation_Mistake_ToRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Mistake_ToRight.atlas; sourceTree = "<group>"; };
 		615CEFD31AE6597B006403B5 /* Detail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; };
+		615D6E891BBE7E0000229AD6 /* GameProgress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameProgress.swift; sourceTree = "<group>"; };
+		615D6E8B1BBEF2FB00229AD6 /* Sound_ActionCellRemoving.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Sound_ActionCellRemoving.mp3; sourceTree = "<group>"; };
+		615D6E8D1BBF2F2600229AD6 /* EndLevelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EndLevelView.swift; sourceTree = "<group>"; };
 		617AB2111BAB429700DC71BD /* PauseView.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = PauseView.atlas; sourceTree = "<group>"; };
 		617AB2131BAB68DF00DC71BD /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
@@ -181,6 +189,7 @@
 				110952C11AC6DF5B000A960A /* AppDelegate.swift */,
 				61A436281AD09CC5002B8540 /* ActionButton.swift */,
 				615231DD1B5E0F3100F7E96B /* GameButton.swift */,
+				615D6E891BBE7E0000229AD6 /* GameProgress.swift */,
 				61A4362A1AD16D1B002B8540 /* ActionCell.swift */,
 				618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */,
 				617AB2131BAB68DF00DC71BD /* AudioPlayer.swift */,
@@ -195,6 +204,7 @@
 				11E38C681AD94BCC0061BE81 /* RobotTrack.swift */,
 				61EFA4B31ADBEC4400EB8C6B /* Block.swift */,
 				6131E1321AD2C9FF00D69DD6 /* Helper.swift */,
+				615D6E8D1BBF2F2600229AD6 /* EndLevelView.swift */,
 				110952C71AC6DF5B000A960A /* GameViewController.swift */,
 				110952C91AC6DF5B000A960A /* Main.storyboard */,
 				110952CC1AC6DF5B000A960A /* Images.xcassets */,
@@ -212,6 +222,7 @@
 				614DA0BE1AEF1DCB0088A557 /* Sound_GameButton_Pause.mp3 */,
 				614DA0C41AEF1E730088A557 /* Walk.mp3 */,
 				614DA0C21AEF1E440088A557 /* Sound_GameButton_Tips.mp3 */,
+				615D6E8B1BBEF2FB00229AD6 /* Sound_ActionCellRemoving.mp3 */,
 				614DA0BA1AEF1C750088A557 /* LevelCompleted.mp3 */,
 				614DA0B81AEF1C060088A557 /* CubePush.mp3 */,
 				614DA0C01AEF1E060088A557 /* Sound_GameButton_Start.mp3 */,
@@ -244,6 +255,7 @@
 		61AC5D991BA586C000CA109C /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				6149A54F1BB67EF000525716 /* Block.atlas */,
 				617AB2111BAB429700DC71BD /* PauseView.atlas */,
 				61AC5DC51BA5881300CA109C /* RobotAnimations */,
 				61AC5D9A1BA586C000CA109C /* ActionButtons.atlas */,
@@ -338,6 +350,7 @@
 		110952B41AC6DF5B000A960A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = "Kids'n'Code";
 				TargetAttributes = {
@@ -375,6 +388,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6149A5501BB67EF000525716 /* Block.atlas in Resources */,
 				615C882C1BA77AA200B755F6 /* Animation_Mistake_ToRight.atlas in Resources */,
 				110952D01AC6DF5B000A960A /* LaunchScreen.xib in Resources */,
 				61AC5DAF1BA586C000CA109C /* ActionButtons.atlas in Resources */,
@@ -389,6 +403,7 @@
 				61AC5DE51BA5881300CA109C /* Animation_TurnToFront_ToRight.atlas in Resources */,
 				61AC5DE01BA5881300CA109C /* Animation_Move_ToRight.atlas in Resources */,
 				614DA0B31AEF19780088A557 /* Reverse.mp3 in Resources */,
+				615D6E8C1BBEF2FC00229AD6 /* Sound_ActionCellRemoving.mp3 in Resources */,
 				61AC5DDE1BA5881300CA109C /* Animation_TurnToFront_ToLeft.atlas in Resources */,
 				61AC5DE31BA5881300CA109C /* Animation_Turn_ToRight.atlas in Resources */,
 				61AC5DD91BA5881300CA109C /* Animation_Move_ToLeft.atlas in Resources */,
@@ -436,6 +451,7 @@
 				615CEFD41AE6597B006403B5 /* Detail.swift in Sources */,
 				110952C81AC6DF5B000A960A /* GameViewController.swift in Sources */,
 				110952C21AC6DF5B000A960A /* AppDelegate.swift in Sources */,
+				615D6E8A1BBE7E0000229AD6 /* GameProgress.swift in Sources */,
 				11E38C671AD949460061BE81 /* RobotStanding.swift in Sources */,
 				61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */,
 				617AB2141BAB68DF00DC71BD /* AudioPlayer.swift in Sources */,
@@ -446,6 +462,7 @@
 				614DA0C71AEF36680088A557 /* MenuScene.swift in Sources */,
 				618F7BA81AEEDCEE00B2DBC5 /* DetailCell.swift in Sources */,
 				11E38C691AD94BCC0061BE81 /* RobotTrack.swift in Sources */,
+				615D6E8E1BBF2F2600229AD6 /* EndLevelView.swift in Sources */,
 				61F698C21BAC1F120022018A /* Switcher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,7 +539,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -559,7 +576,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;

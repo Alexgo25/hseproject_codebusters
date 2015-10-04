@@ -26,7 +26,7 @@ class ActionCell: SKSpriteNode {
         super.init(texture: texture, color: UIColor(), size: texture.size())
         self.actionType = actionType
         position = getNextPosition()
-        zPosition = 1001
+        zPosition = 1000
         ActionCell.cells.append(self)
         alpha = 0
         runAction(SKAction.fadeInWithDuration(0.2))
@@ -74,7 +74,7 @@ class ActionCell: SKSpriteNode {
         label.fontSize = 23
         label.position = CGPoint(x: 19, y: 2)
         label.verticalAlignmentMode = .Center
-        label.zPosition = 1002
+        label.zPosition = 1
         addChild(label)
     }
     
@@ -112,7 +112,7 @@ class ActionCell: SKSpriteNode {
         
         let fadeOutAction = SKAction.group([SKAction.moveByX(-100, y: 0, duration: 0.2), SKAction.fadeOutWithDuration(0.2)])
         
-        cells[index].runAction(SKAction.sequence([fadeOutAction, SKAction.removeFromParent()]), completion: {
+        cells[index].runAction(SKAction.sequence([fadeOutAction, SKAction.runBlock() { AudioPlayer.sharedInstance.playSoundEffect("Sound_ActionCellRemoving.mp3") }, SKAction.removeFromParent()]), completion: {
             self.moveCellsUpAfterDeleting(index)
             self.cells.removeAtIndex(index)
         } )

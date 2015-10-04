@@ -11,9 +11,6 @@ import SpriteKit
 
 class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate {
     
-    var currentLevel = 0
-    var currentLevelPack = 0
-
     let background = SKNode()
     let trackLayer = SKNode()
     
@@ -31,21 +28,81 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
     var detail: Detail?
     var track: RobotTrack?
     
-    var selectedNode = SKNode()
+    var selectedNode: SKNode?
+    
+    let levelData: [String : AnyObject]
     
     private var blocksPattern: [FloorPosition] = []
     
-    init(size: CGSize, levelPack: Int, level: Int) {
-        currentLevelPack = levelPack
-        currentLevel = level
-        super.init(size: size)
-    }
+    let playAreaSize: CGSize
+    var canScaleBackground = true
     
     override init(size: CGSize) {
+        levelData = GameProgress.sharedInstance.getCurrentLevelData()
+        playAreaSize = CGSize(width: size.width - levelBackground2.size.width, height: size.height)
         super.init(size: size)
     }
     
-    func createTrackLayer(levelData: [String : AnyObject]) {
+    override func didMoveToView(view: SKView) {
+        userInteractionEnabled = true
+        anchorPoint = CGPointZero
+        physicsWorld.gravity = CGVectorMake(0, 0)
+        physicsWorld.contactDelegate = self
+        
+        ActionCell.cellsLayer.removeFromParent()
+        addChild(ActionCell.cellsLayer)
+        ActionCell.resetCells()
+        
+        ActionCell.cells.removeAll(keepCapacity: false)
+        
+        createBackground()
+        createTrackLayer()
+        
+        if let count = view.gestureRecognizers?.count {
+            if count > 0 {
+                view.gestureRecognizers?.removeAll(keepCapacity: false)
+            }
+        }
+        
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("swipedLeft:"))
+        swipeLeft.direction = .Left
+        swipeLeft.delegate = self
+        view.addGestureRecognizer(swipeLeft)
+        
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: Selector("swipedUp:"))
+        swipeUp.direction = .Up
+        swipeUp.delegate = self
+        view.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: Selector("swipedDown:"))
+        swipeDown.direction = .Down
+        swipeDown.delegate = self
+        view.addGestureRecognizer(swipeDown)
+        
+        let gestureRecognizer = UIPanGestureRecognizer(target: self, action: Selector("handlePanFrom:"))
+        view.addGestureRecognizer(gestureRecognizer)
+        
+        let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("handlePinchFrom:"))
+        view.addGestureRecognizer(pinchRecognizer)
+        
+        showDetailAndRobot()
+    }
+    
+    func createBlocks() {
+        if track?.deleteBlocks() != nil {
+            track!.deleteBlocks()
+        }
+        
+        track = RobotTrack(pattern: blocksPattern, robotPosition: robot!.getStartPosition(), detailPosition: detail!.getTrackPosition())
+        robot!.track = track!
+        for var i = 1; i <= blocksPattern.count; i++ {
+            for var j = 0; j < blocksPattern[i - 1].rawValue; j++ {
+                trackLayer.addChild(track!.getBlockAt(i, floorPosition: j))
+            }
+        }
+    }
+    
+    func createTrackLayer() {
         let blocks: AnyObject? = levelData["blocksPattern"]
         if let pattern = blocks as? [Int] {
             for block in pattern {
@@ -72,101 +129,75 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
         
         trackLayer.addChild(robot!)
         trackLayer.addChild(detail!)
-        
+
         for var i = 1; i <= blocksPattern.count; i++ {
             for var j = 0; j < blocksPattern[i - 1].rawValue; j++ {
                 trackLayer.addChild(track!.getBlockAt(i, floorPosition: j))
             }
         }
-
+        
         background.addChild(trackLayer)
-    }
-    
-    override func didMoveToView(view: SKView) {
-        var config = getLevelsData()
-        
-        var levelPacks = config["levelPacks"] as! [[String : AnyObject]]
-        var levelPackData = levelPacks[currentLevelPack]
-        let levels = levelPackData["levels"] as! [[String : AnyObject]]
-        let levelData = levels[currentLevel]
-        
-        userInteractionEnabled = true
-        anchorPoint = CGPointZero
-        physicsWorld.gravity = CGVectorMake(0, 0)
-        physicsWorld.contactDelegate = self
-        
-        ActionCell.cellsLayer.removeFromParent()
-        addChild(ActionCell.cellsLayer)
-        ActionCell.resetCells()
-        
-        ActionCell.cells.removeAll(keepCapacity: false)
-        
-        createBackground()
-        createTrackLayer(levelData)
-        
-        if levelPackData["cellState"] as! String == DetailCellState.NonActive.rawValue {
-            levelPackData.updateValue(DetailCellState.Active.rawValue, forKey: "cellState")
-            levelPacks[currentLevelPack] = levelPackData
-            config.setValue(levelPacks, forKey: "levelPacks")
-            config.writeToFile(getLevelsDataPath(), atomically: true)
-        }
-        
-        if let count = view.gestureRecognizers?.count {
-            if count > 0 {
-                view.gestureRecognizers?.removeAll(keepCapacity: false)
-            }
-        }
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: Selector("swipedLeft:"))
-        swipeLeft.direction = .Left
-        swipeLeft.delegate = self
-        view.addGestureRecognizer(swipeLeft)
-        
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: Selector("swipedUp:"))
-        swipeUp.direction = .Up
-        swipeUp.delegate = self
-        view.addGestureRecognizer(swipeUp)
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: Selector("swipedDown:"))
-        swipeDown.direction = .Down
-        swipeDown.delegate = self
-        view.addGestureRecognizer(swipeDown)
-        
-        let gestureRecognizer = UIPanGestureRecognizer(target: self, action: Selector("handlePanFrom:"))
-        view.addGestureRecognizer(gestureRecognizer)
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
+    func handlePinchFrom(recognizer: UIPinchGestureRecognizer) {
+        if recognizer.state == .Began {
+            canScaleBackground = playAreaSize.width > track!.trackLength(1) ? false : true
+        } else {
+            if recognizer.state == .Changed && canScaleBackground {
+                var minScale: CGFloat = playAreaSize.width / track!.trackLength(1)
+                var maxScale: CGFloat = 1
+                
+                var deltaScale = recognizer.scale
+                var currentScale = trackLayer.xScale
+                var zoomSpeed: CGFloat = 0.2
+                
+                deltaScale = (deltaScale - 1) * zoomSpeed + 1;
+                
+                deltaScale =  min(deltaScale, maxScale / currentScale);
+                deltaScale = max(deltaScale, minScale / currentScale);
+                
+                trackLayer.runAction(SKAction.scaleBy(deltaScale, duration: 0))
+                trackLayer.position = boundLayerPos(trackLayer.position)
+                recognizer.scale = 1
+            }
+        }
+    }
+    
     func handlePanFrom(recognizer: UIPanGestureRecognizer) {
         if recognizer.state == .Began {
             var touchLocation = recognizer.locationInView(recognizer.view)
             touchLocation = convertPointFromView(touchLocation)
-            selectNodeForTouch(touchLocation)
             
-        } else if recognizer.state == .Changed && selectedNode.isEqualToNode(trackLayer) {
+            if track!.trackLength(trackLayer.xScale) > playAreaSize.width {
+                selectNodeForTouch(touchLocation)
+            }
+            
+        } else if recognizer.state == .Changed && selectedNode != nil {
             var translation = recognizer.translationInView(recognizer.view!)
             translation = CGPoint(x: translation.x, y: -translation.y)
+            
             panForTranslation(translation)
             
             recognizer.setTranslation(CGPointZero, inView: recognizer.view)
-        } else if recognizer.state == .Ended && selectedNode.isEqualToNode(trackLayer) {
+        } else if recognizer.state == .Ended && selectedNode != nil {
             let scrollDuration = 0.1
             let velocity = recognizer.velocityInView(recognizer.view)
-            let pos = selectedNode.position
+            let pos = trackLayer.position
             
             let p = CGPoint(x: velocity.x * CGFloat(scrollDuration), y: velocity.y * CGFloat(scrollDuration))
             
             var newPos = CGPoint(x: pos.x + p.x, y: pos.y + p.y)
             newPos = boundLayerPos(newPos)
-            selectedNode.removeAllActions()
+            trackLayer.removeAllActions()
             
             let moveTo = SKAction.moveTo(newPos, duration: scrollDuration)
             moveTo.timingMode = .EaseOut
-            selectedNode.runAction(moveTo)
-            selectedNode = SKNode()
+            trackLayer.runAction(moveTo)
+            selectedNode = nil
         }
     }
     
@@ -174,24 +205,23 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
         let touchedNode = nodeAtPoint(touchLocation)
         if levelBackground1.containsPoint(touchLocation) && !levelBackground2.containsPoint(touchLocation) && !touchedNode.isMemberOfClass(GameButton) && !touchedNode.isMemberOfClass(Robot) && !touchedNode.isMemberOfClass(ActionButton) && !touchedNode.isMemberOfClass(SKLabelNode) {
             selectedNode = trackLayer
-            selectedNode.removeAllActions()
+            trackLayer.removeAllActions()
         } else {
-            selectedNode = SKNode()
+            selectedNode = nil
         }
     }
     
     func panForTranslation(translation: CGPoint) {
-        let position = selectedNode.position
+        let position = trackLayer.position
         let aNewPosition = CGPoint(x: position.x + translation.x, y: position.y + translation.y)
-        selectedNode.position = boundLayerPos(aNewPosition)
+        trackLayer.position = boundLayerPos(aNewPosition)
     }
     
     func boundLayerPos(aNewPosition: CGPoint) -> CGPoint {
-        var winSize = size
-        winSize.width = winSize.width - levelBackground2.size.width
         var retval = aNewPosition
+        
         retval.x = CGFloat(min(retval.x, 0))
-        retval.x = CGFloat(max(retval.x, -(track!.trackLength) + winSize.width))
+        retval.x = CGFloat(max(retval.x, -(track!.trackLength(trackLayer.xScale)) + playAreaSize.width))
         retval.y = position.y
     
         return retval
@@ -199,22 +229,18 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
     
     func swipedLeft(swipe: UISwipeGestureRecognizer) {
         if robot!.isOnStart {
-            var touchLocation = swipe.locationInView(view)
-            touchLocation = convertPointFromView(touchLocation)
+            let touchLocation = convertPointFromView(swipe.locationInView(view))
             let node = nodeAtPoint(touchLocation)
-            if node.isMemberOfClass(ActionCell) {
-                var cell = node as! ActionCell
+            if let cell = node as? ActionCell {
                 ActionCell.deleteCell(cell.name!.toInt()!)
-            } else if node.parent!.isMemberOfClass(ActionCell) {
-                var cell = node.parent! as! ActionCell
+            } else if let cell = node.parent! as? ActionCell {
                 ActionCell.deleteCell(cell.name!.toInt()!)
             }
         }
     }
     
     func swipedUp(swipe: UISwipeGestureRecognizer) {
-        var touchLocation = swipe.locationInView(view)
-        touchLocation = convertPointFromView(touchLocation)
+        let touchLocation = convertPointFromView(swipe.locationInView(view))
         let node = nodeAtPoint(touchLocation)
         if node.isMemberOfClass(ActionCell) && node.alpha > 0 && !robot!.isRunningActions() {
             ActionCell.moveCellsLayerUp()
@@ -222,8 +248,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
     }
     
     func swipedDown(swipe: UISwipeGestureRecognizer) {
-        var touchLocation = swipe.locationInView(view)
-        touchLocation = convertPointFromView(touchLocation)
+        let touchLocation = convertPointFromView(swipe.locationInView(view))
         let node = nodeAtPoint(touchLocation)
         if node.isMemberOfClass(ActionCell) && node.alpha > 0 && !robot!.isRunningActions() {
             ActionCell.moveCellsLayerDown()
@@ -237,43 +262,19 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
             detail!.hideDetail()
             robot!.takeDetail()
             
-            var config = getLevelsData()
-            var levelPacks = config["levelPacks"] as! [[String : AnyObject]]
-            var levelPackData = levelPacks[currentLevelPack]
-            let levels = levelPackData["levels"] as! [[String : AnyObject]]
+            if detail!.getDetailType() != DetailType.Crystall {
+                GameProgress.sharedInstance.checkDetailCellState()
+            }
             
-            if detail!.getDetailType() == DetailType.Crystall {
-                if currentLevel < levels.count - 1 {
-                    currentLevel++
-                    runAction(SKAction.sequence([SKAction.waitForDuration(2), SKAction.runBlock(newGame)]))
-                }
-            } else {
-                if levelPackData["cellState"] as! String != DetailCellState.Placed.rawValue {
-                    levelPackData.updateValue(DetailCellState.Placed.rawValue, forKey: "cellState")
-                    levelPacks[currentLevelPack] = levelPackData
-                    
-                    if currentLevelPack < levelPacks.count - 1 {
-                        if levelPacks[currentLevelPack + 1]["cellState"] as! String == DetailCellState.NonActive.rawValue {
-                            var nextLevelPack = levelPacks[currentLevelPack + 1]
-                            nextLevelPack.updateValue(DetailCellState.Active.rawValue, forKey: "cellState")
-                            levelPacks[currentLevelPack + 1] = nextLevelPack
-                        }
-                    }
-                    
-                    config.setValue(levelPacks, forKey: "levelPacks")
-                    config.writeToFile(getLevelsDataPath(), atomically: true)
-                }
-                
-                view!.presentScene(MenuScene(), transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 1))
-             }
-            
+            runAction(SKAction.sequence([SKAction.waitForDuration(1.5), SKAction.runBlock() { self.addChild(EndLevelView()) } ]))
+        
         default:
             return
         }
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        var touchesSet = touches as! Set<UITouch>
+        let touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
             let touchLocation = touch.locationInNode(self)
             let node = nodeAtPoint(touchLocation)
@@ -289,24 +290,26 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
     }
     
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
-        var touchesSet = touches as! Set<UITouch>
+        let touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
-            var touchLocation = touch.locationInNode(self)
-            var node = nodeAtPoint(touchLocation)
+            let touchLocation = touch.locationInNode(self)
+            let node = nodeAtPoint(touchLocation)
             switch node {
             case button_Start:
+                checkRobotPosition()
                 robot!.performActions()
             case button_Pause:
                 pauseGame()
             case button_Tips:
-                view!.presentScene(MenuScene(), transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.5))
+                view!.presentScene(MenuScene(), transition: SKTransition.crossFadeWithDuration(0.4))
             case button_Clear:
                 ActionCell.resetCellTextures()
                 robot!.resetActions()
+                createBlocks()
             case button_Debug:
                 robot!.debug()
             case button_Restart:
-                newGame()
+                GameProgress.sharedInstance.newGame(view!)
             default:
                 return
             }
@@ -315,7 +318,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
     
     func createBackground() {
         levelBackground1.anchorPoint = CGPointZero
-        levelBackground1.zPosition = -2
+        levelBackground1.zPosition = -1
         background.addChild(levelBackground1)
         
         levelBackground2.anchorPoint = CGPointZero
@@ -345,31 +348,42 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
         addChild(pauseView)
     }
     
-    func newGame() {
-        let scene = LevelScene(size: size, levelPack: currentLevelPack, level: currentLevel)
-        view!.presentScene(scene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func checkRobotPosition() {
-        var winSize = size
-        winSize.width = winSize.width - levelBackground2.size.width
+    func checkRobotPosition(durationOfAnimation: NSTimeInterval = 0.4) {
+        let bound: CGFloat = Constants.BlockFace_Size.width
+        let robotPosition = trackLayer.position.x + robot!.position.x
         
-        if  robot!.position.x + trackLayer.position.x > winSize.width - 200 {
-            trackLayer.position.x--
+        if robotPosition < bound {
+            trackLayer.runAction(SKAction.moveByX(-robotPosition + bound, y: 0, duration: durationOfAnimation))
+            return
         }
         
-        /*var retval = robot!.position
-        retval.x = CGFloat(min(retval.x, 0))
-        retval.x = CGFloat(max(retval.x, -(track!.trackLength) + winSize.width))
-        retval.y = position.y
-        */
+        if robotPosition > playAreaSize.width - bound {
+            trackLayer.runAction(SKAction.moveByX(-robotPosition + playAreaSize.width - bound, y: 0, duration: durationOfAnimation))
+        }
+    }
+    
+    func showDetailAndRobot() {
+        let bound: CGFloat = Constants.BlockFace_Size.width
+        let detailPosition = trackLayer.position.x + detail!.position.x
+        
+        if detailPosition < bound {
+            trackLayer.runAction(SKAction.moveByX(-detailPosition + bound, y: 0, duration: 0), completion: { self.checkRobotPosition() })
+            return
+        }
+        
+        if detailPosition > playAreaSize.width - bound {
+            trackLayer.runAction(SKAction.moveByX(-detailPosition + playAreaSize.width - bound, y: 0, duration: 0), completion: { self.checkRobotPosition() })
+        }
+
     }
     
     override func update(currentTime: CFTimeInterval) {
-        checkRobotPosition()
+        if robot!.isRunningActions() {
+            checkRobotPosition(durationOfAnimation: 0)
+        }
     }
 }

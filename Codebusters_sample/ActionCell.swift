@@ -26,7 +26,7 @@ class ActionCell: SKSpriteNode {
         super.init(texture: texture, color: UIColor(), size: texture.size())
         self.actionType = actionType
         position = getNextPosition()
-        zPosition = 1000
+        zPosition = 1002
         ActionCell.cells.append(self)
         alpha = 0
         runAction(SKAction.fadeInWithDuration(0.2))

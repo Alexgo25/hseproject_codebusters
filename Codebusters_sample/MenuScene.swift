@@ -30,20 +30,16 @@ class MenuScene: SKScene {
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        var touchesSet = touches as! Set<UITouch>
+        let touchesSet = touches as! Set<UITouch>
         for touch in touchesSet {
             let touchLocation = touch.locationInNode(self)
+            
             if let cell = nodeAtPoint(touchLocation) as? DetailCell {
                 switch cell.getCellState() {
                 case .Active, .Placed:
-                    for var i = 0; i < details.count; i++ {
-                        if details[i].getDetailType() == cell.getDetailType() {
-                            GameProgress.sharedInstance.setLevel(i, level: 0)
-                            GameProgress.sharedInstance.newGame(view!)
-                           // view!.presentScene(LevelScene(size: size, levelPack: i, level: 0), transition: SKTransition.pushWithDirection(SKTransitionDirection.Left, duration: 0.5))
-                            break
-                        }
-                    }
+                    addChild(LevelSelectionView(levelPackIndex: cell.name!.toInt()!))
+                    //GameProgress.sharedInstance.setLevel(cell.name!.toInt()!, level: 0)
+                    //GameProgress.sharedInstance.newGame(view!)
                 case .NonActive:
                     return
                 }
@@ -60,7 +56,7 @@ class MenuScene: SKScene {
             let cellStateString = levelPack["cellState"] as! String
             let cellState = DetailCellState(rawValue: cellStateString)
             
-            let detailCell = DetailCell(detailType: detailType!, cellState: cellState!)
+            let detailCell = DetailCell(detailType: detailType!, cellState: cellState!, name: String(details.count))
             details.append(detailCell)
             addChild(detailCell)
         }

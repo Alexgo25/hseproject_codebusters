@@ -44,11 +44,11 @@
 		618F7BA81AEEDCEE00B2DBC5 /* DetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */; };
 		618F7BAA1AEEEAC500B2DBC5 /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */; };
 		61A15FE91AEE4AA1008B36EA /* Jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 61A15FE81AEE4AA1008B36EA /* Jump.wav */; };
+		61A23A741BC9094B006B10C6 /* LevelSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A23A731BC9094B006B10C6 /* LevelSelectionView.swift */; };
 		61A436291AD09CC5002B8540 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A436281AD09CC5002B8540 /* ActionButton.swift */; };
 		61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A4362A1AD16D1B002B8540 /* ActionCell.swift */; };
 		61AC5DAF1BA586C000CA109C /* ActionButtons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9A1BA586C000CA109C /* ActionButtons.atlas */; };
 		61AC5DB01BA586C000CA109C /* ActionCells.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9B1BA586C000CA109C /* ActionCells.atlas */; };
-		61AC5DB11BA586C000CA109C /* DetailCells.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9C1BA586C000CA109C /* DetailCells.atlas */; };
 		61AC5DB21BA586C000CA109C /* Details.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9D1BA586C000CA109C /* Details.atlas */; };
 		61AC5DB31BA586C000CA109C /* GameButtons.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5D9E1BA586C000CA109C /* GameButtons.atlas */; };
 		61AC5DD81BA5881300CA109C /* Animation_Jump_ToLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 61AC5DC81BA5881300CA109C /* Animation_Jump_ToLeft.atlas */; };
@@ -121,11 +121,11 @@
 		618F7BA71AEEDCEE00B2DBC5 /* DetailCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailCell.swift; sourceTree = "<group>"; };
 		618F7BA91AEEEAC500B2DBC5 /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		61A15FE81AEE4AA1008B36EA /* Jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Jump.wav; sourceTree = "<group>"; };
+		61A23A731BC9094B006B10C6 /* LevelSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSelectionView.swift; sourceTree = "<group>"; };
 		61A436281AD09CC5002B8540 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		61A4362A1AD16D1B002B8540 /* ActionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionCell.swift; sourceTree = "<group>"; };
 		61AC5D9A1BA586C000CA109C /* ActionButtons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ActionButtons.atlas; sourceTree = "<group>"; };
 		61AC5D9B1BA586C000CA109C /* ActionCells.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = ActionCells.atlas; sourceTree = "<group>"; };
-		61AC5D9C1BA586C000CA109C /* DetailCells.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = DetailCells.atlas; sourceTree = "<group>"; };
 		61AC5D9D1BA586C000CA109C /* Details.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Details.atlas; sourceTree = "<group>"; };
 		61AC5D9E1BA586C000CA109C /* GameButtons.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = GameButtons.atlas; sourceTree = "<group>"; };
 		61AC5DC81BA5881300CA109C /* Animation_Jump_ToLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Animation_Jump_ToLeft.atlas; sourceTree = "<group>"; };
@@ -205,6 +205,7 @@
 				61EFA4B31ADBEC4400EB8C6B /* Block.swift */,
 				6131E1321AD2C9FF00D69DD6 /* Helper.swift */,
 				615D6E8D1BBF2F2600229AD6 /* EndLevelView.swift */,
+				61A23A731BC9094B006B10C6 /* LevelSelectionView.swift */,
 				110952C71AC6DF5B000A960A /* GameViewController.swift */,
 				110952C91AC6DF5B000A960A /* Main.storyboard */,
 				110952CC1AC6DF5B000A960A /* Images.xcassets */,
@@ -260,7 +261,6 @@
 				61AC5DC51BA5881300CA109C /* RobotAnimations */,
 				61AC5D9A1BA586C000CA109C /* ActionButtons.atlas */,
 				61AC5D9B1BA586C000CA109C /* ActionCells.atlas */,
-				61AC5D9C1BA586C000CA109C /* DetailCells.atlas */,
 				61AC5D9D1BA586C000CA109C /* Details.atlas */,
 				61AC5D9E1BA586C000CA109C /* GameButtons.atlas */,
 			);
@@ -427,7 +427,6 @@
 				61AC5DDA1BA5881300CA109C /* Animation_Push_FirstPart_ToLeft.atlas in Resources */,
 				617AB2121BAB429700DC71BD /* PauseView.atlas in Resources */,
 				61AC5DB21BA586C000CA109C /* Details.atlas in Resources */,
-				61AC5DB11BA586C000CA109C /* DetailCells.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +456,7 @@
 				617AB2141BAB68DF00DC71BD /* AudioPlayer.swift in Sources */,
 				618F7BAA1AEEEAC500B2DBC5 /* LevelScene.swift in Sources */,
 				61A4362B1AD16D1B002B8540 /* ActionCell.swift in Sources */,
+				61A23A741BC9094B006B10C6 /* LevelSelectionView.swift in Sources */,
 				61EFA4B41ADBEC4400EB8C6B /* Block.swift in Sources */,
 				6131E1331AD2C9FF00D69DD6 /* Helper.swift in Sources */,
 				614DA0C71AEF36680088A557 /* MenuScene.swift in Sources */,

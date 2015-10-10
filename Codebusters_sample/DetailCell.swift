@@ -19,23 +19,33 @@ class DetailCell: SKSpriteNode {
 
     private var cellState: DetailCellState
     private var detailType: DetailType
-    private var atlas = SKTextureAtlas(named: "DetailCells")
+    private let atlas = SKTextureAtlas(named: "Details")
     
-    init(detailType: DetailType, cellState: DetailCellState) {
-        var texture = SKTexture()
-        
-        switch cellState {
-        case .Active, .NonActive:
-            atlas = SKTextureAtlas(named: "DetailCells")
-            texture = atlas.textureNamed("DetailCell_\(detailType.rawValue)_\(cellState.rawValue)")
-        case .Placed:
-            atlas = SKTextureAtlas(named: "Details")
-            texture = atlas.textureNamed("Detail_\(detailType.rawValue)")
-        }
+    init(detailType: DetailType, cellState: DetailCellState, name: String) {
+        let texture = atlas.textureNamed("Detail_\(detailType.rawValue)")
         
         self.cellState = cellState
         self.detailType = detailType
         super.init(texture: texture, color: UIColor(), size: texture.size())
+        zPosition = 2
+        self.name = name
+        
+        switch cellState {
+        case .Active:
+            self.texture = nil
+            let number = SKSpriteNode(imageNamed: "active")
+            number.zPosition = -1
+            number.addChild(createLabel(String(name.toInt()! + 1), SKColor(red: 255/255.0, green: 251/255.0, blue: 233/255.0, alpha: 1), 36, CGPointZero))
+            addChild(number)
+        case .NonActive:
+            self.texture = nil
+            let number = SKSpriteNode(imageNamed: "nonActive")
+            number.zPosition = -1
+            number.addChild(createLabel(String(name.toInt()! + 1), SKColor(red: 255/255.0, green: 251/255.0, blue: 233/255.0, alpha: 1), 36, CGPointZero))
+            addChild(number)
+        case .Placed:
+            break
+        }
         
         position = getDetailCellPosition(detailType)
     }
@@ -48,21 +58,7 @@ class DetailCell: SKSpriteNode {
         return cellState
     }
     
-    func setCellState(cellState: DetailCellState) {
-        self.cellState = cellState
-        
-        switch cellState {
-        case .Active, .NonActive:
-            atlas = SKTextureAtlas(named: "DetailCells")
-            texture = atlas.textureNamed("DetailCell_\(detailType.rawValue)_\(cellState.rawValue)")
-        case .Placed:
-            atlas = SKTextureAtlas(named: "Details")
-            texture = atlas.textureNamed("Detail_\(detailType.rawValue)")
-        }
-    }
-    
     func getDetailType() -> DetailType {
         return detailType
     }
 }
-

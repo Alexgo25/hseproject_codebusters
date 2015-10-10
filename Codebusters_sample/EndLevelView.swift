@@ -21,8 +21,31 @@ class EndLevelView: SKSpriteNode {
     init() {
         let texture = background.texture!
         super.init(texture: texture, color: UIColor(), size: texture.size())
+        
+        let levelData = GameProgress.sharedInstance.getCurrentLevelData()
+        
+        let result_1 = levelData["result_1"] as! Int
+        let result_2 = levelData["result_2"] as! Int
+
+        let actionsCount = ActionCell.cellsCount()
+    
+        GameProgress.sharedInstance.writeResultOfCurrentLevel(actionsCount)
+        
+        if actionsCount <= result_1 {
+            battery.texture = SKTexture(imageNamed: "battery_3")
+            addChild(createLabel("Молодец! Ты нашел оптимальный алгоритм!", UIColor.blackColor(), 46, CGPoint(x: 1039.5, y: 1125.5)))
+        } else if actionsCount <= result_2 {
+            battery.texture = SKTexture(imageNamed: "battery_2")
+            addChild(createLabel("Отлично! Осталось изменить всего несколько", UIColor.blackColor(), 46, CGPoint(x: 1039.5, y: 1151)))
+            addChild(createLabel("действий, чтобы алгоритм стал оптимальным...", UIColor.blackColor(), 46, CGPoint(x: 1039.5, y: 1093)))
+        } else {
+            battery.texture = SKTexture(imageNamed: "battery_1")
+            addChild(createLabel("Хорошо! Теперь давай попробуем составить", UIColor.blackColor(), 46, CGPoint(x: 1039.5, y: 1151)))
+            addChild(createLabel("программу с меньшим количеством действий", UIColor.blackColor(), 46, CGPoint(x: 1039.5, y: 1093)))
+        }
+        
         zPosition = 2000
-        alpha = 0
+
         anchorPoint = CGPointZero
         background.anchorPoint = CGPointZero
         
@@ -43,7 +66,8 @@ class EndLevelView: SKSpriteNode {
     }
     
     func show() {
-        let appear = SKAction.fadeInWithDuration(0.15)
+        alpha = 0
+        let appear = SKAction.fadeInWithDuration(0.2)
         runAction(appear)
     }
     

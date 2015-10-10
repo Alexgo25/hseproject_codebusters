@@ -32,12 +32,12 @@ struct PhysicsCategory {
 }
 
 struct MenuConstants {
-    static let CPUPosition = CGPoint(x: 1510, y: 813)
-    static let HardDrivePosition = CGPoint(x: 1070, y: 730)
-    static let RAM2Position = CGPoint(x: 1649, y: 664)
-    static let RAM1Position = CGPoint(x: 1351, y: 664)
-    static let BatteryPosition = CGPoint(x: 1194, y: 1000)
-    static let FanPosition = CGPoint(x: 1669, y: 992)
+    static let CPUPosition = CGPoint(x: 1510, y: 815)
+    static let HardDrivePosition = CGPoint(x: 1070, y: 732)
+    static let RAM2Position = CGPoint(x: 1649, y: 663)
+    static let RAM1Position = CGPoint(x: 1351, y: 663)
+    static let BatteryPosition = CGPoint(x: 1194, y: 1001)
+    static let FanPosition = CGPoint(x: 1668, y: 993)
 }
 
 func getDetailCellPosition(detailType: DetailType) -> CGPoint {

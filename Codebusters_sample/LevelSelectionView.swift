@@ -14,10 +14,11 @@ class LevelSelectionView: SKSpriteNode {
     let levelPackIndex: Int
     
     init(levelPackIndex: Int) {
-        self.levelPackIndex = levelPackIndex
         
         let texture = SKTexture(imageNamed: "LevelSelectionView_Background")
-        super.init(texture: texture, color: UIColor(), size: texture.size())
+        self.levelPackIndex = levelPackIndex
+        
+        super.init(texture: texture, color: SKColor(), size: texture.size())
         
         let levels = GameProgress.sharedInstance.getLevelPackData(levelPackIndex)
         
@@ -28,9 +29,11 @@ class LevelSelectionView: SKSpriteNode {
                 addChild(Battery(type: batteryType))
             }
         }
+        
         anchorPoint = CGPointZero
-        zPosition = 2000
+        zPosition = 3000
         userInteractionEnabled = true
+        
         show()
     }
     
@@ -50,7 +53,7 @@ class LevelSelectionView: SKSpriteNode {
                     GameProgress.sharedInstance.newGame(scene!.view!)
                 }
             } else {
-                runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.15), SKAction.removeFromParent()]))
+                runAction(SKAction.sequence([SKAction.fadeOutWithDuration(0.2), SKAction.removeFromParent()]))
             }
         }
     }
@@ -83,7 +86,7 @@ internal class Battery: SKSpriteNode {
         name = String(Int(Battery.count))
         position = getNextPosition()
         Battery.count++
-        zPosition = 2
+        zPosition = 1003
         
         var battery = SKSpriteNode(imageNamed: "battery_\(type.rawValue)")
         
@@ -91,7 +94,7 @@ internal class Battery: SKSpriteNode {
             battery = SKSpriteNode(imageNamed: "battery_0")
         }
         
-        battery.zPosition = -1
+        battery.zPosition = -1002
         
         if type.rawValue > 0 {
             battery.setScale(1/2.78)
@@ -102,13 +105,13 @@ internal class Battery: SKSpriteNode {
         switch type {
         case .Excellent, .Good, .Bad:
             let number = SKSpriteNode(imageNamed: "nonActive")
-            number.zPosition = -1
+            number.zPosition = -1002
             number.addChild(createLabel(String(Int(Battery.count)), SKColor(red: 255/255.0, green: 251/255.0, blue: 233/255.0, alpha: 1), 36, CGPointZero))
             number.position.y = 114
             addChild(number)
         case .Opened:
             let number = SKSpriteNode(imageNamed: "active")
-            number.zPosition = -1
+            number.zPosition = -1002
             number.addChild(createLabel(String(Int(Battery.count)), SKColor(red: 255/255.0, green: 251/255.0, blue: 233/255.0, alpha: 1), 36, CGPointZero))
             number.position.y = 114
             addChild(number)
@@ -116,7 +119,7 @@ internal class Battery: SKSpriteNode {
         case .Closed:
             let number = SKSpriteNode(imageNamed: "nonActive")
             number.alpha = 0.5
-            number.zPosition = -1
+            number.zPosition = -1002
             number.addChild(createLabel(String(Int(Battery.count)), SKColor(red: 255/255.0, green: 251/255.0, blue: 233/255.0, alpha: 1), 36, CGPointZero))
             number.position.y = 114
             addChild(number)

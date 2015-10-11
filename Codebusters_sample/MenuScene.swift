@@ -24,8 +24,11 @@ class MenuScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
+        if let recognizers = view.gestureRecognizers {
+            view.gestureRecognizers!.removeAll(keepCapacity: false)
+        }
+        
         GameProgress.sharedInstance.writePropertyListFileToDevice()
-
         showDetails()
     }
     
@@ -38,8 +41,6 @@ class MenuScene: SKScene {
                 switch cell.getCellState() {
                 case .Active, .Placed:
                     addChild(LevelSelectionView(levelPackIndex: cell.name!.toInt()!))
-                    //GameProgress.sharedInstance.setLevel(cell.name!.toInt()!, level: 0)
-                    //GameProgress.sharedInstance.newGame(view!)
                 case .NonActive:
                     return
                 }

@@ -101,14 +101,13 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
         actions.removeAll(keepCapacity: false)
         direction = .ToRight
         animationDirection = .ToRight
-        stopRobot = false
         removeAllActions()
-        texture = SKTexture(imageNamed: "robot")
+        if !turnedToFront {
+            texture = SKTexture(imageNamed: "robot")
+        }
         moveToStart()
         track.resetRobotPosition()
         currentActionIndex = 0
-        turnedToFront = false
-        stopRobot = false
         robotTookDetail = false
         debugging = false
         runningActions = false
@@ -373,7 +372,7 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     
     func moveToStart() {
         stopRobot = false
-        turnedToFront = false
+        //turnedToFront = false
         isOnStart = true
         position = getCGPointOfPosition(track.getRobotStartPosition(), track.getFloorPositionAt(track.getRobotStartPosition()))
     }

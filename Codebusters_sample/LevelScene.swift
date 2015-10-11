@@ -301,7 +301,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
             case button_Pause:
                 pauseGame()
             case button_Tips:
-                view!.presentScene(MenuScene(), transition: SKTransition.crossFadeWithDuration(0.4))
+                GameProgress.sharedInstance.goToMenu(view!)
             case button_Clear:
                 ActionCell.resetCellTextures()
                 robot!.resetActions()
@@ -378,7 +378,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate, UIGestureRecognizerDelegate
         if detailPosition > playAreaSize.width - bound {
             trackLayer.runAction(SKAction.moveByX(-detailPosition + playAreaSize.width - bound, y: 0, duration: 0), completion: { self.checkRobotPosition() })
         }
-
     }
     
     override func update(currentTime: CFTimeInterval) {

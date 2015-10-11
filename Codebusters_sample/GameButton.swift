@@ -34,7 +34,7 @@ class GameButton: SKSpriteNode {
         gameButtonType = type
         super.init(texture: texture, color: UIColor(), size: texture.size())
         position = getGameButtonPosition(type)
-        zPosition = 1001
+        zPosition = 2000
 
         userInteractionEnabled = true
     }

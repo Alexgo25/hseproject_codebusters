@@ -224,8 +224,22 @@ class Robot: SKSpriteNode, SKPhysicsContactDelegate {
     
     func mistake() -> SKAction {
         let animate = SKAction.animateWithTextures(getRobotAnimation("Mistake", direction), timePerFrame: 0.06)
+        let redRectangle = SKSpriteNode(imageNamed: "mistake")
+        redRectangle.zPosition = 2000
+        redRectangle.position = CGPoint(x: 1760.5, y: 920)
+        redRectangle.alpha = 0
+        let redRectangleFadeIn = SKAction.runBlock() {
+            self.scene!.addChild(redRectangle)
+            redRectangle.runAction(SKAction.fadeInWithDuration(0.15))
+        }
+        
+        let redRectangleFadeOut = SKAction.runBlock() {
+            redRectangle.runAction(SKAction.sequence([SKAction.waitForDuration(2), SKAction.fadeOutWithDuration(2), SKAction.removeFromParent()]))
+        }
+        
+        let sequence = SKAction.sequence([redRectangleFadeIn, animate, redRectangleFadeOut])
 
-        return animate
+        return sequence
     }
     
     func move() -> SKAction {
